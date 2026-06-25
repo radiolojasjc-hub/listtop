@@ -6,7 +6,7 @@
     <title>RÁDIO PLAY 12 • Player Rápido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== CSS COMPLETO ===== */
+        /* ===== TODO O SEU CSS AQUI (MANTIDO IGUAL) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --neon-purple: #8E2DE2; }
@@ -22,7 +22,7 @@
         .info-scroll p { color: white; font-size: 0.85rem; font-weight: 900; letter-spacing: 1px; font-family: monospace; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 8px rgba(0,243,255,0.8); }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
-        /* ===== BOTÃO FLUTUANTE ALTERNANDO ===== */
+        /* ===== BOTÃO FLUTUANTE ===== */
         .fab-container { position: fixed; bottom: 140px; right: 20px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
         .fab-main { background: linear-gradient(135deg, #4a4a4a, #2a2a2a); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 1.6rem; box-shadow: 0 0 20px rgba(255,255,255,0.15), 0 4px 15px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.15); transition: transform 0.2s; }
         .fab-main:active { transform: scale(0.95); }
@@ -41,7 +41,7 @@
         .genre-card:active { transform: scale(0.96); }
         .close-genres { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 1rem; cursor: pointer; font-weight: bold; }
         
-        /* ===== SEARCH CONTAINER ===== */
+        /* ===== SEARCH ===== */
         .search-container { display: none; position: fixed; bottom: 140px; right: 20px; z-index: 41; width: 320px; max-width: 90vw; }
         .search-container.open { display: block; }
         .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.92); backdrop-filter: blur(16px); border-radius: 30px; padding: 6px 16px; border: 1px solid var(--neon-cyan); box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
@@ -106,7 +106,6 @@
         .stats-info p { margin: 8px 0; }
         .history-indicator { position: fixed; top: 120px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 15px; font-size: 0.6rem; color: var(--neon-cyan); z-index: 25; border: 1px solid rgba(0,243,255,0.2); }
         
-        /* ===== RESPONSIVO ===== */
         @media (max-width: 480px) {
             .search-container { width: 280px; right: 10px; }
             .fab-main { width: 52px; height: 52px; font-size: 1.3rem; }
@@ -144,11 +143,12 @@
         <div class="history-indicator" id="historyIndicator">📊 0 na fila</div>
     </div>
 
-    <!-- ===== BOTÃO FLUTUANTE COM ALTERNÂNCIA ===== -->
+    <!-- ===== FAB ===== -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-sub" id="fabSub">
             <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i> Gêneros</button>
             <button class="fab-sub-btn" id="fabBusca"><i class="fas fa-search"></i> Buscar Música</button>
+            <button class="fab-sub-btn" id="fabFeedback"><i class="fas fa-star"></i> Feedback</button>
         </div>
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
@@ -236,34 +236,35 @@
     <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
-     const PLAYLIST_COMPLETA = [ 
-  [
-  {"id":1,"title":"A cha Remember","artist":"The Time KorgStyle","genero":"POP","src":"A_cha_Remember_The_Time_KorgStyle_Lifepop.m4a"},
-  {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
-  {"id":3,"title":"A Francesa","artist":"Kiko Zambich","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
-  {"id":4,"title":"A Namorada","artist":"Carlinhos_Brawn","genero":"MPB","src":"A-Namorada-Carlinhos_Brawn-mpb.m4a"},
-  {"id":5,"title":"Back_HSCC","artist":"HSCC","genero":"POP","src":"Back_HSCC-pop.m4a"},
-  {"id":6,"title":"Boa Sorte Samira","artist":"show forro","genero":"FORRO","src":"Boa-Sorte-Samira-show-forro.m4a"},
-  {"id":7,"title":"Kally Fonseca Dj","artist":"Maluco forro","genero":"forro","src":"Kally-Fonseca-Dj-Maluco-forro.m4a"},
-  {"id":8,"title":"Os cegos","artist":"do casteloTitas","genero":"MPB","src":"Os-cegos-do-casteloTitas-mpb.mp3"},
-  {"id":9,"title":"RAZÕES Mastruz","artist":"forro","genero":"FORRÓ","src":"RAZÕES-Mastruz-forro.mp3"},
-  {"id":10,"title":"Revela","artist":"Fagner","genero":"MPB","src":"Revela-Fagner-mpb.mp3"},
-  {"id":11,"title":"Último Pau de","artist":"Arara Smira_show forro","genero":"FORRÓ","src":"Último-Pau-de-Arara-Smira_show-forro.m4a"},
-  {"id":12,"title":"Vida Vazia Desejo de","artist":"Menina forro","genero":"FORRO","src":"Vida Vazia-Desejo-de-Menina-forro.mp3"},
-  {"id":13,"title":"You_ll_Never_Find__LOU_RAWL","artist":"HSCC","genero":"POP","src":"You_ll_Never_Find__LOU_RAWLS_Cover_by_The_HSCCpop.mp3"},
-  {"id":14,"title":"A_Viola_A_Viola_e_a_Saudade_Goias","artist":"Paranaence","genero":"MODA TOP","src":"A_Viola_A_Viola_e_a_Saudade_Goias-Paranaence.m4a"},
-  {"id":15,"title":"A_Sementinha_Cersa","artist":"paulinho","genero":"MODA RAIZ","src":"A_Sementinha_Cersa-paulinho.m4a"},
-  {"id":16,"title":"A Natureza das Coisas Joyce","artist":"Alane e Zeca Baleiro muzzik","genero":"FORRÓ","src":"A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a"},
-  {"id":17,"title":"A ha Take","artist":"On Me muzzik","genero":"POP","src":"A_ha_Take_On_Me_muzzik.m4a"},
-  {"id":18,"title":"A_Noite_ _Tie_e_J_Gomes","artist":"pmp","genero":"MPB","src":"A_Noite_-_Tie_e_J_Gomes-pmp.m4a"},
-  {"id":19,"title":"A VIDA VIROU PAIX","artist":"JOANNA KELL SMITH VERS","genero":"MPB","src":"A_VIDA_VIROU_PAIX_O_JOANNA_KELL_SMITH_VERS.m4a"},
-  {"id":20,"title":"Linda Juventude","artist":"Flavio_Venturini_Feat_Jota","genero":"MPB","src":"Linda-Juventude-Flavio_Venturini_Flavio_Venturini_Feat_Jota-mpb.m4a"},
-  {"id":21,"title":"A_Raposa_e_as_Uvas","artist":" Reginaldo-Rossi","genero":"BREGA","src":"A_Raposa_A_Raposa_e_as_Uvas_Rginaldo-Rossi.m4a"},
-  {"id":22,"title":"A_Rural","artist":"Neo_Pinel","genero":"FORRÓ","src":"A_Rural_A-Neo_Pinel.m4a"},
-        {"id":23,"title":"NELORE_VALENTE","artist":"Mayck_e_Lyan","genero":"MODA TOP","src":"NELORE_VALENTE_Mayck_e_Lyan_muzzik.m4a"}
-]
-];
-        
+        // ============================================================
+        // ===== PLAYLIST CORRIGIDA (SEM COLCHETES EXTRAS) =====
+        // ============================================================
+        const PLAYLIST_COMPLETA = [
+            {"id":1,"title":"A cha Remember","artist":"The Time KorgStyle","genero":"POP","src":"A_cha_Remember_The_Time_KorgStyle_Lifepop.m4a"},
+            {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
+            {"id":3,"title":"A Francesa","artist":"Kiko Zambich","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
+            {"id":4,"title":"A Namorada","artist":"Carlinhos_Brawn","genero":"MPB","src":"A-Namorada-Carlinhos_Brawn-mpb.m4a"},
+            {"id":5,"title":"Back_HSCC","artist":"HSCC","genero":"POP","src":"Back_HSCC-pop.m4a"},
+            {"id":6,"title":"Boa Sorte Samira","artist":"show forro","genero":"FORRO","src":"Boa-Sorte-Samira-show-forro.m4a"},
+            {"id":7,"title":"Kally Fonseca Dj","artist":"Maluco forro","genero":"forro","src":"Kally-Fonseca-Dj-Maluco-forro.m4a"},
+            {"id":8,"title":"Os cegos","artist":"do casteloTitas","genero":"MPB","src":"Os-cegos-do-casteloTitas-mpb.mp3"},
+            {"id":9,"title":"RAZÕES Mastruz","artist":"forro","genero":"FORRÓ","src":"RAZÕES-Mastruz-forro.mp3"},
+            {"id":10,"title":"Revela","artist":"Fagner","genero":"MPB","src":"Revela-Fagner-mpb.mp3"},
+            {"id":11,"title":"Último Pau de","artist":"Arara Smira_show forro","genero":"FORRÓ","src":"Último-Pau-de-Arara-Smira_show-forro.m4a"},
+            {"id":12,"title":"Vida Vazia Desejo de","artist":"Menina forro","genero":"FORRO","src":"Vida_Vazia-Desejo-de-Menina-forro.mp3"},
+            {"id":13,"title":"You_ll_Never_Find__LOU_RAWL","artist":"HSCC","genero":"POP","src":"You_ll_Never_Find__LOU_RAWLS_Cover_by_The_HSCCpop.mp3"},
+            {"id":14,"title":"A_Viola_A_Viola_e_a_Saudade_Goias","artist":"Paranaence","genero":"MODA TOP","src":"A_Viola_A_Viola_e_a_Saudade_Goias-Paranaence.m4a"},
+            {"id":15,"title":"A_Sementinha_Cersa","artist":"paulinho","genero":"MODA RAIZ","src":"A_Sementinha_Cersa-paulinho.m4a"},
+            {"id":16,"title":"A Natureza das Coisas Joyce","artist":"Alane e Zeca Baleiro muzzik","genero":"FORRÓ","src":"A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a"},
+            {"id":17,"title":"A ha Take","artist":"On Me muzzik","genero":"POP","src":"A_ha_Take_On_Me_muzzik.m4a"},
+            {"id":18,"title":"A_Noite_ _Tie_e_J_Gomes","artist":"pmp","genero":"MPB","src":"A_Noite_-_Tie_e_J_Gomes-pmp.m4a"},
+            {"id":19,"title":"A VIDA VIROU PAIX","artist":"JOANNA KELL SMITH VERS","genero":"MPB","src":"A_VIDA_VIROU_PAIX_O_JOANNA_KELL_SMITH_VERS.m4a"},
+            {"id":20,"title":"Linda Juventude","artist":"Flavio_Venturini_Feat_Jota","genero":"MPB","src":"Linda-Juventude-Flavio_Venturini_Flavio_Venturini_Feat_Jota-mpb.m4a"},
+            {"id":21,"title":"A_Raposa_e_as_Uvas","artist":"Reginaldo-Rossi","genero":"BREGA","src":"A_Raposa_A_Raposa_e_as_Uvas_Rginaldo-Rossi.m4a"},
+            {"id":22,"title":"A_Rural","artist":"Neo_Pinel","genero":"FORRÓ","src":"A_Rural_A-Neo_Pinel.m4a"},
+            {"id":23,"title":"NELORE_VALENTE","artist":"Mayck_e_Lyan","genero":"MODA TOP","src":"NELORE_VALENTE_Mayck_e_Lyan_muzzik.m4a"}
+        ];
+
         // ===== CONFIGURAÇÕES =====
         const NUMERO_WHATSAPP = "5512988461978";
 
@@ -318,6 +319,7 @@
         const fabSub = document.getElementById('fabSub');
         const fabGeneros = document.getElementById('fabGeneros');
         const fabBusca = document.getElementById('fabBusca');
+        const fabFeedback = document.getElementById('fabFeedback');
         const searchContainer = document.getElementById('searchContainer');
 
         audio.volume = 0.9;
@@ -347,6 +349,18 @@
                 if (searchInput.value.length >= 2) performSearch(searchInput.value);
             }
             toggleFab();
+        }
+
+        function openFeedbackModal() {
+            const track = currentPlaylist[0];
+            if (!track) { showNotification("Nenhuma música", 1000); return; }
+            currentRating = 0;
+            document.getElementById('feedbackText').value = '';
+            document.querySelectorAll('.star').forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+            });
+            feedbackModal.classList.add('open');
         }
 
         function adicionarAoHistorico(musica) {
@@ -974,18 +988,6 @@
         }
 
         // ===== MODAIS =====
-        function openFeedbackModal() {
-            const track = currentPlaylist[0];
-            if (!track) { showNotification("Nenhuma música", 1000); return; }
-            currentRating = 0;
-            document.getElementById('feedbackText').value = '';
-            document.querySelectorAll('.star').forEach(star => {
-                star.classList.remove('fas', 'active');
-                star.classList.add('far');
-            });
-            feedbackModal.classList.add('open');
-        }
-
         function sendFeedback() {
             const track = currentPlaylist[0];
             if (!track) return;
@@ -1052,6 +1054,7 @@
         fabMain.addEventListener('click', toggleFab);
         fabGeneros.addEventListener('click', openGeneros);
         fabBusca.addEventListener('click', openBusca);
+        fabFeedback.addEventListener('click', openFeedbackModal);
 
         playBtn.addEventListener('click', togglePlay);
         document.getElementById('nextBtn').addEventListener('click', nextTrack);
