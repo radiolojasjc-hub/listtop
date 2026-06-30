@@ -2,10 +2,8 @@ const CACHE_NAME = 'radio-play12-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/manifest.json',
-  'apk300.mp4',
-  'sertanejo.mp4',
-  'cristo.mp4'
+  '/manifest.json'
+  // Vídeos removidos para evitar erro 404
 ];
 
 self.addEventListener('install', event => {
