@@ -9,43 +9,43 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://placehold.co/72x72/00f3ff/fff?text=12",
+      "src": "fa72.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/96x96/00f3ff/fff?text=12",
+      "src": "fa.96",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/128x128/00f3ff/fff?text=12",
+      "src": "fa.128",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/144x144/00f3ff/fff?text=12",
+      "src": "fa.144",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/152x152/00f3ff/fff?text=12",
+      "src": "fa152.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/192x192/00f3ff/fff?text=12",
+      "src": "fa192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/384x384/00f3ff/fff?text=12",
+      "src": "fa384.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "any maskable"
