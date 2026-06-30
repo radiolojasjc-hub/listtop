@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>RÁDIO PLAY 12 • Player Rápido</title>
+    
+    <!-- ===== PWA META TAGS ===== -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Play12">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#00f3ff">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ===== SEU CSS ORIGINAL - MANTIDO IGUAL ===== */
@@ -368,9 +377,8 @@
 
         // ============================================================
         // ===== SUA PLAYLIST COMPLETA (636 MÚSICAS) =====
-        // ===== MANTENHA SUAS MÚSICAS AQUI =====
         // ============================================================
-        const PLAYLIST_ORIGINAL = [
+                const PLAYLIST_ORIGINAL = [
  {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
             {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
             {"id":3,"title":"A Francesa","artist":"Kiko Zambich","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
@@ -986,10 +994,11 @@
 {"id":644,"title":"Trem das Onze","artist":"Péricles e Demônios da Garoa","genero":"SAMBA","src":"Pericles_Demonios_da_Garoa_Trem_das_Onze.m4a"},
 {"id":645,"title":"Toneladas","artist":"Quem Sabe Faz Ao Vivo","genero":"SAMBA","src":"Quem_Sabe_Faz_Ao_Vivo_Toneladas.m4a"},
 {"id":646,"title":"É Tarde Demais","artist":"Raça Negra","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"}
-          
+
+            
         ];
 
-        // ===== VARIÁVEIS =====
+        // ===== VARIÁVEIS (MANTIDAS IGUAIS) =====
         let musicas = [];
         let musicasComErro = [];
         let currentPlaylist = [];
@@ -1050,22 +1059,20 @@
         const fabYoutube = document.getElementById('fabYoutube');
         const searchContainer = document.getElementById('searchContainer');
 
-        // ===== CORREÇÃO: VOLUME MÁXIMO =====
+        // ===== VOLUME MÁXIMO =====
         audio.volume = 1.0;
         audio.preload = "auto";
 
         // ============================================================
-        // ===== SUPORTE A SEGUNDO PLANO (VERSÃO ORIGINAL) =====
+        // ===== SUPORTE A SEGUNDO PLANO =====
         // ============================================================
 
-        // Evento de visibilidade (tela bloqueada/aberta)
         document.addEventListener('visibilitychange', function() {
             if (document.hidden && isPlaying && !audio.paused) {
                 console.log('📱 App em segundo plano - áudio continua.');
             }
         });
 
-        // Fallback para pausa automática
         audio.addEventListener('pause', function() {
             if (document.hidden && isPlaying && !audio.ended) {
                 console.log('🔄 Tentando retomar áudio em segundo plano...');
@@ -1403,9 +1410,7 @@
                 return;
             }
 
-            // ===== VOLUME MÁXIMO =====
             audio.volume = 1.0;
-
             trocarVideoPorGenero(track.genero);
             showLoading(true);
             
@@ -1784,7 +1789,6 @@
             clearSearch.style.display = 'flex';
         }
 
-        // ===== CORREÇÃO: BUSCA FUNCIONA =====
         function playSongById(id) {
             const musica = todasMusicas.find(m => m.id === id);
             if (!musica) { 
@@ -2077,6 +2081,21 @@
             console.log('✅ SUPORTE A SEGUNDO PLANO ATIVADO - Toca com tela fechada!');
             console.log('✅ CORREÇÃO: Volume máximo (1.0) aplicado!');
         });
+    </script>
+
+    <!-- ===== REGISTRO DO SERVICE WORKER ===== -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => {
+                        console.log('✅ Service Worker registrado com sucesso!', reg);
+                    })
+                    .catch(err => {
+                        console.warn('❌ Erro ao registrar Service Worker:', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
