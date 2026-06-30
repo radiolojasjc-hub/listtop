@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== CSS COMPLETO (MANTIDO IGUAL) ===== */
         *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
         body{background:#000;overflow:hidden;height:100vh}
         :root{--neon-cyan:#00f3ff;--neon-pink:#ff2d7f;--error-red:#ef4444}
@@ -108,9 +109,8 @@
     </style>
 </head>
 <body>
-    <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="apk300.mp4" type="video/mp4">
-    </video>
+    <!-- ===== VÍDEO REMOVIDO PARA EVITAR ERRO 404 ===== -->
+    <!-- O vídeo de fundo foi removido – você pode adicionar depois se quiser -->
 
     <!-- SPLASH -->
     <div id="splash">
@@ -235,7 +235,7 @@
         // ===== PLAYLIST COMPLETA (SUBSTITUA PELA SUA) =====
         // ============================================================
         const PLAYLIST_ORIGINAL = [
-        {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
+ {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
             {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
             {"id":3,"title":"A Francesa","artist":"Kiko Zambich","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
             {"id":4,"title":"A Namorada","artist":"Carlinhos_Brawn","genero":"MPB","src":"A-Namorada-Carlinhos_Brawn-mpb.m4a"},
@@ -849,8 +849,8 @@
 {"id":643,"title":"Paparico Cilada","artist":"Délcio Luiz","genero":"SAMBA","src":"Paparico_Cilada.m4a"},
 {"id":644,"title":"Trem das Onze","artist":"Péricles e Demônios da Garoa","genero":"SAMBA","src":"Pericles_Demonios_da_Garoa_Trem_das_Onze.m4a"},
 {"id":645,"title":"Toneladas","artist":"Quem Sabe Faz Ao Vivo","genero":"SAMBA","src":"Quem_Sabe_Faz_Ao_Vivo_Toneladas.m4a"},
-{"id":646,"title":"É Tarde Demais","artist":"Raça Negra","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"} 
-           
+{"id":646,"title":"É Tarde Demais","artist":"Raça Negra","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"}
+            
         ];
 
         // ============================================================
@@ -918,7 +918,7 @@
         function atualizarIndicadorHistorico() { if (historyIndicator) { const disponiveis = musicas.length - historicoReproducao.length; historyIndicator.textContent = `📊 ${disponiveis} disponíveis • ${historicoReproducao.length} no histórico`; historyIndicator.style.display = 'block'; } }
         function adicionarAoHistorico(musica) { if (!musica) return; historicoReproducao = historicoReproducao.filter(m => m.id !== musica.id); historicoReproducao.unshift(musica); if (historicoReproducao.length > MAX_HISTORICO) historicoReproducao.pop(); atualizarIndicadorHistorico(); }
 
-        // ---- Funções de seleção de música (iguais ao original) ----
+        // ---- Funções de seleção de música (com anti-repetição) ----
         function getMusicaAntiRepeticao(lista, evitarId = null) {
             if (!lista || lista.length === 0) return null;
             if (lista.length === 1) { const unica = lista[0]; adicionarAoHistorico(unica); return unica; }
@@ -954,17 +954,10 @@
             return m;
         }
 
+        // ---- Função de vídeo removida para evitar erro 404 ----
         function trocarVideoPorGenero(genero) {
-            let src = 'apk300.mp4';
-            const g = (genero || '').toUpperCase().trim();
-            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
-            else if (g === 'CRISTÃ HITS' || g === 'CRISTÃ' || g === 'GOSPEL' || g === 'EVANGÉLICA') src = 'cristo.mp4';
-            // Se o arquivo não existir, o vídeo não aparece – sem erro crítico
-            if (!bgVideo.src.includes(src)) {
-                bgVideo.src = src;
-                bgVideo.load();
-                bgVideo.play().catch(e => console.log('Vídeo não encontrado:', e));
-            }
+            // Vídeo removido – não faz nada
+            return;
         }
 
         function createSilentAudio() {
@@ -1011,7 +1004,7 @@
             }
         }
 
-        // ---- INICIALIZAÇÃO DA PLAYLIST (SEM VERIFICAÇÃO DE ARQUIVOS - CORRIGIDO) ----
+        // ---- INICIALIZAÇÃO DA PLAYLIST (SEM VERIFICAÇÃO DE ARQUIVOS) ----
         function iniciarPlaylist(dados) {
             try {
                 splashStatusText.textContent = '📥 Carregando dados...';
@@ -1032,11 +1025,7 @@
                     let percentual = Math.round((processadas / total) * 100);
                     splashProgress.textContent = `${processadas} de ${total} músicas (${percentual}%)`;
 
-                    // Validação básica sem fetch (apenas verifica se os campos existem)
-                    if (!musica.src || musica.src.trim() === '') {
-                        // ignora músicas sem src
-                        return;
-                    }
+                    if (!musica.src || musica.src.trim() === '') return;
                     if (!musica.title || musica.title.trim() === '') return;
                     if (!musica.artist || musica.artist.trim() === '') return;
                     if (!musica.genero || musica.genero.trim() === '') return;
