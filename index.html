@@ -14,7 +14,9 @@
         
         .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,243,255,0.3); transition: all 0.3s; }
         .top-bar-sertanejo { background: linear-gradient(135deg, #3d2b1f, #1a0f0a) !important; border-bottom: 1px solid #8B4513 !important; }
+        .top-bar-favoritos { background: linear-gradient(135deg, #2d1a2e, #1a0f1a) !important; border-bottom: 1px solid #ff2d7f !important; }
         .genre-badge { background: rgba(0,243,255,0.15); padding: 6px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: bold; color: var(--neon-cyan); border-left: 3px solid var(--neon-cyan); display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+        .genre-badge.favoritos { border-left-color: #ff2d7f; color: #ff2d7f; background: rgba(255,45,127,0.15); }
         .top-buttons { display: flex; gap: 12px; align-items: center; }
         .icon-btn { background: rgba(0,0,0,0.6); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 1rem; border: 1px solid rgba(0,243,255,0.3); transition: transform 0.2s, background 0.2s; }
         .icon-btn:active { transform: scale(0.92); background: var(--neon-cyan); color: #000; }
@@ -42,6 +44,8 @@
         .genres-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
         .genre-card { border-radius: 16px; cursor: pointer; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2); aspect-ratio: 5 / 3; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; text-align: center; color: white; font-weight: bold; font-size: 1.2rem; text-shadow: 0 0 5px black; padding: 8px; }
         .genre-card:active { transform: scale(0.96); border-color: var(--neon-cyan); }
+        .genre-card.fav-card { border-color: #ff2d7f; background: linear-gradient(135deg, rgba(255,45,127,0.2), #1a1a2e); }
+        .genre-card.fav-card:active { border-color: #ff2d7f; }
         .close-genres { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 1rem; cursor: pointer; font-weight: bold; }
         
         .search-container { display: none; position: fixed; bottom: 140px; right: 20px; z-index: 41; width: 340px; max-width: 92vw; }
@@ -99,54 +103,18 @@
         .swipe-indicator { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; padding: 12px 24px; border-radius: 50px; font-size: 0.9rem; z-index: 10003; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; border: 1px solid var(--neon-cyan); }
         .tap-hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 6px 16px; border-radius: 30px; font-size: 0.6rem; color: #aaa; z-index: 25; pointer-events: none; white-space: nowrap; }
         
-        .feedback-modal, .stats-modal, .favorites-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; display: none; flex-direction: column; gap: 15px; width: 85%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; max-height: 90vh; overflow-y: auto; }
-        .feedback-modal.open, .stats-modal.open, .favorites-modal.open { display: flex; }
-        .feedback-modal h3, .stats-modal h3, .favorites-modal h3 { color: var(--neon-cyan); }
+        .feedback-modal, .stats-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; display: none; flex-direction: column; gap: 15px; width: 85%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; max-height: 90vh; overflow-y: auto; }
+        .feedback-modal.open, .stats-modal.open { display: flex; }
+        .feedback-modal h3, .stats-modal h3 { color: var(--neon-cyan); }
         .stars { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
         .star { font-size: 2.2rem; color: #555; cursor: pointer; transition: 0.1s; }
         .star.active { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
         .feedback-modal textarea { width: 100%; height: 90px; background: rgba(255,255,255,0.1); border: 1px solid rgba(0,243,255,0.3); border-radius: 15px; padding: 12px; color: white; resize: none; }
-        .feedback-modal button, .stats-modal button, .favorites-modal button { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 14px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 1rem; }
-        .close-feedback, .close-stats, .close-favorites { background: rgba(255,255,255,0.1) !important; color: white !important; margin-top: 5px; }
+        .feedback-modal button, .stats-modal button { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 14px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 1rem; }
+        .close-feedback, .close-stats { background: rgba(255,255,255,0.1) !important; color: white !important; margin-top: 5px; }
         .stats-info { color: white; padding: 10px; text-align: left; }
         .stats-info p { margin: 10px 0; font-size: 0.95rem; }
         .history-indicator { position: fixed; top: 120px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 15px; font-size: 0.6rem; color: var(--neon-cyan); z-index: 25; border: 1px solid rgba(0,243,255,0.2); }
-        
-        .favorites-list { color: white; text-align: left; max-height: 300px; overflow-y: auto; }
-        .favorites-list .fav-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .favorites-list .fav-item .fav-info { flex: 1; cursor: pointer; }
-        .favorites-list .fav-item .fav-info .fav-title { font-weight: bold; font-size: 0.9rem; }
-        .favorites-list .fav-item .fav-info .fav-artist { font-size: 0.75rem; color: #aaa; }
-        .favorites-list .fav-item .fav-remove { background: transparent; border: none; color: #ff2d7f; cursor: pointer; font-size: 1.2rem; padding: 4px 8px; }
-        .favorites-list .fav-item .fav-remove:active { transform: scale(1.2); }
-        .favorites-empty { color: #888; padding: 20px; text-align: center; }
-        
-        /* Botão de favorito na tela principal (ao lado do gênero) */
-        .fav-heart-btn {
-            background: rgba(255,45,127,0.15);
-            border: 1px solid #ff2d7f;
-            color: #ff2d7f;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-        .fav-heart-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
-        .fav-heart-btn i { font-size: 0.9rem; }
-        .fav-heart-btn .badge {
-            background: #ff2d7f;
-            color: #000;
-            border-radius: 50%;
-            padding: 0px 6px;
-            font-size: 0.65rem;
-            font-weight: bold;
-            margin-left: 2px;
-        }
         
         @media (max-width: 480px) {
             .search-container { width: 280px; right: 10px; }
@@ -156,7 +124,6 @@
             .genres-grid { gap: 8px; }
             .genre-card { font-size: 1rem; }
             .search-box input { font-size: 0.85rem; padding: 10px 12px; }
-            .fav-heart-btn { font-size: 0.65rem; padding: 4px 10px; }
         }
     </style>
 </head>
@@ -177,12 +144,7 @@
 
     <div class="app" id="appContainer" style="display: none;">
         <div class="top-bar" id="topBar">
-            <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-                <div class="genre-badge" id="genreBadge"><i class="fas fa-exchange-alt"></i> MPB/POP</div>
-                <button class="fav-heart-btn" id="favHeartBtn">
-                    <i class="fas fa-heart"></i> Favoritos <span class="badge" id="favCountBadge">0</span>
-                </button>
-            </div>
+            <div class="genre-badge" id="genreBadge"><i class="fas fa-exchange-alt"></i> MPB/POP</div>
             <div class="top-buttons">
                 <div class="icon-btn" id="shareBtn"><i class="fas fa-share-alt"></i></div>
             </div>
@@ -217,14 +179,6 @@
         <h3><i class="fas fa-head-side-brain"></i> ESCOLHA SEU ESTILO</h3>
         <div class="genres-grid" id="genresGrid"></div>
         <button class="close-genres" id="closeGenresBtn">FECHAR</button>
-    </div>
-
-    <div class="favorites-modal" id="favoritesModal">
-        <h3><i class="fas fa-heart" style="color:#ff2d7f;"></i> Suas Favoritas</h3>
-        <div class="favorites-list" id="favoritesList">
-            <div class="favorites-empty">Nenhuma música favorita ainda</div>
-        </div>
-        <button id="closeFavoritesBtn" class="close-favorites">FECHAR</button>
     </div>
 
     <div class="bottom-controls" id="bottomControls">
@@ -295,6 +249,7 @@
         // PLAYLIST COMPLETA (APENAS MÚSICAS - SEM ENDEREÇOS/PAGAMENTOS)
         // =================================================================
         const PLAYLIST_ORIGINAL = [
+            // ===== MPB =====
 {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
             {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
             {"id":3,"title":"A Francesa","artist":"Kiko Zambich","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
@@ -950,6 +905,7 @@
         let todasMusicas = [];
         let fabOpen = false;
         let erroCount = 0;
+        let modoFavoritos = false;
         let favorites = [];
 
         // ===== FAVORITOS DE EXEMPLO (3 MÚSICAS) =====
@@ -957,16 +913,16 @@
 
         // Carregar favoritos do localStorage ou usar os de exemplo
         try {
-            const savedFavorites = localStorage.getItem('radio_favorites_v2');
+            const savedFavorites = localStorage.getItem('radio_favorites_v3');
             if (savedFavorites) {
                 favorites = JSON.parse(savedFavorites);
             } else {
                 favorites = FAVORITOS_EXEMPLO;
-                localStorage.setItem('radio_favorites_v2', JSON.stringify(favorites));
+                localStorage.setItem('radio_favorites_v3', JSON.stringify(favorites));
             }
         } catch(e) { 
             favorites = FAVORITOS_EXEMPLO;
-            localStorage.setItem('radio_favorites_v2', JSON.stringify(favorites));
+            localStorage.setItem('radio_favorites_v3', JSON.stringify(favorites));
         }
 
         // ===== DOM ELEMENTS =====
@@ -1002,10 +958,6 @@
         const fabFeedback = document.getElementById('fabFeedback');
         const fabYoutube = document.getElementById('fabYoutube');
         const searchContainer = document.getElementById('searchContainer');
-        const favoritesModal = document.getElementById('favoritesModal');
-        const favoritesList = document.getElementById('favoritesList');
-        const favHeartBtn = document.getElementById('favHeartBtn');
-        const favCountBadge = document.getElementById('favCountBadge');
 
         // ===== VOLUME =====
         audio.volume = 1.0;
@@ -1103,12 +1055,21 @@
         }
 
         function updateGenreBadge() {
+            if (modoFavoritos) {
+                genreBadge.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;"></i> ❤️ FAVORITOS (${favorites.length})`;
+                genreBadge.className = 'genre-badge favoritos';
+                topBar.className = 'top-bar top-bar-favoritos';
+                return;
+            }
+            
             if (modoAtual === "MPB_POP") {
                 genreBadge.innerHTML = '<i class="fas fa-exchange-alt"></i> MPB/POP';
+                genreBadge.className = 'genre-badge';
                 topBar.className = 'top-bar';
             } else if (modoAtual === "GENERO_ESPECIFICO" && currentPlaylist.length > 0) {
                 const gen = currentPlaylist[0]?.genero || "GÊNERO";
                 genreBadge.innerHTML = `<i class="fas fa-music"></i> ${gen}`;
+                genreBadge.className = 'genre-badge';
                 if (gen === "SERTANEJO") topBar.className = 'top-bar top-bar-sertanejo';
                 else topBar.className = 'top-bar';
             }
@@ -1198,8 +1159,9 @@
                 favorites.push(musicaId);
                 showNotification('❤️ Adicionado aos favoritos!', 1000);
             }
-            localStorage.setItem('radio_favorites_v2', JSON.stringify(favorites));
+            localStorage.setItem('radio_favorites_v3', JSON.stringify(favorites));
             atualizarFavoritosUI();
+            updateGenreBadge();
         }
 
         function isFavorito(musicaId) {
@@ -1207,12 +1169,6 @@
         }
 
         function atualizarFavoritosUI() {
-            // Atualiza o badge do botão na top bar
-            favCountBadge.textContent = favorites.length;
-            
-            // Atualiza a lista de favoritos
-            renderFavoritesList();
-            
             // Atualiza botões de favorito na busca
             document.querySelectorAll('.fav-btn').forEach(btn => {
                 const id = parseInt(btn.dataset.id);
@@ -1229,44 +1185,78 @@
             if (document.getElementById('statFavorites')) {
                 document.getElementById('statFavorites').textContent = favorites.length;
             }
+            
+            // Atualiza badge do gênero se estiver em modo favoritos
+            if (modoFavoritos) {
+                updateGenreBadge();
+            }
         }
 
-        function renderFavoritesList() {
-            favoritesList.innerHTML = '';
+        function entrarModoFavoritos() {
             if (favorites.length === 0) {
-                favoritesList.innerHTML = '<div class="favorites-empty">Nenhuma música favorita ainda</div>';
+                showNotification('⚠️ Nenhuma música favorita ainda!', 1500);
                 return;
             }
+            
+            modoFavoritos = true;
+            modoAtual = "FAVORITOS";
+            
             const favMusicas = favorites.map(id => todasMusicas.find(m => m.id === id)).filter(Boolean);
+            
             if (favMusicas.length === 0) {
-                favoritesList.innerHTML = '<div class="favorites-empty">Nenhuma música favorita encontrada</div>';
+                modoFavoritos = false;
+                modoAtual = "MPB_POP";
+                showNotification('⚠️ Favoritos não encontrados', 1500);
                 return;
             }
-            favMusicas.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'fav-item';
-                div.innerHTML = `
-                    <div class="fav-info" data-id="${m.id}">
-                        <div class="fav-title">${m.title}</div>
-                        <div class="fav-artist">${m.artist}</div>
-                    </div>
-                    <button class="fav-remove" data-id="${m.id}"><i class="fas fa-times-circle"></i></button>
-                `;
-                div.querySelector('.fav-info').addEventListener('click', () => {
-                    playSongById(m.id);
-                    favoritesModal.classList.remove('open');
-                });
-                div.querySelector('.fav-remove').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleFavorito(m.id);
-                });
-                favoritesList.appendChild(div);
-            });
+            
+            // Embaralhar a lista
+            let lista = [...favMusicas];
+            for (let i = lista.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [lista[i], lista[j]] = [lista[j], lista[i]];
+            }
+            
+            currentPlaylist = lista;
+            currentIndex = 0;
+            historicoReproducao = [];
+            
+            const m = currentPlaylist[0];
+            if (m) {
+                updateScrollText(m);
+                trocarVideoPorGenero(m.genero);
+                adicionarAoHistorico(m);
+            }
+            
+            updateGenreBadge();
+            
+            if (generoTimeout) clearTimeout(generoTimeout);
+            generoTimeout = setTimeout(() => {
+                if (isBackgroundActive && !mudandoGenero) playMusic();
+                resetMudandoGenero();
+            }, 100);
+            
+            showNotification(`❤️ ${favMusicas.length} músicas favoritas`, 1000);
+            document.getElementById('genresModal').classList.remove('open');
+            atualizarIndicadorHistorico();
         }
 
-        function openFavoritesModal() {
-            renderFavoritesList();
-            favoritesModal.classList.add('open');
+        function sairModoFavoritos() {
+            modoFavoritos = false;
+            modoAtual = "MPB_POP";
+            historicoReproducao = [];
+            updateGenreBadge();
+            
+            const m = getMusicaMPBPOPAntiRepeticao();
+            if (m) {
+                currentPlaylist = [m];
+                currentIndex = 0;
+                updateScrollText(m);
+                trocarVideoPorGenero(m.genero);
+                adicionarAoHistorico(m);
+                if (isBackgroundActive) playMusic();
+            }
+            atualizarIndicadorHistorico();
         }
 
         // ===== INICIAR PLAYLIST =====
@@ -1326,6 +1316,7 @@
                 console.log("✅ Playlist processada:", musicas.length);
                 splashStatus.innerHTML = `<i class="fas fa-check-circle"></i> ${musicas.length} músicas carregadas!`;
                 modoAtual = "MPB_POP";
+                modoFavoritos = false;
                 updateGenreBadge();
                 const primeira = getMusicaMPBPOPAntiRepeticao();
                 if (primeira) {
@@ -1396,7 +1387,27 @@
             if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
 
             let track = null;
-            if (modoAtual === "MPB_POP") {
+            
+            if (modoFavoritos) {
+                if (currentPlaylist.length === 0) {
+                    showNotification("Nenhuma favorita", 1000);
+                    return;
+                }
+                if (shuffleMode) {
+                    const disponiveis = currentPlaylist.filter(m => !historicoReproducao.find(h => h.id === m.id));
+                    if (disponiveis.length > 0) {
+                        track = disponiveis[Math.floor(Math.random() * disponiveis.length)];
+                    } else {
+                        const liberados = historicoReproducao.slice(-3).map(m => m.id);
+                        const candidatos = currentPlaylist.filter(m => liberados.includes(m.id));
+                        track = candidatos.length > 0 ? candidatos[Math.floor(Math.random() * candidatos.length)] : currentPlaylist[0];
+                    }
+                } else {
+                    currentIndex = (currentIndex + 1) % currentPlaylist.length;
+                    track = currentPlaylist[currentIndex];
+                }
+                if (track) adicionarAoHistorico(track);
+            } else if (modoAtual === "MPB_POP") {
                 const evitarId = currentPlaylist[0]?.id || null;
                 track = getMusicaMPBPOPAntiRepeticao(evitarId);
                 if (track) { currentPlaylist = [track]; currentIndex = 0; }
@@ -1493,6 +1504,48 @@
         }
 
         function nextTrack() {
+            if (modoFavoritos) {
+                if (currentPlaylist.length === 0) return;
+                if (currentPlaylist.length === 1) {
+                    const unica = currentPlaylist[0];
+                    adicionarAoHistorico(unica);
+                    updateScrollText(unica);
+                    trocarVideoPorGenero(unica.genero);
+                    if (isPlaying) playMusic();
+                    showControls();
+                    return;
+                }
+                let proxima = null;
+                let tentativas = 0;
+                const maxTentativas = currentPlaylist.length * 3;
+                const evitarId = currentPlaylist[currentIndex]?.id;
+                while (tentativas < maxTentativas) {
+                    tentativas++;
+                    let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
+                    const candidata = currentPlaylist[idx];
+                    if (candidata.id === evitarId && currentPlaylist.length > 1) continue;
+                    const noHistorico = !historicoReproducao.find(h => h.id === candidata.id);
+                    if (noHistorico || historicoReproducao.length < 3 || currentPlaylist.length <= 3) {
+                        proxima = candidata;
+                        currentIndex = idx;
+                        break;
+                    }
+                }
+                if (!proxima) {
+                    currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
+                    proxima = currentPlaylist[currentIndex];
+                }
+                if (proxima) {
+                    adicionarAoHistorico(proxima);
+                    updateScrollText(proxima);
+                    trocarVideoPorGenero(proxima.genero);
+                    if (isPlaying) playMusic();
+                    atualizarIndicadorHistorico();
+                }
+                showControls();
+                return;
+            }
+            
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1556,6 +1609,61 @@
         }
 
         function prevTrack() {
+            if (modoFavoritos) {
+                if (currentPlaylist.length === 0) return;
+                if (currentPlaylist.length === 1) {
+                    const unica = currentPlaylist[0];
+                    adicionarAoHistorico(unica);
+                    updateScrollText(unica);
+                    trocarVideoPorGenero(unica.genero);
+                    if (isPlaying) playMusic();
+                    showControls();
+                    return;
+                }
+                if (shuffleMode) {
+                    let candidata = null, tentativas = 0;
+                    const evitarId = currentPlaylist[currentIndex]?.id;
+                    while (tentativas < 20) {
+                        tentativas++;
+                        const idx = Math.floor(Math.random() * currentPlaylist.length);
+                        const test = currentPlaylist[idx];
+                        if (test.id !== evitarId) {
+                            candidata = test;
+                            currentIndex = idx;
+                            break;
+                        }
+                    }
+                    if (!candidata) {
+                        currentIndex = (currentIndex + 1) % currentPlaylist.length;
+                        candidata = currentPlaylist[currentIndex];
+                    }
+                    if (candidata) {
+                        adicionarAoHistorico(candidata);
+                        updateScrollText(candidata);
+                        trocarVideoPorGenero(candidata.genero);
+                        if (isPlaying) playMusic();
+                        atualizarIndicadorHistorico();
+                    }
+                } else {
+                    const evitarId = currentPlaylist[currentIndex]?.id;
+                    let novoIndex = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+                    if (currentPlaylist[novoIndex].id === evitarId && currentPlaylist.length > 1) {
+                        novoIndex = (novoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+                    }
+                    currentIndex = novoIndex;
+                    const track = currentPlaylist[currentIndex];
+                    if (track) {
+                        adicionarAoHistorico(track);
+                        updateScrollText(track);
+                        trocarVideoPorGenero(track.genero);
+                        if (isPlaying) playMusic();
+                        atualizarIndicadorHistorico();
+                    }
+                }
+                showControls();
+                return;
+            }
+            
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1657,6 +1765,18 @@
         // ===== FILTRO POR GÊNERO =====
         function filterByGenre(genero) {
             if (!musicas.length || mudandoGenero) return;
+            
+            // Se for favoritos, entrar no modo favoritos
+            if (genero === "FAVORITOS") {
+                entrarModoFavoritos();
+                return;
+            }
+            
+            // Se estava em modo favoritos, sair
+            if (modoFavoritos) {
+                modoFavoritos = false;
+            }
+            
             mudandoGenero = true;
             document.getElementById('genresModal').classList.remove('open');
             pararAudioAtual();
@@ -1731,6 +1851,14 @@
         function buildGenresGrid() {
             const grid = document.getElementById('genresGrid');
             grid.innerHTML = '';
+            
+            // Adiciona FAVORITOS como primeira opção
+            const favCard = document.createElement('div');
+            favCard.className = 'genre-card fav-card';
+            favCard.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;margin-right:8px;"></i> FAVORITOS (${favorites.length})`;
+            favCard.onclick = () => { filterByGenre("FAVORITOS"); };
+            grid.appendChild(favCard);
+            
             const generos = ["MPB/POP", "SERTANEJO", "FORRÓ", "SAMBA", "POP", "MPB", "BREGA", "GLOBAL HITS", "MODA TOP", "CRISTÃ HITS", "REGGAE"];
             const cores = {
                 "MPB/POP": "#00f3ff",
@@ -1796,6 +1924,8 @@
                 div.querySelector('.fav-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     toggleFavorito(m.id);
+                    // Atualiza o grid de gêneros para mostrar a contagem atualizada
+                    buildGenresGrid();
                 });
                 searchResults.appendChild(div);
             });
@@ -1813,6 +1943,11 @@
             pararAudioAtual();
             historicoReproducao = [];
             adicionarAoHistorico(musica);
+            
+            // Se estava em modo favoritos, sair
+            if (modoFavoritos) {
+                modoFavoritos = false;
+            }
             
             if (musica.genero === "MPB" || musica.genero === "POP") {
                 modoAtual = "MPB_POP";
@@ -1922,10 +2057,6 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
         document.getElementById('closeGenresBtn').addEventListener('click', () => { document.getElementById('genresModal').classList.remove('open'); });
-        document.getElementById('closeFavoritesBtn').addEventListener('click', () => { favoritesModal.classList.remove('open'); });
-        
-        // Botão de favoritos na top bar
-        favHeartBtn.addEventListener('click', openFavoritesModal);
 
         function toggleFab() {
             fabOpen = !fabOpen;
@@ -1938,6 +2069,8 @@
         }
 
         function openGeneros() {
+            // Atualiza o grid com a contagem atual de favoritos
+            buildGenresGrid();
             document.getElementById('genresModal').classList.add('open');
             toggleFab();
             showControls();
