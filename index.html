@@ -153,65 +153,8 @@
         .stats-info p { margin: 10px 0; font-size: 0.95rem; }
         .history-indicator { position: fixed; top: 120px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 15px; font-size: 0.6rem; color: var(--neon-cyan); z-index: 25; border: 1px solid rgba(0,243,255,0.2); }
         
-        /* ===== MODAL SENHA (DESATIVADO) ===== */
-        .senha-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            backdrop-filter: blur(10px);
-        }
-        .senha-modal.open { display: flex; }
-        .senha-box {
-            background: #1a1a2e;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 25px;
-            padding: 40px 30px;
-            max-width: 380px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-        .senha-box i { font-size: 3rem; color: var(--neon-cyan); margin-bottom: 15px; }
-        .senha-box h2 { color: white; font-size: 1.5rem; margin-bottom: 8px; }
-        .senha-box p { color: #aaa; font-size: 0.9rem; margin-bottom: 20px; }
-        .senha-box .timer-senha { font-size: 2.5rem; font-weight: bold; color: var(--neon-cyan); margin: 10px 0 20px; }
-        .senha-box input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid var(--border-color, #333);
-            border-radius: 50px;
-            background: #0a0a0a;
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            letter-spacing: 3px;
-            outline: none;
-            transition: border 0.3s;
-        }
-        .senha-box input:focus { border-color: var(--neon-cyan); }
-        .senha-box .senha-btn {
-            width: 100%;
-            padding: 14px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 50px;
-            background: var(--neon-cyan);
-            color: #000;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .senha-box .senha-btn:active { transform: scale(0.96); }
-        .senha-box .erro-senha { color: #ff4444; font-size: 0.85rem; margin-top: 10px; display: none; }
-        .senha-box .erro-senha.show { display: block; }
+        /* ===== MODAL SENHA (DESATIVADO - REMOVIDO) ===== */
+        /* removido */
         
         @media (max-width: 480px) {
             .search-container { width: 280px; right: 10px; }
@@ -335,19 +278,6 @@
         <button id="closeFeedbackBtn" class="close-feedback">Cancelar</button>
     </div>
 
-    <!-- ===== MODAL SENHA (DESATIVADO - OCULTO) ===== -->
-    <div class="senha-modal" id="senhaModal" style="display: none !important;">
-        <div class="senha-box">
-            <i class="fas fa-lock"></i>
-            <h2>🔐 Acesso Restrito</h2>
-            <p>Seu período de teste acabou!</p>
-            <div class="timer-senha" id="senhaTempoRestante">⏰ 05:00</div>
-            <input type="text" id="senhaInput" placeholder="Digite a senha" maxlength="20" autocomplete="off">
-            <div class="erro-senha" id="senhaErro">❌ Senha incorreta. Tente novamente.</div>
-            <button class="senha-btn" id="senhaBtn">🔓 DESBLOQUEAR</button>
-        </div>
-    </div>
-
     <!-- ===== NOTIFICATION ===== -->
     <div class="notification" id="notification">Mensagem</div>
     <div class="loading" id="loading"><i class="fas fa-circle-notch fa-spin"></i><span>Carregando...</span></div>
@@ -355,7 +285,6 @@
     <div class="audio-indicator" id="audioIndicator"><i class="fas fa-circle"></i> Aguardando</div>
 
     <audio id="musicPlayer" preload="auto"></audio>
-    <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
         // ==================== CONFIGURAÇÕES ====================
@@ -367,8 +296,7 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // ============================================================
-        // ===== SUA PLAYLIST COMPLETA (636 MÚSICAS) =====
-        // ===== MANTENHA SUAS MÚSICAS AQUI =====
+        // ===== SUA PLAYLIST COMPLETA (636 MÚSICAS) - MANTIDA =====
         // ============================================================
         const PLAYLIST_ORIGINAL = [
  {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
@@ -986,7 +914,7 @@
 {"id":644,"title":"Trem das Onze","artist":"Péricles e Demônios da Garoa","genero":"SAMBA","src":"Pericles_Demonios_da_Garoa_Trem_das_Onze.m4a"},
 {"id":645,"title":"Toneladas","artist":"Quem Sabe Faz Ao Vivo","genero":"SAMBA","src":"Quem_Sabe_Faz_Ao_Vivo_Toneladas.m4a"},
 {"id":646,"title":"É Tarde Demais","artist":"Raça Negra","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"}
-          
+            
         ];
 
         // ===== VARIÁVEIS =====
@@ -1013,8 +941,10 @@
         let todasMusicas = [];
         let fabOpen = false;
         let erroCount = 0;
-        let senhaLiberada = true;
         let autoPlayAttempted = false;
+
+        // ===== WAKE LOCK =====
+        let wakeLock = null;
 
         // ===== DOM ELEMENTS =====
         const audio = document.getElementById('musicPlayer');
@@ -1050,37 +980,93 @@
         const fabYoutube = document.getElementById('fabYoutube');
         const searchContainer = document.getElementById('searchContainer');
 
-        // ===== CORREÇÃO: VOLUME MÁXIMO =====
+        // ===== VOLUME MÁXIMO (AJUSTÁVEL) =====
         audio.volume = 1.0;
         audio.preload = "auto";
 
         // ============================================================
-        // ===== SUPORTE A SEGUNDO PLANO (VERSÃO ORIGINAL) =====
+        // ===== CORREÇÃO: WAKE LOCK =====
         // ============================================================
-
-        // Evento de visibilidade (tela bloqueada/aberta)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden && isPlaying && !audio.paused) {
-                console.log('📱 App em segundo plano - áudio continua.');
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator && !wakeLock) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    wakeLock.addEventListener('release', () => {
+                        console.log('WakeLock released');
+                        wakeLock = null;
+                    });
+                    console.log('WakeLock ativo');
+                }
+            } catch (err) {
+                console.warn('WakeLock não suportado:', err);
             }
+        }
+
+        async function releaseWakeLock() {
+            if (wakeLock) {
+                try {
+                    await wakeLock.release();
+                    wakeLock = null;
+                    console.log('WakeLock liberado');
+                } catch (e) {
+                    console.warn('Erro ao liberar WakeLock:', e);
+                }
+            }
+        }
+
+        // ============================================================
+        // ===== CORREÇÃO: SYNC ESTADO COM EVENTOS DO ÁUDIO =====
+        // ============================================================
+        audio.addEventListener('play', () => {
+            isPlaying = true;
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            startTimer();
+            requestWakeLock();
+            console.log('▶️ Play iniciado');
         });
 
-        // Fallback para pausa automática
-        audio.addEventListener('pause', function() {
-            if (document.hidden && isPlaying && !audio.ended) {
-                console.log('🔄 Tentando retomar áudio em segundo plano...');
-                setTimeout(() => {
-                    if (document.hidden && isPlaying && audio.paused) {
-                        audio.play().catch(e => console.log('Erro ao retomar:', e));
-                    }
-                }, 200);
-            }
+        audio.addEventListener('pause', () => {
+            isPlaying = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            stopTimer();
+            releaseWakeLock();
+            console.log('⏸️ Pausado');
+        });
+
+        audio.addEventListener('ended', () => {
+            console.log('⏭️ Música terminou, próxima...');
+            nextTrack();
         });
 
         // ============================================================
-        // ===== FUNÇÕES (MANTIDAS IGUAIS À VERSÃO ORIGINAL) =====
+        // ===== ATIVAÇÃO DE ÁUDIO (SEM BACKGROUND SILENCIOSO) =====
         // ============================================================
+        let audioContext = null;
 
+        async function ativarAudio() {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                isBackgroundActive = true;
+                audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
+                audioIndicator.style.color = '#4ade80';
+                await playMusic();
+                return true;
+            } catch (error) {
+                console.error('Erro ao ativar áudio:', error);
+                isBackgroundActive = true; // força mesmo assim
+                await playMusic();
+                return true;
+            }
+        }
+
+        // ============================================================
+        // ===== FUNÇÕES AUXILIARES =====
+        // ============================================================
         function showNotification(msg, duration = 1500, isError = false) {
             if (isError) return;
             notification.textContent = msg;
@@ -1197,52 +1183,6 @@
             }
         }
 
-        function createSilentAudio() {
-            const sampleRate = 44100, duration = 1;
-            const numSamples = sampleRate * duration;
-            const buffer = new ArrayBuffer(44 + numSamples * 2);
-            const view = new DataView(buffer);
-            const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
-            writeString(view, 0, 'RIFF');
-            view.setUint32(4, 36 + numSamples * 2, true);
-            writeString(view, 8, 'WAVE');
-            writeString(view, 12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
-            writeString(view, 36, 'data');
-            view.setUint32(40, numSamples * 2, true);
-            let offset = 44;
-            for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
-            return new Blob([buffer], { type: 'audio/wav' });
-        }
-
-        const backgroundAudio = document.getElementById('backgroundAudio');
-
-        async function ativarAudio() {
-            try {
-                const silentUrl = URL.createObjectURL(createSilentAudio());
-                backgroundAudio.src = silentUrl;
-                backgroundAudio.loop = true;
-                backgroundAudio.volume = 0.001;
-                await backgroundAudio.play();
-                isBackgroundActive = true;
-                audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
-                audioIndicator.style.color = '#4ade80';
-                if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch (e) {}
-                await playMusic();
-                return true;
-            } catch (error) {
-                isBackgroundActive = true;
-                await playMusic();
-                return true;
-            }
-        }
-
         // ===== INICIAR PLAYLIST =====
         function iniciarPlaylist(dados) {
             try {
@@ -1336,10 +1276,6 @@
             }
         }
 
-        function iniciarTimerSenha() {
-            console.log('🔓 Sistema sem senha - acesso liberado');
-        }
-
         // ===== FUNÇÕES DO PLAYER =====
         function pararAudioAtual() {
             if (timeoutCarregando) { clearTimeout(timeoutCarregando); timeoutCarregando = null; }
@@ -1353,11 +1289,15 @@
             let nextIndex = (currentIndex + 1) % currentPlaylist.length;
             let nextMusic = currentPlaylist[nextIndex];
             if (nextMusic && nextMusic.src) {
-                if (nextSongPreload) { nextSongPreload.src = ''; nextSongPreload = null; }
+                if (nextSongPreload) {
+                    nextSongPreload.src = '';
+                    nextSongPreload = null;
+                }
                 nextSongPreload = new Audio();
                 nextSongPreload.preload = "auto";
                 nextSongPreload.src = nextMusic.src;
                 nextSongPreload.load();
+                console.log('Pré-carregando:', nextMusic.title);
             }
         }
 
@@ -1403,79 +1343,77 @@
                 return;
             }
 
-            // ===== VOLUME MÁXIMO =====
-            audio.volume = 1.0;
-
             trocarVideoPorGenero(track.genero);
             showLoading(true);
             
-            if (nextSongPreload && nextSongPreload.src === track.src) {
-                audio.src = nextSongPreload.src;
-                nextSongPreload = null;
-            } else {
-                audio.src = track.src;
+            // Para o áudio atual completamente
+            if (!audio.paused) {
+                audio.pause();
             }
+            audio.src = '';
+            audio.load();
 
+            // Define a nova fonte
+            audio.src = track.src;
+            audio.load();
+
+            // Timeout para evitar travamento
             if (timeoutCarregando) clearTimeout(timeoutCarregando);
             timeoutCarregando = setTimeout(() => {
-                if (isPlaying || mudandoGenero) {
+                if (audio.readyState < 2) {
+                    console.warn('Timeout no carregamento:', track.title);
                     showLoading(false);
                     showNotification(`⏱️ Pulando: ${track.title}`, 1000);
                     nextTrack();
                 }
                 timeoutCarregando = null;
-            }, 5000);
+            }, 8000);
 
-            audio.oncanplay = () => {
-                if (timeoutCarregando) clearTimeout(timeoutCarregando);
+            try {
+                await audio.play();
+                clearTimeout(timeoutCarregando);
                 timeoutCarregando = null;
-                
-                audio.volume = 1.0;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    startTimer();
-                    updateScrollText(track);
-                    stats.totalPlayed++;
-                    stats.genreCount[track.genero] = (stats.genreCount[track.genero] || 0) + 1;
-                    localStorage.setItem('radio_stats', JSON.stringify(stats));
-                    showLoading(false);
-                    preloadNext();
-                    resetMudandoGenero();
-                    atualizarIndicadorHistorico();
-                }).catch(e => {
-                    console.error("Play error:", e);
-                    showLoading(false);
-                    resetMudandoGenero();
-                    setTimeout(() => {
-                        if (isBackgroundActive) playMusic();
-                    }, 500);
-                });
-            };
-
-            audio.onerror = (e) => {
-                if (timeoutCarregando) clearTimeout(timeoutCarregando);
-                timeoutCarregando = null;
+                // O evento 'play' atualizará o estado
+                updateScrollText(track);
+                stats.totalPlayed++;
+                stats.genreCount[track.genero] = (stats.genreCount[track.genero] || 0) + 1;
+                localStorage.setItem('radio_stats', JSON.stringify(stats));
                 showLoading(false);
+                preloadNext();
                 resetMudandoGenero();
-                console.log(`⏭️ Pulando: ${track.title} (erro: ${e})`);
-                nextTrack();
-            };
-            
-            audio.load();
+                atualizarIndicadorHistorico();
+            } catch (err) {
+                clearTimeout(timeoutCarregando);
+                timeoutCarregando = null;
+                console.error('Erro ao tocar:', err);
+                showLoading(false);
+                // Tenta novamente após 1s
+                setTimeout(() => {
+                    if (isBackgroundActive) playMusic();
+                }, 1000);
+            }
         }
 
         function pauseMusic() {
             audio.pause();
+            // O evento 'pause' atualizará isPlaying e botão
+            // Mas garantimos:
             isPlaying = false;
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
             stopTimer();
+            releaseWakeLock();
         }
 
         function togglePlay() {
-            if (!isBackgroundActive) { showNotification("Ative o áudio primeiro!", 1000); return; }
-            isPlaying ? pauseMusic() : playMusic();
+            if (!isBackgroundActive) {
+                showNotification("Ative o áudio primeiro!", 1000);
+                return;
+            }
+            if (audio.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
             showControls();
         }
 
@@ -1489,6 +1427,7 @@
                     updateScrollText(nova);
                     trocarVideoPorGenero(nova.genero);
                     if (isPlaying) playMusic();
+                    else { /* apenas atualiza exibição */ }
                 }
             } else {
                 if (currentPlaylist.length === 0) {
@@ -1543,6 +1482,7 @@
         }
 
         function prevTrack() {
+            // Similar à nextTrack, mas para trás (implementação resumida)
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1784,7 +1724,6 @@
             clearSearch.style.display = 'flex';
         }
 
-        // ===== CORREÇÃO: BUSCA FUNCIONA =====
         function playSongById(id) {
             const musica = todasMusicas.find(m => m.id === id);
             if (!musica) { 
@@ -2068,15 +2007,32 @@
         });
 
         // ============================================================
+        // ===== EVENTO DE VISIBILIDADE (NÃO FORÇA PLAY) =====
+        // ============================================================
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                console.log('App em segundo plano');
+                // Não faz nada, apenas log
+            } else {
+                console.log('App em primeiro plano');
+                // Se estava pausado, não força play
+            }
+        });
+
+        // ============================================================
         // ===== INICIAR =====
         // ============================================================
         window.addEventListener('load', function() {
             iniciarPlaylist(PLAYLIST_ORIGINAL);
             console.log('🔓 Sistema sem senha - Acesso liberado!');
             console.log('📊 Total de músicas carregadas:', PLAYLIST_ORIGINAL.length);
-            console.log('✅ SUPORTE A SEGUNDO PLANO ATIVADO - Toca com tela fechada!');
-            console.log('✅ CORREÇÃO: Volume máximo (1.0) aplicado!');
+            console.log('✅ CORREÇÕES APLICADAS:');
+            console.log('   - WakeLock para manter tela ativa');
+            console.log('   - Sincronização de estado play/pause');
+            console.log('   - Timeout para evitar travamentos');
+            console.log('   - Pré-carregamento otimizado');
+            console.log('   - Pause funcionando em segundo plano');
         });
     </script>
 </body>
-</html> 
+</html>
