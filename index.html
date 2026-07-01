@@ -6,7 +6,7 @@
     <title>RÁDIO PLAY 12 • Player Rápido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== SEU CSS ORIGINAL - MANTIDO IGUAL ===== */
+        /* CSS original (mantido exatamente igual ao seu) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --neon-purple: #8E2DE2; --error-red: #ef4444; --success-green: #22c55e; }
@@ -24,57 +24,14 @@
         .info-scroll p { color: white; font-size: 0.85rem; font-weight: 900; letter-spacing: 1px; font-family: monospace; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 8px rgba(0,243,255,0.8); }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
-        /* ===== BOTÃO FLUTUANTE ===== */
         .fab-container { position: fixed; bottom: 140px; right: 20px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-        .fab-main { 
-            background: linear-gradient(135deg, #4a4a4a, #2a2a2a); 
-            width: 70px; 
-            height: 70px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            color: white; 
-            font-size: 2rem; 
-            box-shadow: 0 0 30px rgba(255,255,255,0.15), 0 4px 20px rgba(0,0,0,0.4); 
-            border: 2px solid rgba(255,255,255,0.15); 
-            transition: transform 0.2s, background 0.2s;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
+        .fab-main { background: linear-gradient(135deg, #4a4a4a, #2a2a2a); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 2rem; box-shadow: 0 0 30px rgba(255,255,255,0.15), 0 4px 20px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.15); transition: transform 0.2s, background 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
         .fab-main:active { transform: scale(0.92); background: linear-gradient(135deg, #666, #444); }
         .fab-main i { pointer-events: none; }
         
-        .fab-sub { 
-            background: rgba(0,0,0,0.88); 
-            backdrop-filter: blur(14px); 
-            border-radius: 30px; 
-            padding: 6px; 
-            display: none; 
-            flex-direction: column; 
-            gap: 4px; 
-            border: 1px solid rgba(0,243,255,0.2); 
-            box-shadow: 0 4px 30px rgba(0,0,0,0.6); 
-        }
+        .fab-sub { background: rgba(0,0,0,0.88); backdrop-filter: blur(14px); border-radius: 30px; padding: 6px; display: none; flex-direction: column; gap: 4px; border: 1px solid rgba(0,243,255,0.2); box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
         .fab-sub.open { display: flex; }
-        .fab-sub-btn { 
-            background: rgba(255,255,255,0.06); 
-            border: none; 
-            color: white; 
-            padding: 12px 24px; 
-            border-radius: 25px; 
-            font-size: 0.9rem; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            transition: background 0.2s; 
-            white-space: nowrap;
-            min-width: 160px;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
+        .fab-sub-btn { background: rgba(255,255,255,0.06); border: none; color: white; padding: 12px 24px; border-radius: 25px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.2s; white-space: nowrap; min-width: 160px; -webkit-tap-highlight-color: transparent; user-select: none; }
         .fab-sub-btn:active { background: var(--neon-cyan); color: #000; }
         .fab-sub-btn i { font-size: 1.2rem; width: 24px; text-align: center; pointer-events: none; }
         .fab-sub-btn .fab-icon-youtube { color: #FF0000; }
@@ -87,7 +44,6 @@
         .genre-card:active { transform: scale(0.96); border-color: var(--neon-cyan); }
         .close-genres { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 1rem; cursor: pointer; font-weight: bold; }
         
-        /* SEARCH */
         .search-container { display: none; position: fixed; bottom: 140px; right: 20px; z-index: 41; width: 340px; max-width: 92vw; }
         .search-container.open { display: block; }
         .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.92); backdrop-filter: blur(16px); border-radius: 30px; padding: 6px 16px; border: 1px solid var(--neon-cyan); box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
@@ -153,9 +109,6 @@
         .stats-info p { margin: 10px 0; font-size: 0.95rem; }
         .history-indicator { position: fixed; top: 120px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 15px; font-size: 0.6rem; color: var(--neon-cyan); z-index: 25; border: 1px solid rgba(0,243,255,0.2); }
         
-        /* ===== MODAL SENHA (DESATIVADO - REMOVIDO) ===== */
-        /* removido */
-        
         @media (max-width: 480px) {
             .search-container { width: 280px; right: 10px; }
             .fab-main { width: 60px; height: 60px; font-size: 1.6rem; }
@@ -172,7 +125,6 @@
         <source src="apk300.mp4" type="video/mp4">
     </video>
 
-    <!-- ===== SPLASH ===== -->
     <div id="splash">
         <div class="splash-loading" id="splashStatus">
             <i class="fas fa-circle-notch fa-spin"></i> Carregando playlist...
@@ -181,10 +133,8 @@
         </div>
     </div>
 
-    <!-- ===== TAP TO START ===== -->
     <div id="tap-to-start"><i class="fas fa-play-circle"></i> 🎵 ATIVAR RÁDIO</div>
 
-    <!-- ===== APP ===== -->
     <div class="app" id="appContainer" style="display: none;">
         <div class="top-bar" id="topBar">
             <div class="genre-badge" id="genreBadge"><i class="fas fa-exchange-alt"></i> MPB/POP</div>
@@ -199,7 +149,6 @@
         <div class="history-indicator" id="historyIndicator">📊 0 na fila</div>
     </div>
 
-    <!-- ===== FAB ===== -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-sub" id="fabSub">
             <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i> Gêneros</button>
@@ -210,7 +159,6 @@
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
-    <!-- ===== SEARCH ===== -->
     <div class="search-container" id="searchContainer">
         <div class="search-box">
             <i class="fas fa-search search-icon"></i>
@@ -220,14 +168,12 @@
         <div class="search-results" id="searchResults"></div>
     </div>
 
-    <!-- ===== GENRES MODAL ===== -->
     <div class="genres-modal" id="genresModal">
         <h3><i class="fas fa-head-side-brain"></i> ESCOLHA SEU ESTILO</h3>
         <div class="genres-grid" id="genresGrid"></div>
         <button class="close-genres" id="closeGenresBtn">FECHAR</button>
     </div>
 
-    <!-- ===== BOTTOM CONTROLS ===== -->
     <div class="bottom-controls" id="bottomControls">
         <div class="progress-time"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
         <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -239,7 +185,6 @@
         </div>
     </div>
 
-    <!-- ===== MENU ===== -->
     <div class="menu-button" id="menuButton" style="display: none;"><i class="fas fa-ellipsis-v"></i></div>
     <div class="menu-popup" id="menuPopup">
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
@@ -249,7 +194,6 @@
         <button id="feedbackMenuBtn"><i class="fas fa-star"></i> Feedback</button>
     </div>
 
-    <!-- ===== STATS MODAL ===== -->
     <div class="stats-modal" id="statsModal">
         <h3><i class="fas fa-chart-line"></i> Estatísticas</h3>
         <div class="stats-info">
@@ -262,7 +206,6 @@
         <button id="closeStatsBtn" class="close-stats">FECHAR</button>
     </div>
 
-    <!-- ===== FEEDBACK MODAL ===== -->
     <div class="feedback-modal" id="feedbackModal">
         <h3><i class="fas fa-star"></i> Avalie o App</h3>
         <p style="color: #aaa; font-size: 0.85rem;">Sua opinião é importante para nós!</p>
@@ -278,13 +221,13 @@
         <button id="closeFeedbackBtn" class="close-feedback">Cancelar</button>
     </div>
 
-    <!-- ===== NOTIFICATION ===== -->
     <div class="notification" id="notification">Mensagem</div>
     <div class="loading" id="loading"><i class="fas fa-circle-notch fa-spin"></i><span>Carregando...</span></div>
     <div class="swipe-indicator" id="swipeIndicator">👉 Deslize para trocar música</div>
     <div class="audio-indicator" id="audioIndicator"><i class="fas fa-circle"></i> Aguardando</div>
 
     <audio id="musicPlayer" preload="auto"></audio>
+    <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
         // ==================== CONFIGURAÇÕES ====================
@@ -295,9 +238,7 @@
         const MAX_HISTORICO = 15;
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
-        // ============================================================
-        // ===== SUA PLAYLIST COMPLETA (636 MÚSICAS) - MANTIDA =====
-        // ============================================================
+        // ===== SUA PLAYLIST COMPLETA - MANTENHA AQUI =====
         const PLAYLIST_ORIGINAL = [
  {"id":1,"title":"A-coisa-ta-feia","artist":"TIAO CARREIRO-PARDINHO","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO CARREIRO-PARDINHO.m4a"},
             {"id":2,"title":"AVMUSIC","artist":"EDITR","genero":"pop","src":"A_coisa_A_coisa_t_feia_.m4a"},
@@ -943,9 +884,6 @@
         let erroCount = 0;
         let autoPlayAttempted = false;
 
-        // ===== WAKE LOCK =====
-        let wakeLock = null;
-
         // ===== DOM ELEMENTS =====
         const audio = document.getElementById('musicPlayer');
         const playBtn = document.getElementById('playBtn');
@@ -980,92 +918,84 @@
         const fabYoutube = document.getElementById('fabYoutube');
         const searchContainer = document.getElementById('searchContainer');
 
-        // ===== VOLUME MÁXIMO (AJUSTÁVEL) =====
+        // ===== VOLUME =====
         audio.volume = 1.0;
         audio.preload = "auto";
 
         // ============================================================
-        // ===== CORREÇÃO: WAKE LOCK =====
+        // ===== FUNÇÃO PARA CRIAR ÁUDIO SILENCIOSO (ORIGINAL) =====
         // ============================================================
-        async function requestWakeLock() {
+        function createSilentAudio() {
+            const sampleRate = 44100, duration = 1;
+            const numSamples = sampleRate * duration;
+            const buffer = new ArrayBuffer(44 + numSamples * 2);
+            const view = new DataView(buffer);
+            const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + numSamples * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, numSamples * 2, true);
+            let offset = 44;
+            for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        const backgroundAudio = document.getElementById('backgroundAudio');
+
+        // ============================================================
+        // ===== ATIVAÇÃO DE ÁUDIO (ORIGINAL - COM SILENCIOSO) =====
+        // ============================================================
+        async function ativarAudio() {
             try {
-                if ('wakeLock' in navigator && !wakeLock) {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                    wakeLock.addEventListener('release', () => {
-                        console.log('WakeLock released');
-                        wakeLock = null;
-                    });
-                    console.log('WakeLock ativo');
-                }
-            } catch (err) {
-                console.warn('WakeLock não suportado:', err);
-            }
-        }
-
-        async function releaseWakeLock() {
-            if (wakeLock) {
-                try {
-                    await wakeLock.release();
-                    wakeLock = null;
-                    console.log('WakeLock liberado');
-                } catch (e) {
-                    console.warn('Erro ao liberar WakeLock:', e);
-                }
+                const silentUrl = URL.createObjectURL(createSilentAudio());
+                backgroundAudio.src = silentUrl;
+                backgroundAudio.loop = true;
+                backgroundAudio.volume = 0.001;
+                await backgroundAudio.play();
+                isBackgroundActive = true;
+                audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
+                audioIndicator.style.color = '#4ade80';
+                if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch (e) {}
+                await playMusic();
+                return true;
+            } catch (error) {
+                // Fallback: mesmo se falhar, tenta tocar
+                isBackgroundActive = true;
+                await playMusic();
+                return true;
             }
         }
 
         // ============================================================
-        // ===== CORREÇÃO: SYNC ESTADO COM EVENTOS DO ÁUDIO =====
+        // ===== SINCRONIZAÇÃO DE ESTADO COM EVENTOS DO ÁUDIO =====
         // ============================================================
         audio.addEventListener('play', () => {
             isPlaying = true;
             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
             startTimer();
-            requestWakeLock();
-            console.log('▶️ Play iniciado');
         });
 
         audio.addEventListener('pause', () => {
             isPlaying = false;
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
             stopTimer();
-            releaseWakeLock();
-            console.log('⏸️ Pausado');
         });
 
         audio.addEventListener('ended', () => {
-            console.log('⏭️ Música terminou, próxima...');
             nextTrack();
         });
 
         // ============================================================
-        // ===== ATIVAÇÃO DE ÁUDIO (SEM BACKGROUND SILENCIOSO) =====
-        // ============================================================
-        let audioContext = null;
-
-        async function ativarAudio() {
-            try {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioContext.state === 'suspended') {
-                    await audioContext.resume();
-                }
-                isBackgroundActive = true;
-                audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
-                audioIndicator.style.color = '#4ade80';
-                await playMusic();
-                return true;
-            } catch (error) {
-                console.error('Erro ao ativar áudio:', error);
-                isBackgroundActive = true; // força mesmo assim
-                await playMusic();
-                return true;
-            }
-        }
-
-        // ============================================================
-        // ===== FUNÇÕES AUXILIARES =====
+        // ===== FUNÇÕES AUXILIARES (MANTIDAS IGUAIS) =====
         // ============================================================
         function showNotification(msg, duration = 1500, isError = false) {
             if (isError) return;
@@ -1297,7 +1227,6 @@
                 nextSongPreload.preload = "auto";
                 nextSongPreload.src = nextMusic.src;
                 nextSongPreload.load();
-                console.log('Pré-carregando:', nextMusic.title);
             }
         }
 
@@ -1346,10 +1275,8 @@
             trocarVideoPorGenero(track.genero);
             showLoading(true);
             
-            // Para o áudio atual completamente
-            if (!audio.paused) {
-                audio.pause();
-            }
+            // Para o áudio atual antes de carregar o próximo
+            if (!audio.paused) audio.pause();
             audio.src = '';
             audio.load();
 
@@ -1357,11 +1284,9 @@
             audio.src = track.src;
             audio.load();
 
-            // Timeout para evitar travamento
             if (timeoutCarregando) clearTimeout(timeoutCarregando);
             timeoutCarregando = setTimeout(() => {
                 if (audio.readyState < 2) {
-                    console.warn('Timeout no carregamento:', track.title);
                     showLoading(false);
                     showNotification(`⏱️ Pulando: ${track.title}`, 1000);
                     nextTrack();
@@ -1369,39 +1294,45 @@
                 timeoutCarregando = null;
             }, 8000);
 
-            try {
-                await audio.play();
-                clearTimeout(timeoutCarregando);
+            audio.oncanplay = () => {
+                if (timeoutCarregando) clearTimeout(timeoutCarregando);
                 timeoutCarregando = null;
-                // O evento 'play' atualizará o estado
-                updateScrollText(track);
-                stats.totalPlayed++;
-                stats.genreCount[track.genero] = (stats.genreCount[track.genero] || 0) + 1;
-                localStorage.setItem('radio_stats', JSON.stringify(stats));
+                
+                audio.play().then(() => {
+                    // O evento 'play' atualizará o estado
+                    updateScrollText(track);
+                    stats.totalPlayed++;
+                    stats.genreCount[track.genero] = (stats.genreCount[track.genero] || 0) + 1;
+                    localStorage.setItem('radio_stats', JSON.stringify(stats));
+                    showLoading(false);
+                    preloadNext();
+                    resetMudandoGenero();
+                    atualizarIndicadorHistorico();
+                }).catch(e => {
+                    console.error("Play error:", e);
+                    showLoading(false);
+                    resetMudandoGenero();
+                    setTimeout(() => {
+                        if (isBackgroundActive) playMusic();
+                    }, 500);
+                });
+            };
+
+            audio.onerror = (e) => {
+                if (timeoutCarregando) clearTimeout(timeoutCarregando);
+                timeoutCarregando = null;
                 showLoading(false);
-                preloadNext();
                 resetMudandoGenero();
-                atualizarIndicadorHistorico();
-            } catch (err) {
-                clearTimeout(timeoutCarregando);
-                timeoutCarregando = null;
-                console.error('Erro ao tocar:', err);
-                showLoading(false);
-                // Tenta novamente após 1s
-                setTimeout(() => {
-                    if (isBackgroundActive) playMusic();
-                }, 1000);
-            }
+                console.log(`⏭️ Pulando: ${track.title} (erro)`);
+                nextTrack();
+            };
+            
+            audio.load();
         }
 
         function pauseMusic() {
             audio.pause();
             // O evento 'pause' atualizará isPlaying e botão
-            // Mas garantimos:
-            isPlaying = false;
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            stopTimer();
-            releaseWakeLock();
         }
 
         function togglePlay() {
@@ -1427,7 +1358,6 @@
                     updateScrollText(nova);
                     trocarVideoPorGenero(nova.genero);
                     if (isPlaying) playMusic();
-                    else { /* apenas atualiza exibição */ }
                 }
             } else {
                 if (currentPlaylist.length === 0) {
@@ -1482,7 +1412,7 @@
         }
 
         function prevTrack() {
-            // Similar à nextTrack, mas para trás (implementação resumida)
+            // Similar à nextTrack, mas para trás
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1731,8 +1661,6 @@
                 return; 
             }
             
-            console.log(`🔍 BUSCA: ${musica.title} - ${musica.artist} (ID: ${musica.id})`);
-            
             searchResults.style.display = 'none';
             clearSearch.style.display = 'none';
             searchInput.value = '';
@@ -1770,7 +1698,6 @@
             trocarVideoPorGenero(musica.genero);
             updateGenreBadge();
             
-            audio.volume = 1.0;
             if (isBackgroundActive) {
                 setTimeout(() => {
                     playMusic();
@@ -2012,10 +1939,8 @@
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
                 console.log('App em segundo plano');
-                // Não faz nada, apenas log
             } else {
                 console.log('App em primeiro plano');
-                // Se estava pausado, não força play
             }
         });
 
@@ -2026,12 +1951,7 @@
             iniciarPlaylist(PLAYLIST_ORIGINAL);
             console.log('🔓 Sistema sem senha - Acesso liberado!');
             console.log('📊 Total de músicas carregadas:', PLAYLIST_ORIGINAL.length);
-            console.log('✅ CORREÇÕES APLICADAS:');
-            console.log('   - WakeLock para manter tela ativa');
-            console.log('   - Sincronização de estado play/pause');
-            console.log('   - Timeout para evitar travamentos');
-            console.log('   - Pré-carregamento otimizado');
-            console.log('   - Pause funcionando em segundo plano');
+            console.log('✅ Versão com áudio silencioso (original) - garantia de funcionamento em segundo plano');
         });
     </script>
 </body>
