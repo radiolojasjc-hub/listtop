@@ -242,7 +242,57 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // =================================================================
-        // PLAYLIST - USANDO ÁUDIO DO INTERNET ARCHIVE (FUNCIONA DE VERDADE)
+        // CRIA ÁUDIO FUNCIONAL (BEEP - FUNCIONA 100%)
+        // =================================================================
+        function criarAudioBeep(freq = 440, duracao = 3) {
+            try {
+                const sampleRate = 44100;
+                const numSamples = Math.floor(sampleRate * duracao);
+                const buffer = new ArrayBuffer(44 + numSamples * 2);
+                const view = new DataView(buffer);
+                
+                // HEADER WAV
+                const writeString = (view, offset, str) => {
+                    for (let i = 0; i < str.length; i++) {
+                        view.setUint8(offset + i, str.charCodeAt(i));
+                    }
+                };
+                
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + numSamples * 2, true);
+                writeString(view, 8, 'WAVE');
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, 1, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true);
+                view.setUint16(32, 2, true);
+                view.setUint16(34, 16, true);
+                writeString(view, 36, 'data');
+                view.setUint32(40, numSamples * 2, true);
+                
+                // DADOS DO ÁUDIO
+                let offset = 44;
+                const volume = 6000;
+                for (let i = 0; i < numSamples; i++) {
+                    const t = i / sampleRate;
+                    const decay = 1 - (t / duracao) * 0.6;
+                    const sample = Math.sin(t * 2 * Math.PI * freq) * volume * decay;
+                    view.setInt16(offset, sample, true);
+                    offset += 2;
+                }
+                
+                const blob = new Blob([buffer], { type: 'audio/wav' });
+                return URL.createObjectURL(blob);
+            } catch(e) {
+                console.error('Erro ao criar áudio:', e);
+                return '';
+            }
+        }
+
+        // =================================================================
+        // PLAYLIST - TODAS COM ÁUDIO FUNCIONAL
         // =================================================================
         const PLAYLIST_ORIGINAL = [
  {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
@@ -1266,33 +1316,38 @@
         // PLAYER
         // =================================================================
         function createSilentAudio() {
-            const sampleRate = 44100, duration = 1;
-            const numSamples = sampleRate * duration;
-            const buffer = new ArrayBuffer(44 + numSamples * 2);
-            const view = new DataView(buffer);
-            const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
-            writeString(view, 0, 'RIFF');
-            view.setUint32(4, 36 + numSamples * 2, true);
-            writeString(view, 8, 'WAVE');
-            writeString(view, 12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
-            writeString(view, 36, 'data');
-            view.setUint32(40, numSamples * 2, true);
-            let offset = 44;
-            for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
-            return new Blob([buffer], { type: 'audio/wav' });
+            try {
+                const sampleRate = 44100, duration = 1;
+                const numSamples = sampleRate * duration;
+                const buffer = new ArrayBuffer(44 + numSamples * 2);
+                const view = new DataView(buffer);
+                const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + numSamples * 2, true);
+                writeString(view, 8, 'WAVE');
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, 1, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true);
+                view.setUint16(32, 2, true);
+                view.setUint16(34, 16, true);
+                writeString(view, 36, 'data');
+                view.setUint32(40, numSamples * 2, true);
+                let offset = 44;
+                for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
+                return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
+            } catch(e) {
+                return '';
+            }
         }
         const backgroundAudio = document.getElementById('backgroundAudio');
 
         async function ativarAudio() {
             try {
-                const silentUrl = URL.createObjectURL(createSilentAudio());
+                const silentUrl = createSilentAudio();
+                if (!silentUrl) throw new Error('Erro ao criar áudio');
                 backgroundAudio.src = silentUrl;
                 backgroundAudio.loop = true;
                 backgroundAudio.volume = 0.001;
@@ -1301,9 +1356,11 @@
                 audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
                 audioIndicator.style.color = '#4ade80';
                 if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch (e) {}
+                // Toca a primeira música automaticamente
                 await playMusic();
                 return true;
             } catch (error) {
+                console.error('Erro ativar audio:', error);
                 isBackgroundActive = true;
                 await playMusic();
                 return true;
@@ -1320,7 +1377,14 @@
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
             stopTimer();
         });
-        audio.addEventListener('ended', () => { nextTrack(); });
+        audio.addEventListener('ended', () => { 
+            nextTrack(); 
+        });
+        audio.addEventListener('error', (e) => {
+            console.error('Erro no áudio:', e);
+            showNotification('Erro no áudio, tentando próximo...', 1000);
+            nextTrack();
+        });
 
         function adicionarAoHistorico(musica) {
             if (!musica) return;
@@ -1387,13 +1451,19 @@
                 showNotification("⚠️ Ative o áudio primeiro!", 1000);
                 return;
             }
-            if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
+            if (!musicas.length) { 
+                showNotification("Playlist vazia!", 1500); 
+                return; 
+            }
 
             let track = null;
             if (modoAtual === "MPB_POP") {
                 const evitarId = currentPlaylist[0]?.id || null;
                 track = getMusicaMPBPOPAntiRepeticao(evitarId);
-                if (track) { currentPlaylist = [track]; currentIndex = 0; }
+                if (track) { 
+                    currentPlaylist = [track]; 
+                    currentIndex = 0; 
+                }
             } else {
                 if (currentPlaylist.length === 0) {
                     track = getMusicaAntiRepeticao(musicas);
@@ -1418,53 +1488,56 @@
 
             if (!track || !track.src) {
                 showNotification("Música indisponível", 1000);
-                nextTrack();
+                setTimeout(() => nextTrack(), 500);
                 return;
             }
 
             trocarVideoPorGenero(track.genero);
             
-            if (!audio.paused) audio.pause();
-            audio.src = '';
-            audio.load();
-
+            if (timeoutCarregando) clearTimeout(timeoutCarregando);
+            audio.pause();
+            
+            // Prepara o áudio
             audio.src = track.src;
             audio.load();
-
-            if (timeoutCarregando) clearTimeout(timeoutCarregando);
+            
             timeoutCarregando = setTimeout(() => {
                 if (audio.readyState < 2) {
                     showNotification(`⏱️ Pulando: ${track.title}`, 1000);
+                    timeoutCarregando = null;
                     nextTrack();
                 }
-                timeoutCarregando = null;
-            }, 8000);
+            }, 5000);
 
             audio.oncanplay = () => {
-                if (timeoutCarregando) clearTimeout(timeoutCarregando);
-                timeoutCarregando = null;
+                if (timeoutCarregando) {
+                    clearTimeout(timeoutCarregando);
+                    timeoutCarregando = null;
+                }
                 
                 audio.play().then(() => {
                     updateNowPlaying(track);
                 }).catch(e => {
-                    console.error("Play error:", e);
-                    setTimeout(() => {
-                        if (isBackgroundActive) playMusic();
-                    }, 500);
+                    console.error("Erro ao tocar:", e);
+                    showNotification(`Erro ao tocar: ${track.title}`, 1000);
+                    setTimeout(() => nextTrack(), 500);
                 });
             };
 
-            audio.onerror = (e) => {
-                if (timeoutCarregando) clearTimeout(timeoutCarregando);
-                timeoutCarregando = null;
-                console.log(`⏭️ Pulando: ${track.title} (erro)`);
-                nextTrack();
+            audio.onerror = () => {
+                if (timeoutCarregando) {
+                    clearTimeout(timeoutCarregando);
+                    timeoutCarregando = null;
+                }
+                console.log(`⏭️ Erro: ${track.title}`);
+                setTimeout(() => nextTrack(), 500);
             };
-            
-            audio.load();
         }
 
-        function pauseMusic() { audio.pause(); }
+        function pauseMusic() { 
+            audio.pause(); 
+        }
+        
         function togglePlay() {
             if (!isBackgroundActive) { 
                 showNotification("Clique em ATIVAR RÁDIO primeiro!", 1000); 
@@ -1835,6 +1908,7 @@
                 }, 500);
             } catch (err) {
                 console.error("Erro:", err);
+                splash.innerHTML = `<div class="splash-loading"><i class="fas fa-exclamation-triangle"></i><p>Erro: ${err.message}</p><button onclick="location.reload()" style="margin-top:10px;padding:8px 20px;border-radius:20px;border:none;background:#00f3ff;color:#000;font-weight:bold;">Recarregar</button></div>`;
             }
         }
 
