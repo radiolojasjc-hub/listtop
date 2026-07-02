@@ -153,6 +153,7 @@
             </div>
         </div>
         
+        <!-- LETREIRO - Mantido -->
         <div class="info-scroll" id="infoScroll">
             <p id="scrollText">🎵 RÁDIO PLAY 12 - TOCANDO AGORA! 🎵</p>
         </div>
@@ -242,16 +243,15 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // =================================================================
-        // CRIA ÁUDIO FUNCIONAL (BEEP - FUNCIONA 100%)
+        // FUNÇÃO PARA CRIAR ÁUDIO BEEP (FUNCIONAL 100%)
         // =================================================================
-        function criarAudioBeep(freq = 440, duracao = 3) {
+        function criarBeep(freq = 440, duracao = 3) {
             try {
                 const sampleRate = 44100;
                 const numSamples = Math.floor(sampleRate * duracao);
                 const buffer = new ArrayBuffer(44 + numSamples * 2);
                 const view = new DataView(buffer);
                 
-                // HEADER WAV
                 const writeString = (view, offset, str) => {
                     for (let i = 0; i < str.length; i++) {
                         view.setUint8(offset + i, str.charCodeAt(i));
@@ -272,7 +272,6 @@
                 writeString(view, 36, 'data');
                 view.setUint32(40, numSamples * 2, true);
                 
-                // DADOS DO ÁUDIO
                 let offset = 44;
                 const volume = 6000;
                 for (let i = 0; i < numSamples; i++) {
@@ -292,7 +291,7 @@
         }
 
         // =================================================================
-        // PLAYLIST - TODAS COM ÁUDIO FUNCIONAL
+        // PLAYLIST
         // =================================================================
         const PLAYLIST_ORIGINAL = [
  {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
@@ -993,7 +992,6 @@
         let modoAtual = "MPB_POP";
         let ultimoGeneroTocado = null;
         let hideControlsTimeout = null;
-        let timeoutCarregando = null;
         let historicoReproducao = [];
         let favorites = [];
         let currentRating = 0;
@@ -1356,7 +1354,6 @@
                 audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
                 audioIndicator.style.color = '#4ade80';
                 if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch (e) {}
-                // Toca a primeira música automaticamente
                 await playMusic();
                 return true;
             } catch (error) {
@@ -1377,9 +1374,7 @@
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
             stopTimer();
         });
-        audio.addEventListener('ended', () => { 
-            nextTrack(); 
-        });
+        audio.addEventListener('ended', () => { nextTrack(); });
         audio.addEventListener('error', (e) => {
             console.error('Erro no áudio:', e);
             showNotification('Erro no áudio, tentando próximo...', 1000);
@@ -1451,19 +1446,13 @@
                 showNotification("⚠️ Ative o áudio primeiro!", 1000);
                 return;
             }
-            if (!musicas.length) { 
-                showNotification("Playlist vazia!", 1500); 
-                return; 
-            }
+            if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
 
             let track = null;
             if (modoAtual === "MPB_POP") {
                 const evitarId = currentPlaylist[0]?.id || null;
                 track = getMusicaMPBPOPAntiRepeticao(evitarId);
-                if (track) { 
-                    currentPlaylist = [track]; 
-                    currentIndex = 0; 
-                }
+                if (track) { currentPlaylist = [track]; currentIndex = 0; }
             } else {
                 if (currentPlaylist.length === 0) {
                     track = getMusicaAntiRepeticao(musicas);
@@ -1488,55 +1477,32 @@
 
             if (!track || !track.src) {
                 showNotification("Música indisponível", 1000);
-                setTimeout(() => nextTrack(), 500);
+                nextTrack();
                 return;
             }
 
             trocarVideoPorGenero(track.genero);
             
-            if (timeoutCarregando) clearTimeout(timeoutCarregando);
             audio.pause();
-            
-            // Prepara o áudio
             audio.src = track.src;
             audio.load();
-            
-            timeoutCarregando = setTimeout(() => {
-                if (audio.readyState < 2) {
-                    showNotification(`⏱️ Pulando: ${track.title}`, 1000);
-                    timeoutCarregando = null;
-                    nextTrack();
-                }
-            }, 5000);
 
             audio.oncanplay = () => {
-                if (timeoutCarregando) {
-                    clearTimeout(timeoutCarregando);
-                    timeoutCarregando = null;
-                }
-                
                 audio.play().then(() => {
                     updateNowPlaying(track);
                 }).catch(e => {
                     console.error("Erro ao tocar:", e);
-                    showNotification(`Erro ao tocar: ${track.title}`, 1000);
-                    setTimeout(() => nextTrack(), 500);
+                    nextTrack();
                 });
             };
 
             audio.onerror = () => {
-                if (timeoutCarregando) {
-                    clearTimeout(timeoutCarregando);
-                    timeoutCarregando = null;
-                }
                 console.log(`⏭️ Erro: ${track.title}`);
-                setTimeout(() => nextTrack(), 500);
+                nextTrack();
             };
         }
 
-        function pauseMusic() { 
-            audio.pause(); 
-        }
+        function pauseMusic() { audio.pause(); }
         
         function togglePlay() {
             if (!isBackgroundActive) { 
