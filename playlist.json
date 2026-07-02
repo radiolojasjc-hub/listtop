@@ -1,7 +1,6 @@
-{
-  "total_musicas": 665,
-  "generos": {
-    "FORRÓ": [
+
+  
+     [
       {"id": 1, "artist": "Joyce Alane e Zeca Baleiro", "title": "A Natureza das Coisas", "src": "A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a"},
       {"id": 2, "artist": "Neo Pinel", "title": "A Rural", "src": "A_Rural_A-Neo_Pinel.m4a"},
       {"id": 3, "artist": "Bats Lima", "title": "Ainda É Tempo", "src": "AINDA-E-TEMPO-BATS-LIMA-FORRO.m4a"},
@@ -622,9 +621,9 @@
       {"id": 598, "artist": "Tiago Iorc", "title": "Menos Mais", "src": "TIAGO_IORC_MENOS_MAIS_Amei_Te_Ver=SS.m4a"},
       {"id": 599, "artist": "Kiko", "title": "Milano", "src": "KIiko no Pagode-SAMBA.m4a"},
       {"id": 600, "artist": "Heróis", "title": "Só Pro Meu Prazer", "src": "so proseu pazer-HEROIS-M.m4a"},
-  {
-  "total_musicas_enviadas": 75,
-  "musicas": [
+  
+  
+  
     {"id": 591, "artist": "Maneva", "title": "Anunciação", "src": "Maneva-Anunciacoo.m4a"},
     {"id": 592, "artist": "Cidade Negra", "title": "A Sombra da Maldade", "src": "Cidade Negra-A Sombra da Maldade.m4a"},
     {"id": 593, "artist": "Cidade Negra", "title": "Girassol", "src": "CidadeNegraGirassol.m4a"},
