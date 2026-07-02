@@ -6,7 +6,6 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== TODO O SEU CSS AQUI (MANTIDO IGUAL) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; }
@@ -328,7 +327,8 @@
             if (track) {
                 nowTitle.textContent = track.title;
                 nowArtist.textContent = track.artist;
-                scrollText.innerHTML = `🎵 ${track.title} - ${track.artist} [${track.genero}] 🎵`;
+                const generoLabel = track.genero || 'POP';
+                scrollText.innerHTML = `🎵 ${track.title} - ${track.artist} [${generoLabel}] 🎵`;
                 updateHeartIcon(track.id);
             }
         }
@@ -423,8 +423,7 @@
             };
             genresGrid.appendChild(favCard);
             
-            // Pega todos os gêneros únicos da playlist
-            const generosUnicos = [...new Set(musicas.map(m => m.genero))];
+            // Cores para cada gênero
             const cores = {
                 "MPB/POP": "#00f3ff",
                 "SERTANEJO": "#8B4513",
@@ -439,21 +438,26 @@
                 "REGGAE": "#008000"
             };
             
-            // Adiciona MPB/POP como opção especial
+            // Adiciona MPB/POP como primeiro (sempre visível)
             const mpbPopCard = document.createElement('div');
             mpbPopCard.className = 'genre-card';
             mpbPopCard.style.border = `2px solid ${cores["MPB/POP"]}`;
             mpbPopCard.style.background = `linear-gradient(135deg, ${cores["MPB/POP"]}22, #1a1a2e)`;
+            mpbPopCard.style.color = cores["MPB/POP"];
             mpbPopCard.textContent = "MPB/POP";
             mpbPopCard.onclick = () => { filterByGenre("MPB_POP"); };
             genresGrid.appendChild(mpbPopCard);
             
+            // Pega todos os gêneros únicos da playlist (exceto MPB e POP que já estão no MPB/POP)
+            const generosUnicos = [...new Set(musicas.map(m => m.genero))];
             generosUnicos.forEach(genero => {
-                if (genero === "MPB" || genero === "POP") return; // Já tem MPB/POP
+                if (genero === "MPB" || genero === "POP") return;
+                if (genero === "MPB/POP") return;
                 const card = document.createElement('div');
                 card.className = 'genre-card';
-                card.style.border = `2px solid ${cores[genero] || '#fff'}`;
-                card.style.background = `linear-gradient(135deg, ${cores[genero] || '#fff'}22, #1a1a2e)`;
+                const cor = cores[genero] || '#fff';
+                card.style.border = `2px solid ${cor}`;
+                card.style.background = `linear-gradient(135deg, ${cor}22, #1a1a2e)`;
                 card.textContent = genero;
                 card.onclick = () => { filterByGenre(genero); };
                 genresGrid.appendChild(card);
@@ -536,7 +540,7 @@
         }
 
         // =================================================================
-        // FILTRO POR GÊNERO
+        // FILTRO POR GÊNERO - CORRIGIDO COM MÚSICAS DIFERENTES
         // =================================================================
         function filterByGenre(genero) {
             if (!musicas.length) return;
@@ -548,6 +552,9 @@
                 ultimoGeneroTocado = null;
                 genreBadge.innerHTML = '<i class="fas fa-exchange-alt"></i> MPB/POP';
                 genreBadge.className = 'genre-badge';
+                
+                // Reseta histórico para garantir músicas diferentes
+                historicoReproducao = [];
                 const nova = getMusicaMPBPOPAntiRepeticao();
                 if (nova) {
                     currentPlaylist = [nova];
@@ -557,17 +564,20 @@
                     adicionarAoHistorico(nova);
                     if (isBackgroundActive) setTimeout(() => playMusic(), 200);
                 }
-                showNotification("🎵 MPB/POP alternando!", 1000);
+                showNotification("🎵 MPB/POP - Músicas diferentes!", 1000);
             } else {
                 const listaGenero = musicas.filter(m => m.genero === genero);
                 if (listaGenero.length > 0) {
                     modoAtual = "GENERO_ESPECIFICO";
+                    // Embaralha a lista para garantir músicas diferentes
                     let lista = [...listaGenero];
                     for (let i = lista.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
                         [lista[i], lista[j]] = [lista[j], lista[i]];
                     }
                     currentPlaylist = lista;
+                    historicoReproducao = [];
+                    
                     const m = getMusicaAntiRepeticao(currentPlaylist);
                     if (m) {
                         currentIndex = currentPlaylist.findIndex(x => x.id === m.id);
@@ -578,7 +588,7 @@
                         genreBadge.className = 'genre-badge';
                         if (isBackgroundActive) setTimeout(() => playMusic(), 200);
                     }
-                    showNotification(`🎵 ${genero} - ${currentPlaylist.length} músicas`, 1000);
+                    showNotification(`🎵 ${genero} - ${currentPlaylist.length} músicas diferentes`, 1000);
                 } else {
                     showNotification(`⚠️ ${genero} não encontrado`, 1500);
                 }
@@ -586,7 +596,7 @@
         }
 
         // =================================================================
-        // PLAYER
+        // PLAYER - CORRIGIDO PARA EVITAR REPETIÇÕES
         // =================================================================
         function createSilentAudio() {
             try {
@@ -673,7 +683,8 @@
             let idsHistorico = new Set(historicoReproducao.map(m => m.id));
             let candidatas = lista.filter(m => !idsHistorico.has(m.id));
             if (candidatas.length === 0) {
-                const idsLiberados = historicoReproducao.slice(-3).map(m => m.id);
+                // Se todas já foram tocadas, libera as últimas 5 do histórico
+                const idsLiberados = historicoReproducao.slice(-5).map(m => m.id);
                 candidatas = lista.filter(m => idsLiberados.includes(m.id));
                 if (candidatas.length === 0) candidatas = [...lista];
             }
@@ -738,12 +749,24 @@
                         if (disponiveis.length > 0) {
                             track = disponiveis[Math.floor(Math.random() * disponiveis.length)];
                         } else {
-                            const liberados = historicoReproducao.slice(-3).map(m => m.id);
+                            const liberados = historicoReproducao.slice(-5).map(m => m.id);
                             const candidatos = currentPlaylist.filter(m => liberados.includes(m.id));
                             track = candidatos.length > 0 ? candidatos[Math.floor(Math.random() * candidatos.length)] : currentPlaylist[0];
                         }
                     } else {
-                        currentIndex = (currentIndex + 1) % currentPlaylist.length;
+                        // Sequencial: evita repetir a mesma
+                        let tentativas = 0;
+                        let novoIndex = (currentIndex + 1) % currentPlaylist.length;
+                        const evitarId = currentPlaylist[currentIndex]?.id;
+                        while (tentativas < currentPlaylist.length) {
+                            tentativas++;
+                            const test = currentPlaylist[novoIndex];
+                            if (test.id !== evitarId && !historicoReproducao.find(h => h.id === test.id)) {
+                                break;
+                            }
+                            novoIndex = (novoIndex + 1) % currentPlaylist.length;
+                        }
+                        currentIndex = novoIndex;
                         track = currentPlaylist[currentIndex];
                     }
                     if (track) adicionarAoHistorico(track);
@@ -834,7 +857,7 @@
                     const candidata = currentPlaylist[idx];
                     if (candidata.id === evitarId && currentPlaylist.length > 1) continue;
                     const noHistorico = !historicoReproducao.find(h => h.id === candidata.id);
-                    if (noHistorico || historicoReproducao.length < 3 || currentPlaylist.length <= 3) {
+                    if (noHistorico || historicoReproducao.length < 5 || currentPlaylist.length <= 5) {
                         proxima = candidata;
                         currentIndex = idx;
                         break;
@@ -1070,6 +1093,7 @@
             showNotification('🔊 Ativando...', 1000);
             await ativarAudio();
             tapToStart.style.display = 'none';
+            // Entrar em tela cheia automaticamente
             try { document.documentElement.requestFullscreen(); } catch (e) {}
         });
 
@@ -1117,7 +1141,7 @@
         }
 
         // =================================================================
-        // INICIAR
+        // INICIAR - SEMPRE COMEÇA COM MPB/POP E TELA CHEIA
         // =================================================================
         async function iniciar() {
             try {
@@ -1140,10 +1164,13 @@
                     if (savedFavorites) favorites = JSON.parse(savedFavorites);
                 } catch(e) { favorites = []; }
 
+                // SEMPRE COMEÇA COM MPB/POP
                 modoAtual = "MPB_POP";
+                ultimoGeneroTocado = null;
                 genreBadge.innerHTML = '<i class="fas fa-exchange-alt"></i> MPB/POP';
                 genreBadge.className = 'genre-badge';
                 
+                historicoReproducao = [];
                 const primeira = getMusicaMPBPOPAntiRepeticao();
                 if (primeira) {
                     currentPlaylist = [primeira];
