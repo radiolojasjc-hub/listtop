@@ -6,7 +6,6 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Seu CSS aqui (mantido igual) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; }
@@ -243,10 +242,16 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // =================================================================
-        // PLAYLIST (APENAS 2 MÚSICAS PARA TESTE)
+        // PLAYLIST - COM ÁUDIO REAL (MP3 DE EXEMPLO)
         // =================================================================
+        // Use um MP3 de exemplo que existe na internet
+        // Você pode substituir pelos seus arquivos!
+        const MP3_EXEMPLO = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+        const MP3_EXEMPLO_2 = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+        const MP3_EXEMPLO_3 = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
+
         const PLAYLIST_ORIGINAL = [
-         {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
+          {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
             {"id":2,"title":"Infarto","artist":"Diego & Victor Hugo","src":"Diego_Victor_Hugo_Infarto_muzzik.m4a","genero":"SERTANEJO"},
             {"id":3,"title":"Esqueci Você","artist":"Bruno & Marrone","src":"Bruno_Marrone_e_Henrique_Diego_Esqueci_Voc_muzzik.m4a","genero":"SERTANEJO"},
             {"id":4,"title":"Pout Pourri","artist":"Luiza Martins","src":"Luiza_Martins_Pout_Pourri_Na_Hora_do_Adeus_Fruto.m4a","genero":"SERTANEJO"},
@@ -1393,99 +1398,65 @@
             }
         }
 
-        // FUNÇÃO PRINCIPAL DE PLAY CORRIGIDA
         async function playMusic() {
             if (!isBackgroundActive) {
                 showNotification("⚠️ Ative o áudio primeiro!", 1000);
                 return;
             }
-            if (!musicas.length) { 
-                showNotification("Playlist vazia!", 1500); 
-                return; 
-            }
+            if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
 
             let track = null;
-            
-            // Se não tem playlist, cria uma
-            if (currentPlaylist.length === 0) {
-                if (modoAtual === "MPB_POP") {
-                    track = getMusicaMPBPOPAntiRepeticao();
-                } else {
-                    track = getMusicaAntiRepeticao(musicas);
-                }
-                if (track) {
-                    currentPlaylist = [track];
-                    currentIndex = 0;
-                }
+            if (modoAtual === "MPB_POP") {
+                const evitarId = currentPlaylist[0]?.id || null;
+                track = getMusicaMPBPOPAntiRepeticao(evitarId);
+                if (track) { currentPlaylist = [track]; currentIndex = 0; }
             } else {
-                // Pega a música atual da playlist
-                if (currentIndex >= currentPlaylist.length) {
-                    currentIndex = 0;
-                }
-                track = currentPlaylist[currentIndex];
-                
-                // Se a música atual está no histórico, busca outra
-                if (historicoReproducao.find(m => m.id === track?.id) && currentPlaylist.length > 1) {
-                    track = getMusicaAntiRepeticao(currentPlaylist, track?.id);
-                    if (track) {
-                        currentIndex = currentPlaylist.findIndex(m => m.id === track.id);
-                        if (currentIndex === -1) currentIndex = 0;
+                if (currentPlaylist.length === 0) {
+                    track = getMusicaAntiRepeticao(musicas);
+                    if (track) currentPlaylist = [track];
+                } else {
+                    if (shuffleMode) {
+                        const disponiveis = currentPlaylist.filter(m => !historicoReproducao.find(h => h.id === m.id));
+                        if (disponiveis.length > 0) {
+                            track = disponiveis[Math.floor(Math.random() * disponiveis.length)];
+                        } else {
+                            const liberados = historicoReproducao.slice(-3).map(m => m.id);
+                            const candidatos = currentPlaylist.filter(m => liberados.includes(m.id));
+                            track = candidatos.length > 0 ? candidatos[Math.floor(Math.random() * candidatos.length)] : currentPlaylist[0];
+                        }
+                    } else {
+                        currentIndex = (currentIndex + 1) % currentPlaylist.length;
+                        track = currentPlaylist[currentIndex];
                     }
+                    if (track) adicionarAoHistorico(track);
                 }
             }
 
             if (!track || !track.src) {
-                showNotification("Música indisponível, pulando...", 1000);
-                setTimeout(nextTrack, 500);
+                showNotification("Música indisponível", 1000);
+                nextTrack();
                 return;
             }
 
-            try {
-                trocarVideoPorGenero(track.genero);
-                
-                // Para o áudio atual
-                audio.pause();
-                audio.src = '';
-                audio.load();
-                
-                // Carrega a nova música
-                audio.src = track.src;
-                audio.load();
+            trocarVideoPorGenero(track.genero);
+            
+            audio.pause();
+            audio.src = track.src;
+            audio.load();
 
-                // Toca quando carregar
-                audio.oncanplay = function() {
-                    audio.play()
-                        .then(() => {
-                            updateNowPlaying(track);
-                            adicionarAoHistorico(track);
-                            console.log('🎵 Tocando:', track.title);
-                        })
-                        .catch(e => {
-                            console.error("Erro ao tocar:", e);
-                            showNotification('Erro ao tocar música', 1000);
-                            setTimeout(nextTrack, 1000);
-                        });
-                };
+            audio.oncanplay = () => {
+                audio.play().then(() => {
+                    updateNowPlaying(track);
+                }).catch(e => {
+                    console.error("Erro ao tocar:", e);
+                    nextTrack();
+                });
+            };
 
-                audio.onerror = function() {
-                    console.error('Erro de áudio em:', track.title);
-                    showNotification(`Erro em: ${track.title}`, 1000);
-                    setTimeout(nextTrack, 1000);
-                };
-
-                // Fallback se demorar muito
-                setTimeout(() => {
-                    if (audio.paused && isBackgroundActive) {
-                        console.log('Timeout - tentando próximo');
-                        nextTrack();
-                    }
-                }, 8000);
-
-            } catch (err) {
-                console.error('Erro em playMusic:', err);
-                showNotification('Erro inesperado', 1000);
-                setTimeout(nextTrack, 1000);
-            }
+            audio.onerror = () => {
+                console.log(`⏭️ Erro: ${track.title}`);
+                nextTrack();
+            };
         }
 
         function pauseMusic() { audio.pause(); }
@@ -1496,12 +1467,7 @@
                 return; 
             }
             if (audio.paused) {
-                // Se está pausado e já tem uma música carregada, tenta tocar
-                if (audio.src && audio.src !== '') {
-                    audio.play().catch(() => playMusic());
-                } else {
-                    playMusic();
-                }
+                playMusic();
             } else {
                 pauseMusic();
             }
@@ -1509,82 +1475,9 @@
         }
 
         function nextTrack() {
-            console.log('⏭️ Próxima música');
-            
             if (modoAtual === "MPB_POP") {
-                const atual = currentPlaylist[0]?.id || null;
-                const nova = getMusicaMPBPOPAntiRepeticao(atual);
-                if (nova) {
-                    currentPlaylist = [nova];
-                    currentIndex = 0;
-                    updateNowPlaying(nova);
-                    trocarVideoPorGenero(nova.genero);
-                    if (isPlaying) playMusic();
-                }
-                return;
-            }
-            
-            // Modo normal
-            if (currentPlaylist.length === 0) {
-                const m = getMusicaAntiRepeticao(musicas);
-                if (m) {
-                    currentPlaylist = [m];
-                    currentIndex = 0;
-                    updateNowPlaying(m);
-                    trocarVideoPorGenero(m.genero);
-                    if (isPlaying) playMusic();
-                }
-                return;
-            }
-            
-            if (currentPlaylist.length === 1) {
-                const unica = currentPlaylist[0];
-                adicionarAoHistorico(unica);
-                updateNowPlaying(unica);
-                trocarVideoPorGenero(unica.genero);
-                if (isPlaying) playMusic();
-                showControls();
-                return;
-            }
-            
-            let proxima = null;
-            let tentativas = 0;
-            const maxTentativas = currentPlaylist.length * 3;
-            const evitarId = currentPlaylist[currentIndex]?.id;
-            
-            while (tentativas < maxTentativas) {
-                tentativas++;
-                let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                const candidata = currentPlaylist[idx];
-                if (candidata.id === evitarId && currentPlaylist.length > 1) continue;
-                const noHistorico = !historicoReproducao.find(h => h.id === candidata.id);
-                if (noHistorico || historicoReproducao.length < 3 || currentPlaylist.length <= 3) {
-                    proxima = candidata;
-                    currentIndex = idx;
-                    break;
-                }
-            }
-            
-            if (!proxima) {
-                currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                proxima = currentPlaylist[currentIndex];
-            }
-            
-            if (proxima) {
-                adicionarAoHistorico(proxima);
-                updateNowPlaying(proxima);
-                trocarVideoPorGenero(proxima.genero);
-                if (isPlaying) playMusic();
-            }
-            showControls();
-        }
-
-        function prevTrack() {
-            console.log('⏮️ Música anterior');
-            
-            if (modoAtual === "MPB_POP") {
-                const atual = currentPlaylist[0]?.id || null;
-                const nova = getMusicaMPBPOPAntiRepeticao(atual);
+                const atual = currentPlaylist[0];
+                const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
                 if (nova) {
                     currentPlaylist = [nova];
                     currentIndex = 0;
@@ -1613,7 +1506,68 @@
                     showControls();
                     return;
                 }
-                
+                let proxima = null;
+                let tentativas = 0;
+                const maxTentativas = currentPlaylist.length * 3;
+                const evitarId = currentPlaylist[currentIndex]?.id;
+                while (tentativas < maxTentativas) {
+                    tentativas++;
+                    let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
+                    const candidata = currentPlaylist[idx];
+                    if (candidata.id === evitarId && currentPlaylist.length > 1) continue;
+                    const noHistorico = !historicoReproducao.find(h => h.id === candidata.id);
+                    if (noHistorico || historicoReproducao.length < 3 || currentPlaylist.length <= 3) {
+                        proxima = candidata;
+                        currentIndex = idx;
+                        break;
+                    }
+                }
+                if (!proxima) {
+                    currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
+                    proxima = currentPlaylist[currentIndex];
+                }
+                if (proxima) {
+                    adicionarAoHistorico(proxima);
+                    updateNowPlaying(proxima);
+                    trocarVideoPorGenero(proxima.genero);
+                    if (isPlaying) playMusic();
+                }
+            }
+            showControls();
+        }
+
+        function prevTrack() {
+            if (modoAtual === "MPB_POP") {
+                const atual = currentPlaylist[0];
+                const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
+                if (nova) {
+                    currentPlaylist = [nova];
+                    currentIndex = 0;
+                    updateNowPlaying(nova);
+                    trocarVideoPorGenero(nova.genero);
+                    if (isPlaying) playMusic();
+                }
+            } else {
+                if (currentPlaylist.length === 0) {
+                    const m = getMusicaAntiRepeticao(musicas);
+                    if (m) {
+                        currentPlaylist = [m];
+                        currentIndex = 0;
+                        updateNowPlaying(m);
+                        trocarVideoPorGenero(m.genero);
+                        if (isPlaying) playMusic();
+                    }
+                    return;
+                }
+                if (currentPlaylist.length === 1) {
+                    const unica = currentPlaylist[0];
+                    adicionarAoHistorico(unica);
+                    updateNowPlaying(unica);
+                    trocarVideoPorGenero(unica.genero);
+                    if (isPlaying) playMusic();
+                    showControls();
+                    return;
+                }
                 if (shuffleMode) {
                     let candidata = null, tentativas = 0;
                     const evitarId = currentPlaylist[currentIndex]?.id;
@@ -1844,7 +1798,6 @@
 
                 musicas = validas;
                 console.log("✅ Playlist carregada:", musicas.length);
-                console.log("📁 Músicas:", musicas);
 
                 try {
                     const savedFavorites = localStorage.getItem('radio_favorites_simple');
@@ -1861,13 +1814,6 @@
                     currentIndex = 0;
                     updateNowPlaying(primeira);
                     adicionarAoHistorico(primeira);
-                } else if (musicas.length > 0) {
-                    // Fallback: pega a primeira música disponível
-                    const fallback = musicas[0];
-                    currentPlaylist = [fallback];
-                    currentIndex = 0;
-                    updateNowPlaying(fallback);
-                    adicionarAoHistorico(fallback);
                 }
 
                 updateFavCount();
