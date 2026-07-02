@@ -6,7 +6,6 @@
     <title>PLAY 12 • Player Rápido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* TODO O CSS IGUAL AO ANTERIOR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --error-red: #ef4444; }
@@ -243,10 +242,10 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // =================================================================
-        // PLAYLIST - USANDO ÁUDIO GERADO (FUNCIONAL SEM ARQUIVOS EXTERNOS)
+        // PLAYLIST - MÚSICAS COM ÁUDIO FUNCIONAL (USANDO TONES)
         // =================================================================
-        // Função para criar áudio de exemplo (beep simples)
-        function criarAudioExemplo(duracao = 3) {
+        // Função para criar áudio com diferentes tons
+        function criarAudioComTom(tom, duracao = 3) {
             const sampleRate = 44100;
             const numSamples = sampleRate * duracao;
             const buffer = new ArrayBuffer(44 + numSamples * 2);
@@ -273,9 +272,11 @@
             view.setUint32(40, numSamples * 2, true);
             
             let offset = 44;
+            const frequencia = tom || 440;
             for (let i = 0; i < numSamples; i++) {
-                // Faz um som de beep/senoidal
-                const sample = Math.sin(i * 0.05) * 8000;
+                // Criar onda senoidal com decaimento
+                const decay = 1 - (i / numSamples) * 0.8;
+                const sample = Math.sin(i * 2 * Math.PI * frequencia / sampleRate) * 8000 * decay;
                 view.setInt16(offset, sample, true);
                 offset += 2;
             }
@@ -283,19 +284,9 @@
             return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
         }
 
-        // Criar URLs de áudio para cada música
-        const audio1 = criarAudioExemplo(5);
-        const audio2 = criarAudioExemplo(4);
-        const audio3 = criarAudioExemplo(6);
-        const audio4 = criarAudioExemplo(5);
-        const audio5 = criarAudioExemplo(4);
-        const audio6 = criarAudioExemplo(5);
-        const audio7 = criarAudioExemplo(4);
-
+        // Criar URLs de áudio com diferentes tons para cada música
         const PLAYLIST_ORIGINAL = [
-           // GÊNERO: SERTANEJO
-            // ============================================================
-            {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
+          {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
             {"id":2,"title":"Infarto","artist":"Diego & Victor Hugo","src":"Diego_Victor_Hugo_Infarto_muzzik.m4a","genero":"SERTANEJO"},
             {"id":3,"title":"Esqueci Você","artist":"Bruno & Marrone","src":"Bruno_Marrone_e_Henrique_Diego_Esqueci_Voc_muzzik.m4a","genero":"SERTANEJO"},
             {"id":4,"title":"Pout Pourri","artist":"Luiza Martins","src":"Luiza_Martins_Pout_Pourri_Na_Hora_do_Adeus_Fruto.m4a","genero":"SERTANEJO"},
@@ -976,7 +967,8 @@
             {"id":633,"title":"Z_do_Caro","artist":"Leci_Brand","src":"Leci_Brand_o_Z_do_Caro_o_muzzik.m4a","genero":"SAMBA"},
             {"id":634,"title":"Saudosa Maloca ","artist":"Péricles & Demônios","src":"Péricles & Demônios da Garoa - Saudosa Maloca (Nos Trilhos do Samba).opus","genero":"SAMBA"},
             {"id":635,"title":"Toneladas","artist":"Quem_Sabe_Faz_Ao_Vivo","src":"Quem_Sabe_Faz_Ao_Vivo_Toneladas_muzzik.m4a","genero":"SAMBA"},
-            {"id":636,"title":"Paparico_Paparico_Cilada","artist":"POGODEER","src":"Paparico_Paparico_Cilada__muzzik.m4a","genero":"SAMBA"}  
+            {"id":636,"title":"Paparico_Paparico_Cilada","artist":"POGODEER","src":"Paparico_Paparico_Cilada__muzzik.m4a","genero":"SAMBA"}
+              
         ];
 
         // =================================================================
@@ -1515,8 +1507,15 @@
 
         function pauseMusic() { audio.pause(); }
         function togglePlay() {
-            if (!isBackgroundActive) { showNotification("Ative o áudio primeiro!", 1000); return; }
-            if (audio.paused) playMusic(); else pauseMusic();
+            if (!isBackgroundActive) { 
+                showNotification("Ative o áudio primeiro!", 1000); 
+                return; 
+            }
+            if (audio.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
             showControls();
         }
 
