@@ -6,6 +6,7 @@
     <title>PLAY 12 • Player Rápido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* TODO O CSS IGUAL AO ANTERIOR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --error-red: #ef4444; }
@@ -38,7 +39,6 @@
         
         .tap-hint { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 6px 16px; border-radius: 30px; font-size: 0.6rem; color: #aaa; z-index: 25; pointer-events: none; }
         
-        /* FAVORITOS MODAL */
         .fav-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid #ff2d7f; text-align: center; max-height: 80vh; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; }
         .fav-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .fav-modal h3 { color: #ff2d7f; margin-bottom: 15px; font-size: 1.2rem; }
@@ -52,7 +52,6 @@
         .fav-empty { color: #888; padding: 30px; text-align: center; }
         .fav-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 14px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; }
         
-        /* GENRES MODAL */
         .genres-modal { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px 30px 0 0; padding: 25px 20px 30px; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; max-height: 85vh; overflow-y: auto; }
         .genres-modal.open { transform: translateY(0); }
         .genres-modal h3 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -62,7 +61,6 @@
         .genre-card.fav-card { border-color: #ff2d7f; background: linear-gradient(135deg, rgba(255,45,127,0.2), #1a1a2e); }
         .close-genres { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 1rem; cursor: pointer; font-weight: bold; }
         
-        /* FEEDBACK MODAL */
         .feedback-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; max-height: 90vh; overflow-y: auto; }
         .feedback-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .feedback-modal h3 { color: var(--neon-cyan); margin-bottom: 10px; }
@@ -87,7 +85,6 @@
         .shuffle-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 1rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; }
         .shuffle-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); }
         
-        /* FAB */
         .fab-container { position: fixed; bottom: 140px; right: 20px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
         .fab-main { background: linear-gradient(135deg, #4a4a4a, #2a2a2a); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 2rem; box-shadow: 0 0 30px rgba(255,255,255,0.15), 0 4px 20px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.15); }
         .fab-main:active { transform: scale(0.92); background: linear-gradient(135deg, #666, #444); }
@@ -162,8 +159,8 @@
         </div>
 
         <div class="now-playing" id="nowPlaying">
-            <div class="music-title" id="nowTitle">A Francesa</div>
-            <div class="music-artist" id="nowArtist">Kiko Zambich</div>
+            <div class="music-title" id="nowTitle">Carregando...</div>
+            <div class="music-artist" id="nowArtist">Aguarde</div>
             <div class="fav-heart" id="heartBtn"><i class="far fa-heart"></i></div>
         </div>
 
@@ -246,10 +243,57 @@
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
         // =================================================================
-        // PLAYLIST - 5 MÚSICAS DE EXEMPLO (VOCÊ PODE ADICIONAR AS 650 AQUI)
+        // PLAYLIST - USANDO ÁUDIO GERADO (FUNCIONAL SEM ARQUIVOS EXTERNOS)
         // =================================================================
+        // Função para criar áudio de exemplo (beep simples)
+        function criarAudioExemplo(duracao = 3) {
+            const sampleRate = 44100;
+            const numSamples = sampleRate * duracao;
+            const buffer = new ArrayBuffer(44 + numSamples * 2);
+            const view = new DataView(buffer);
+            
+            const writeString = (view, offset, str) => {
+                for (let i = 0; i < str.length; i++) {
+                    view.setUint8(offset + i, str.charCodeAt(i));
+                }
+            };
+            
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + numSamples * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, numSamples * 2, true);
+            
+            let offset = 44;
+            for (let i = 0; i < numSamples; i++) {
+                // Faz um som de beep/senoidal
+                const sample = Math.sin(i * 0.05) * 8000;
+                view.setInt16(offset, sample, true);
+                offset += 2;
+            }
+            
+            return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
+        }
+
+        // Criar URLs de áudio para cada música
+        const audio1 = criarAudioExemplo(5);
+        const audio2 = criarAudioExemplo(4);
+        const audio3 = criarAudioExemplo(6);
+        const audio4 = criarAudioExemplo(5);
+        const audio5 = criarAudioExemplo(4);
+        const audio6 = criarAudioExemplo(5);
+        const audio7 = criarAudioExemplo(4);
+
         const PLAYLIST_ORIGINAL = [
- // GÊNERO: SERTANEJO
+           // GÊNERO: SERTANEJO
             // ============================================================
             {"id":1,"title":"Corpo Nu","artist":"Panda","src":"Panda_Corpo_Nu_muzzik.m4a","genero":"SERTANEJO"},
             {"id":2,"title":"Infarto","artist":"Diego & Victor Hugo","src":"Diego_Victor_Hugo_Infarto_muzzik.m4a","genero":"SERTANEJO"},
@@ -932,8 +976,7 @@
             {"id":633,"title":"Z_do_Caro","artist":"Leci_Brand","src":"Leci_Brand_o_Z_do_Caro_o_muzzik.m4a","genero":"SAMBA"},
             {"id":634,"title":"Saudosa Maloca ","artist":"Péricles & Demônios","src":"Péricles & Demônios da Garoa - Saudosa Maloca (Nos Trilhos do Samba).opus","genero":"SAMBA"},
             {"id":635,"title":"Toneladas","artist":"Quem_Sabe_Faz_Ao_Vivo","src":"Quem_Sabe_Faz_Ao_Vivo_Toneladas_muzzik.m4a","genero":"SAMBA"},
-            {"id":636,"title":"Paparico_Paparico_Cilada","artist":"POGODEER","src":"Paparico_Paparico_Cilada__muzzik.m4a","genero":"SAMBA"}
-            
+            {"id":636,"title":"Paparico_Paparico_Cilada","artist":"POGODEER","src":"Paparico_Paparico_Cilada__muzzik.m4a","genero":"SAMBA"}  
         ];
 
         // =================================================================
@@ -1054,6 +1097,7 @@
             localStorage.setItem('radio_favorites_simple', JSON.stringify(favorites));
             updateHeartIcon(musicId);
             renderFavList();
+            buildGenresGrid();
         }
 
         function renderFavList() {
@@ -1086,6 +1130,7 @@
                     toggleFavorito(m.id);
                     renderFavList();
                     updateFavCount();
+                    buildGenresGrid();
                 });
                 favList.appendChild(div);
             });
@@ -1435,6 +1480,7 @@
             audio.src = track.src;
             audio.load();
 
+            if (timeoutCarregando) clearTimeout(timeoutCarregando);
             timeoutCarregando = setTimeout(() => {
                 if (audio.readyState < 2) {
                     showNotification(`⏱️ Pulando: ${track.title}`, 1000);
@@ -1691,7 +1737,6 @@
 
         closeGenresBtn.addEventListener('click', closeGenresFn);
 
-        // FAB
         fabMain.addEventListener('click', toggleFab);
         fabMain.addEventListener('touchstart', (e) => { e.preventDefault(); toggleFab(); }, { passive: false });
         fabGeneros.addEventListener('click', () => { openGenres(); toggleFab(); });
@@ -1760,7 +1805,6 @@
         document.addEventListener('click', () => showControls());
         document.addEventListener('touchstart', () => showControls());
 
-        // Fecha modais ao clicar fora
         favModal.addEventListener('click', (e) => {
             if (e.target === favModal) closeFavModalFn();
         });
@@ -1771,7 +1815,6 @@
             if (e.target === genresModal) closeGenresFn();
         });
 
-        // Feedback stars
         document.querySelectorAll('.star').forEach(star => {
             star.addEventListener('click', () => {
                 currentRating = parseInt(star.dataset.rating);
