@@ -600,7 +600,7 @@
     {"id":592,"artist":"Waldik Soriano","title":"Um Homem Chora de Paixão","genero":"BREGA","src":"Waldik_Soriano_Um_Homem_Chora_De_Paix_B.m4a"},
   
     {"id":593,"artist":"Maneva","title":"Anunciação","genero":"REGGAE","src":"Maneva-Anunciacoo.m4a"},
-    {"id":594,"artist":"Cidade Negra","title":"A Sombra da Maldade","genero":"REGGAE","src":"Cidade Negra-A Sombra da Maldade.m4a"},
+    {"id":594,"artist":"Cidade Negra","title":"A Sombra da Maldade","genero":"REGGAE","src":"Cidade-Negra-Sombra.m4a"},
     {"id":595,"artist":"Cidade Negra","title":"Girassol","genero":"REGGAE","src":"CidadeNegraGirassol.m4a"},
     {"id":596,"artist":"Akundum","title":"Emaconhada","genero":"REGGAE","src":"Emaconhada-Akundum.m4a"},
     {"id":597,"artist":"Cidade Negra","title":"Game People Play","genero":"REGGAE","src":"GamePeoplPlay.m4a"},
@@ -629,7 +629,7 @@
 
    
     {"id": 591, "artist": "Maneva", "title": "Anunciação", "genero": "REGGAE", "src": "Maneva-Anunciacoo.m4a"},
-    {"id": 592, "artist": "Cidade Negra", "title": "A Sombra da Maldade", "genero": "REGGAE", "src": "Cidade Negra-A Sombra da Maldade.m4a"},
+    {"id": 592, "artist": "Cidade Negra", "title": "A Sombra da Maldade", "genero": "REGGAE", "src": ""},
     {"id": 593, "artist": "Cidade Negra", "title": "Girassol", "genero": "REGGAE", "src": "CidadeNegraGirassol.m4a"},
     {"id": 594, "artist": "Akundum", "title": "Emaconhada", "genero": "REGGAE", "src": "Emaconhada-Akundum.m4a"},
     {"id": 595, "artist": "Cidade Negra", "title": "Game People Play", "genero": "REGGAE", "src": "GamePeoplPlay.m4a"},
