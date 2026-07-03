@@ -129,7 +129,7 @@
         .fab-sub-btn i { font-size: 0.85rem; width: 18px; text-align: center; pointer-events: none; }
         .fab-sub-btn .fab-icon-youtube { color: #FF0000; }
         
-        .menu-button { display: none; position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 31; border: 1px solid rgba(0,243,255,0.3); }
+        .menu-button { position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 31; border: 1px solid rgba(0,243,255,0.3); }
         .menu-button:active { background: var(--neon-cyan); color: #000; }
         .menu-popup { position: absolute; top: 42px; right: 8px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 6px; z-index: 32; display: none; flex-direction: column; gap: 4px; border: 1px solid var(--neon-cyan); min-width: 130px; }
         .menu-popup.open { display: flex; }
@@ -311,7 +311,7 @@
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
-    <div class="menu-button" id="menuButton" style="display: none;"><i class="fas fa-ellipsis-v"></i></div>
+    <div class="menu-button" id="menuButton"><i class="fas fa-ellipsis-v"></i></div>
     <div class="menu-popup" id="menuPopup">
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
         <button id="btStatusMenuBtn"><i class="fab fa-bluetooth"></i> Procurar Bluetooth</button>
@@ -1585,9 +1585,20 @@
             try { document.documentElement.requestFullscreen(); } catch (e) {}
         });
 
-        document.getElementById('menuButton').addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('menuPopup').classList.toggle('open'); showControls(); });
-        document.addEventListener('click', () => showControls());
-        document.addEventListener('touchstart', () => showControls());
+        menuButton.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            document.getElementById('menuPopup').classList.toggle('open'); 
+            showControls(); 
+        });
+        
+        document.addEventListener('click', () => {
+            document.getElementById('menuPopup').classList.remove('open');
+            showControls();
+        });
+        document.addEventListener('touchstart', () => {
+            document.getElementById('menuPopup').classList.remove('open');
+            showControls();
+        });
 
         favModal.addEventListener('click', (e) => {
             if (e.target === favModal) closeFavModalFn();
@@ -1676,7 +1687,6 @@
                     setTimeout(() => {
                         splash.style.display = 'none';
                         appContainer.style.display = 'block';
-                        menuButton.style.display = 'flex';
                         tapToStart.style.display = 'block';
                     }, 500);
                 }, 500);
