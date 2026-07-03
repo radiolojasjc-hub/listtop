@@ -29,21 +29,14 @@
         .search-input:focus { width: 160px; outline: none; border-color: var(--neon-cyan); }
         .search-input::placeholder { color: #666; }
         
-        /* Indicador de áudio na barra superior */
-        .audio-status { font-size: 0.6rem; color: #888; display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.4); padding: 2px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .audio-status.active { color: #4ade80; border-color: #4ade80; }
-        .audio-status .dot { width: 6px; height: 6px; border-radius: 50%; background: #555; display: inline-block; }
-        .audio-status.active .dot { background: #4ade80; animation: pulse-dot 1s infinite; }
-        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        
         .info-scroll { position: fixed; top: 62px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 20px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
         .info-scroll p { color: white; font-size: 0.75rem; font-weight: 900; letter-spacing: 1px; font-family: monospace; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 8px rgba(0,243,255,0.8); }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .now-playing { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; width: 90%; max-width: 400px; cursor: grab; user-select: none; -webkit-user-select: none; }
         .now-playing:active { cursor: grabbing; }
-        .now-playing .music-title { color: white; font-size: 1.6rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; }
-        .now-playing .music-artist { color: #aaa; font-size: 1.2rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; }
+        .now-playing .music-title { color: white; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; }
+        .now-playing .music-artist { color: #aaa; font-size: 1rem; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; }
         .now-playing .fav-heart { font-size: 3.5rem; color: #555; cursor: pointer; transition: all 0.3s; text-shadow: 0 0 30px rgba(0,0,0,0.9); display: inline-block; }
         .now-playing .fav-heart.active { color: #ff2d7f; text-shadow: 0 0 40px rgba(255,45,127,0.5); }
         .now-playing .fav-heart:active { transform: scale(1.2); }
@@ -138,7 +131,7 @@
         .menu-popup button { background: rgba(255,255,255,0.08); border: none; color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; display: flex; align-items: center; gap: 8px; cursor: pointer; text-align: left; }
         .menu-popup button:active { background: var(--neon-cyan); color: #000; }
         
-        .audio-indicator { position: absolute; top: 10px; right: 60px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 3px 8px; border-radius: 20px; font-size: 0.55rem; color: #ffaa00; z-index: 31; display: none; align-items: center; gap: 4px; }
+        .audio-indicator { position: absolute; top: 10px; right: 60px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 3px 8px; border-radius: 20px; font-size: 0.55rem; color: #ffaa00; z-index: 31; display: flex; align-items: center; gap: 4px; }
         
         #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s; }
         #splash.hidden { opacity: 0; pointer-events: none; }
@@ -146,7 +139,7 @@
         .splash-loading i { font-size: 2rem; color: var(--neon-cyan); }
         .splash-loading p { margin-top: 10px; font-size: 0.85rem; }
         
-        #tap-to-start { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4a4a4a, #2a2a2a); color: white; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 1rem; z-index: 10000; cursor: pointer; display: none; animation: btnPulse 1.5s infinite; border: none; box-shadow: 0 0 20px rgba(255,255,255,0.15); letter-spacing: 0.5px; }
+        #tap-to-start { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4a4a4a, #2a2a2a); color: white; padding: 12px 28px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; z-index: 10000; cursor: pointer; display: none; animation: btnPulse 1.5s infinite; border: none; box-shadow: 0 0 20px rgba(255,255,255,0.15); }
         @keyframes btnPulse { 0% { transform: translateX(-50%) scale(1); opacity: 0.9; } 50% { transform: translateX(-50%) scale(1.03); opacity: 1; } 100% { transform: translateX(-50%) scale(1); opacity: 0.9; } }
         
         .notification { position: fixed; top: 72px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: var(--neon-cyan); padding: 6px 16px; border-radius: 30px; font-size: 0.7rem; z-index: 10001; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; border-left: 3px solid var(--neon-cyan); }
@@ -173,10 +166,10 @@
         .historico-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
         
         @media (max-width: 480px) {
-            .now-playing .music-title { font-size: 1.3rem; }
-            .now-playing .music-artist { font-size: 1rem; }
+            .now-playing .music-title { font-size: 1.1rem; }
+            .now-playing .music-artist { font-size: 0.85rem; }
             .now-playing .fav-heart { font-size: 2.8rem; }
-            .genre-badge { font-size: 0.55rem; max-width: 30%; padding: 4px 10px; }
+            .genre-badge { font-size: 0.55rem; max-width: 35%; padding: 4px 10px; }
             .fav-top-btn { font-size: 0.6rem; padding: 3px 8px; }
             .fab-main { width: 54px; height: 54px; font-size: 1.4rem; }
             .fab-sub-btn { padding: 8px 14px; font-size: 0.75rem; min-width: 120px; }
@@ -193,7 +186,6 @@
             .bottom-controls { padding: 8px 12px 16px; }
             .genres-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
             .genre-card { font-size: 0.85rem; aspect-ratio: 4/3; }
-            .audio-status { font-size: 0.5rem; padding: 1px 8px; }
         }
     </style>
 </head>
@@ -209,14 +201,13 @@
         </div>
     </div>
 
-    <div id="tap-to-start">ATIVAR RÁDIO</div>
+    <div id="tap-to-start"><i class="fas fa-play-circle"></i> 🎵 ATIVAR RÁDIO</div>
 
     <div class="app" id="appContainer" style="display: none;">
         <div class="top-bar" id="topBar">
-            <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB/POP</div>
+            <div class="genre-badge" id="genreBadge" onclick="openGenres()"><i class="fas fa-exchange-alt"></i> MPB/POP</div>
             <div class="top-buttons">
-                <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar...">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar...">
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
@@ -323,6 +314,7 @@
     </div>
 
     <div class="notification" id="notification">Mensagem</div>
+    <div class="audio-indicator" id="audioIndicator"><i class="fas fa-circle"></i> Aguardando</div>
 
     <!-- LOADING OVERLAY -->
     <div id="loadingOverlay"><i class="fas fa-spinner fa-spin"></i></div>
@@ -361,8 +353,6 @@
         let touchStartX = 0;
         let touchStartY = 0;
         let isDragging = false;
-        let modoFavoritosAtivo = false; // indica se está no modo favoritos
-        let generoAtualPesquisa = null; // guarda o gênero da música selecionada na busca
 
         // =================================================================
         // DOM ELEMENTS
@@ -379,7 +369,7 @@
         const appContainer = document.getElementById('appContainer');
         const menuButton = document.getElementById('menuButton');
         const notification = document.getElementById('notification');
-        const audioStatus = document.getElementById('audioStatus');
+        const audioIndicator = document.getElementById('audioIndicator');
         const bottomControls = document.getElementById('bottomControls');
         const shuffleBtn = document.getElementById('shuffleBtn');
         const bgVideo = document.getElementById('bgVideo');
@@ -709,10 +699,6 @@
                 return;
             }
             
-            // CRÍTICO: SÓ TOCA AS MÚSICAS FAVORITAS
-            modoFavoritosAtivo = true;
-            modoAtual = "FAVORITOS";
-            
             let lista = [...favMusicas];
             for (let i = lista.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -744,13 +730,11 @@
             if (!musicas.length) return;
             
             genresModal.classList.remove('open');
-            modoFavoritosAtivo = false;
-            generoAtualPesquisa = null;
             
             if (genero === "MPB_POP") {
                 modoAtual = "MPB_POP";
                 ultimoGeneroTocado = null;
-                genreBadge.innerHTML = 'MPB/POP';
+                genreBadge.innerHTML = '<i class="fas fa-exchange-alt"></i> MPB/POP';
                 genreBadge.className = 'genre-badge';
                 
                 historicoReproducao = [];
@@ -782,7 +766,7 @@
                         if (currentIndex === -1) currentIndex = 0;
                         updateNowPlaying(m);
                         trocarVideoPorGenero(m.genero);
-                        genreBadge.innerHTML = `${genero}`;
+                        genreBadge.innerHTML = `<i class="fas fa-music"></i> ${genero}`;
                         genreBadge.className = 'genre-badge';
                         if (isBackgroundActive) setTimeout(() => playMusic(), 200);
                     }
@@ -835,8 +819,8 @@
                 backgroundAudio.volume = 0.001;
                 await backgroundAudio.play();
                 isBackgroundActive = true;
-                audioStatus.classList.add('active');
-                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
+                audioIndicator.innerHTML = '<i class="fas fa-music"></i> Ativo';
+                audioIndicator.style.color = '#4ade80';
                 if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch (e) {}
                 await playMusic();
                 showLoading(false);
@@ -844,8 +828,6 @@
             } catch (error) {
                 console.error('Erro ativar audio:', error);
                 isBackgroundActive = true;
-                audioStatus.classList.add('active');
-                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
                 await playMusic();
                 showLoading(false);
                 return true;
@@ -939,47 +921,11 @@
             if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
 
             let track = null;
-            
-            // MODO FAVORITOS
-            if (modoAtual === "FAVORITOS") {
-                if (currentPlaylist.length === 0) {
-                    entrarModoFavoritos();
-                    return;
-                }
-                if (shuffleMode) {
-                    const disponiveis = currentPlaylist.filter(m => !historicoReproducao.find(h => h.id === m.id));
-                    if (disponiveis.length > 0) {
-                        track = disponiveis[Math.floor(Math.random() * disponiveis.length)];
-                    } else {
-                        const liberados = historicoReproducao.slice(-8).map(m => m.id);
-                        const candidatos = currentPlaylist.filter(m => liberados.includes(m.id));
-                        track = candidatos.length > 0 ? candidatos[Math.floor(Math.random() * candidatos.length)] : currentPlaylist[0];
-                    }
-                } else {
-                    let tentativas = 0;
-                    let novoIndex = (currentIndex + 1) % currentPlaylist.length;
-                    const evitarId = currentPlaylist[currentIndex]?.id;
-                    while (tentativas < currentPlaylist.length) {
-                        tentativas++;
-                        const test = currentPlaylist[novoIndex];
-                        if (test.id !== evitarId && !historicoReproducao.find(h => h.id === test.id)) {
-                            break;
-                        }
-                        novoIndex = (novoIndex + 1) % currentPlaylist.length;
-                    }
-                    currentIndex = novoIndex;
-                    track = currentPlaylist[currentIndex];
-                }
-                if (track) adicionarAoHistorico(track);
-            }
-            // MODO MPB/POP
-            else if (modoAtual === "MPB_POP") {
+            if (modoAtual === "MPB_POP") {
                 const evitarId = currentPlaylist[0]?.id || null;
                 track = getMusicaMPBPOPAntiRepeticao(evitarId);
                 if (track) { currentPlaylist = [track]; currentIndex = 0; }
-            }
-            // OUTROS GÊNEROS
-            else {
+            } else {
                 if (currentPlaylist.length === 0) {
                     track = getMusicaAntiRepeticao(musicas);
                     if (track) currentPlaylist = [track];
@@ -1055,52 +1001,6 @@
         }
 
         function nextTrack() {
-            // Se estiver no modo favoritos e não houver mais músicas, reinicia
-            if (modoAtual === "FAVORITOS") {
-                if (currentPlaylist.length === 0) {
-                    entrarModoFavoritos();
-                    return;
-                }
-                if (currentPlaylist.length === 1) {
-                    const unica = currentPlaylist[0];
-                    adicionarAoHistorico(unica);
-                    updateNowPlaying(unica);
-                    trocarVideoPorGenero(unica.genero);
-                    if (isPlaying) playMusic();
-                    showControls();
-                    return;
-                }
-                let proxima = null;
-                let tentativas = 0;
-                const maxTentativas = currentPlaylist.length * 3;
-                const evitarId = currentPlaylist[currentIndex]?.id;
-                while (tentativas < maxTentativas) {
-                    tentativas++;
-                    let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                    const candidata = currentPlaylist[idx];
-                    if (candidata.id === evitarId && currentPlaylist.length > 1) continue;
-                    const noHistorico = !historicoReproducao.find(h => h.id === candidata.id);
-                    if (noHistorico || historicoReproducao.length < 8 || currentPlaylist.length <= 8) {
-                        proxima = candidata;
-                        currentIndex = idx;
-                        break;
-                    }
-                }
-                if (!proxima) {
-                    currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                    proxima = currentPlaylist[currentIndex];
-                }
-                if (proxima) {
-                    adicionarAoHistorico(proxima);
-                    updateNowPlaying(proxima);
-                    trocarVideoPorGenero(proxima.genero);
-                    if (isPlaying) playMusic();
-                }
-                showControls();
-                return;
-            }
-            
-            // Lógica normal para outros modos
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1163,64 +1063,6 @@
         }
 
         function prevTrack() {
-            // Se estiver no modo favoritos
-            if (modoAtual === "FAVORITOS") {
-                if (currentPlaylist.length === 0) {
-                    entrarModoFavoritos();
-                    return;
-                }
-                if (currentPlaylist.length === 1) {
-                    const unica = currentPlaylist[0];
-                    adicionarAoHistorico(unica);
-                    updateNowPlaying(unica);
-                    trocarVideoPorGenero(unica.genero);
-                    if (isPlaying) playMusic();
-                    showControls();
-                    return;
-                }
-                if (shuffleMode) {
-                    let candidata = null, tentativas = 0;
-                    const evitarId = currentPlaylist[currentIndex]?.id;
-                    while (tentativas < 20) {
-                        tentativas++;
-                        const idx = Math.floor(Math.random() * currentPlaylist.length);
-                        const test = currentPlaylist[idx];
-                        if (test.id !== evitarId) {
-                            candidata = test;
-                            currentIndex = idx;
-                            break;
-                        }
-                    }
-                    if (!candidata) {
-                        currentIndex = (currentIndex + 1) % currentPlaylist.length;
-                        candidata = currentPlaylist[currentIndex];
-                    }
-                    if (candidata) {
-                        adicionarAoHistorico(candidata);
-                        updateNowPlaying(candidata);
-                        trocarVideoPorGenero(candidata.genero);
-                        if (isPlaying) playMusic();
-                    }
-                } else {
-                    const evitarId = currentPlaylist[currentIndex]?.id;
-                    let novoIndex = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-                    if (currentPlaylist[novoIndex].id === evitarId && currentPlaylist.length > 1) {
-                        novoIndex = (novoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-                    }
-                    currentIndex = novoIndex;
-                    const track = currentPlaylist[currentIndex];
-                    if (track) {
-                        adicionarAoHistorico(track);
-                        updateNowPlaying(track);
-                        trocarVideoPorGenero(track.genero);
-                        if (isPlaying) playMusic();
-                    }
-                }
-                showControls();
-                return;
-            }
-            
-            // Lógica normal para outros modos
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
@@ -1325,11 +1167,7 @@
             audio.src = '';
             audio.load();
             
-            // Guarda o gênero da música selecionada para manter na busca
-            generoAtualPesquisa = musica.genero;
-            modoFavoritosAtivo = false;
             modoAtual = "GENERO_ESPECIFICO";
-            
             const listaGenero = musicas.filter(m => m.genero === musica.genero);
             let lista = listaGenero.filter(m => m.id !== musica.id);
             for (let i = lista.length - 1; i > 0; i--) {
@@ -1342,7 +1180,7 @@
             
             updateNowPlaying(musica);
             trocarVideoPorGenero(musica.genero);
-            genreBadge.innerHTML = `${musica.genero}`;
+            genreBadge.innerHTML = `<i class="fas fa-music"></i> ${musica.genero}`;
             genreBadge.className = 'genre-badge';
             
             if (isBackgroundActive) {
@@ -1352,25 +1190,16 @@
         }
 
         // =================================================================
-        // PESQUISA - MANTÉM O GÊNERO DA MÚSICA SELECIONADA
+        // PESQUISA
         // =================================================================
         function buscarMusica(termo) {
             if (!termo || termo.length < 2) {
-                // Volta ao modo atual, mas mantém o gênero se veio de pesquisa
-                if (modoFavoritosAtivo) {
-                    entrarModoFavoritos();
-                    return;
-                }
-                if (generoAtualPesquisa) {
-                    filterByGenre(generoAtualPesquisa);
-                    generoAtualPesquisa = null;
-                    return;
-                }
+                // Volta ao modo atual
                 if (modoAtual === "MPB_POP") {
                     filterByGenre("MPB_POP");
                 } else {
                     const genero = genreBadge.textContent.replace(/[^a-zA-ZÀ-ÿ ]/g, '').trim();
-                    if (genero && genero !== 'MPB/POP' && genero !== 'FAVORITOS') {
+                    if (genero && genero !== 'MPB/POP') {
                         filterByGenre(genero);
                     } else {
                         filterByGenre("MPB_POP");
@@ -1390,26 +1219,16 @@
                 return;
             }
             
-            // Toca o primeiro resultado e mantém o gênero
-            const musicaSelecionada = resultados[0];
-            generoAtualPesquisa = musicaSelecionada.genero;
-            modoFavoritosAtivo = false;
+            // Toca o primeiro resultado
             modoAtual = "GENERO_ESPECIFICO";
-            
-            // Monta playlist com músicas do mesmo gênero
-            const listaGenero = musicas.filter(m => m.genero === musicaSelecionada.genero);
-            let lista = listaGenero.filter(m => m.id !== musicaSelecionada.id);
-            for (let i = lista.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [lista[i], lista[j]] = [lista[j], lista[i]];
-            }
-            currentPlaylist = [musicaSelecionada, ...lista];
+            currentPlaylist = resultados;
             currentIndex = 0;
             historicoReproducao = [];
             
-            updateNowPlaying(musicaSelecionada);
-            trocarVideoPorGenero(musicaSelecionada.genero);
-            genreBadge.innerHTML = `${musicaSelecionada.genero}`;
+            const m = resultados[0];
+            updateNowPlaying(m);
+            trocarVideoPorGenero(m.genero);
+            genreBadge.innerHTML = `<i class="fas fa-search"></i> 🔍 ${resultados.length} resultados`;
             genreBadge.className = 'genre-badge';
             
             if (isBackgroundActive) setTimeout(() => playMusic(), 200);
@@ -1438,11 +1257,14 @@
                 const deltaX = e.changedTouches[0].clientX - touchStartX;
                 const deltaY = e.changedTouches[0].clientY - touchStartY;
                 
+                // Swipe horizontal
                 if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
                     if (deltaX > 0) {
+                        // Swipe para direita -> música anterior
                         prevTrack();
                         showNotification('⏪ Música anterior', 800);
                     } else {
+                        // Swipe para esquerda -> próxima música
                         nextTrack();
                         showNotification('⏩ Próxima música', 800);
                     }
@@ -1451,11 +1273,13 @@
             }
         }, { passive: true });
 
+        // Double tap para favoritar
         let lastTapTime = 0;
         nowPlaying.addEventListener('click', (e) => {
             const currentTime = Date.now();
             const tapInterval = currentTime - lastTapTime;
             if (tapInterval < 300 && tapInterval > 50) {
+                // Double tap!
                 const currentMusic = currentPlaylist[currentIndex] || currentPlaylist[0];
                 if (currentMusic) {
                     toggleFavorito(currentMusic.id);
@@ -1495,6 +1319,7 @@
 
         closeGenresBtn.addEventListener('click', closeGenresFn);
 
+        // Historico
         document.getElementById('fabHistorico').addEventListener('click', () => { openHistorico(); toggleFab(); });
         document.getElementById('historicoMenuBtn').addEventListener('click', () => { openHistorico(); document.getElementById('menuPopup').classList.remove('open'); });
         closeHistModal.addEventListener('click', closeHistoricoFn);
@@ -1519,6 +1344,7 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
 
+        // Sleep Timer
         document.getElementById('sleepMenuBtn').addEventListener('click', () => {
             document.getElementById('menuPopup').classList.remove('open');
             iniciarSleepTimer();
@@ -1532,6 +1358,7 @@
             }
         });
 
+        // Volume
         volumeSlider.addEventListener('input', () => {
             audio.volume = parseFloat(volumeSlider.value);
             localStorage.setItem('radio_volume', volumeSlider.value);
@@ -1539,24 +1366,16 @@
         const savedVolume = localStorage.getItem('radio_volume');
         if (savedVolume) { audio.volume = parseFloat(savedVolume); volumeSlider.value = savedVolume; }
 
+        // Pesquisa
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim();
             if (termo === '') {
-                // Volta ao modo anterior mantendo o gênero
-                if (modoFavoritosAtivo) {
-                    entrarModoFavoritos();
-                    return;
-                }
-                if (generoAtualPesquisa) {
-                    filterByGenre(generoAtualPesquisa);
-                    generoAtualPesquisa = null;
-                    return;
-                }
+                // Volta ao modo atual
                 if (modoAtual === "MPB_POP") {
                     filterByGenre("MPB_POP");
                 } else {
                     const genero = genreBadge.textContent.replace(/[^a-zA-ZÀ-ÿ ]/g, '').trim();
-                    if (genero && genero !== 'MPB/POP' && genero !== 'FAVORITOS' && genero !== 'MPB/POP') {
+                    if (genero && genero !== 'MPB/POP' && genero !== 'FAVORITOS') {
                         filterByGenre(genero);
                     } else {
                         filterByGenre("MPB_POP");
@@ -1674,9 +1493,8 @@
 
                 // SEMPRE COMEÇA COM MPB/POP
                 modoAtual = "MPB_POP";
-                modoFavoritosAtivo = false;
                 ultimoGeneroTocado = null;
-                genreBadge.innerHTML = 'MPB/POP';
+                genreBadge.innerHTML = '<i class="fas fa-exchange-alt"></i> MPB/POP';
                 genreBadge.className = 'genre-badge';
                 
                 historicoReproducao = [];
