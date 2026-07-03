@@ -1,4 +1,4 @@
-const musicas = [
+[
   // ==================== FORRÓ ====================
   {"id":1,"artista_titulo":"Joyce Alane e Zeca Baleiro - A Natureza das Coisas","src":"A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a","genero":"FORRÓ"},
   {"id":2,"artista_titulo":"Neo Pinel - A Rural","src":"A_Rural_A-Neo_Pinel.m4a","genero":"FORRÓ"},
