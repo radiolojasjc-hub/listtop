@@ -584,7 +584,7 @@
   {"id":549,"artista_titulo":"Zé Henrique e Gabriel - Mala Amarela","src":"Z_Henrique_Gabriel_Mala_Amarela_MM.m4a","genero":"MODA TOP"},
   {"id":550,"artista_titulo":"Zé Mulato e Cassiano - Diário do Caipira","src":"Z_Mulato_Cassiano_Diario_do_Caipira_MM.m4a","genero":"MODA TOP"},
 
-  // ==================== BREGA ====================
+
   {"id":551,"artista_titulo":"Reginaldo Rossi - A Raposa e as Uvas","src":"A_Raposa_A_Raposa_e_as_Uvas_Reginaldo-Rossi.m4a","genero":"BREGA"},
   {"id":552,"artista_titulo":"Milionário e José Rico - Brigas","src":"Brigas-Brigas-MILIONARIO-JOSE-RICO-BREGA.m4a","genero":"BREGA"},
   {"id":553,"artista_titulo":"Vontade - Canteiros","src":"CANTEIROS_Vontade_BREGA.m4a","genero":"BREGA"},
@@ -645,7 +645,7 @@
   {"id":606,"artista_titulo":"Natiruts - Sorri, Sou Rei","src":"Natiruts_Sorri_Sou_Rei_R.m4a","genero":"REGGAE"},
   {"id":680,"artista_titulo":"Gabriel Pensador - Cachimbo da Paz","src":"Cachimbo-da-Paz .m4a","genero":"REGGAE"},
 
-  // ==================== GLOBAL HITS ====================
+
   {"id":607,"artista_titulo":"Beyoncé - Beyoncé","src":"Beyonc_Beyonc_GLOBAL.m4a","genero":"GLOBAL HITS"},
   {"id":608,"artista_titulo":"Don't Need Love - Don't Need Love","src":"Don_t_Need_Don_t_Need_Love_GLOBAL.m4a","genero":"GLOBAL HITS"},
   {"id":609,"artista_titulo":"Ed Sheeran - Shape of You","src":"Ed_Sheeran_Shape_Of_You_global.m4a","genero":"GLOBAL HITS"},
