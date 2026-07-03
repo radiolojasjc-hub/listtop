@@ -18,8 +18,6 @@
         .genre-badge:active { transform: scale(0.95); }
         .genre-badge.favoritos { border-left-color: #ff2d7f; color: #ff2d7f; background: rgba(255,45,127,0.15); }
         .top-buttons { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-        .icon-btn { background: rgba(0,0,0,0.6); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 0.7rem; border: 1px solid rgba(0,243,255,0.3); }
-        .icon-btn:active { transform: scale(0.92); background: var(--neon-cyan); color: #000; }
         
         .fav-top-btn { background: rgba(255,45,127,0.15); border: 1px solid #ff2d7f; color: #ff2d7f; padding: 2px 8px; border-radius: 30px; font-size: 0.5rem; cursor: pointer; display: flex; align-items: center; gap: 3px; }
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
@@ -64,8 +62,7 @@
         
         .tap-hint { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 3px 12px; border-radius: 30px; font-size: 0.45rem; color: #aaa; z-index: 25; pointer-events: none; }
         
-        /* ===== TEACHING BAR ===== */
-        .teaching-bar { position: fixed; bottom: 125px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); padding: 3px 14px; border-radius: 30px; font-size: 0.45rem; color: #888; z-index: 25; pointer-events: none; border: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
+        .teaching-bar { position: fixed; bottom: 125px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); padding: 3px 14px; border-radius: 30px; font-size: 0.45rem; color: #888; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
         .teaching-bar span { color: var(--neon-pink); font-weight: bold; }
         
         .fav-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid #ff2d7f; text-align: center; max-height: 80vh; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; }
@@ -114,7 +111,6 @@
         .shuffle-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.7rem; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
         .shuffle-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); }
         
-        /* ===== VOLUME VERTICAL ===== */
         .volume-container { position: fixed; bottom: 180px; right: 12px; z-index: 39; display: flex; flex-direction: column; align-items: center; gap: 3px; }
         .volume-container .vol-label { color: #888; font-size: 0.45rem; }
         .volume-vertical { -webkit-appearance: slider-vertical; appearance: slider-vertical; width: 5px; height: 70px; background: rgba(255,255,255,0.12); border-radius: 3px; outline: none; cursor: pointer; }
@@ -133,7 +129,7 @@
         .fab-sub-btn i { font-size: 0.85rem; width: 18px; text-align: center; pointer-events: none; }
         .fab-sub-btn .fab-icon-youtube { color: #FF0000; }
         
-        .menu-button { position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 31; border: 1px solid rgba(0,243,255,0.3); }
+        .menu-button { display: none; position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 31; border: 1px solid rgba(0,243,255,0.3); }
         .menu-button:active { background: var(--neon-cyan); color: #000; }
         .menu-popup { position: absolute; top: 42px; right: 8px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 6px; z-index: 32; display: none; flex-direction: column; gap: 4px; border: 1px solid var(--neon-cyan); min-width: 130px; }
         .menu-popup.open { display: flex; }
