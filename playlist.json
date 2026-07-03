@@ -1,5 +1,4 @@
 [
-
   {"id":1,"artista_titulo":"Joyce Alane e Zeca Baleiro - A Natureza das Coisas","src":"A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a","genero":"FORRÓ"},
   {"id":2,"artista_titulo":"Neo Pinel - A Rural","src":"A_Rural_A-Neo_Pinel.m4a","genero":"FORRÓ"},
   {"id":3,"artista_titulo":"Batista Lima - Ainda É Tempo","src":"AINDA-E-TEMPO-BATS-LIMA-FORRO.m4a","genero":"FORRÓ"},
@@ -100,8 +99,6 @@
   {"id":442,"artista_titulo":"Vitor Fernandes - Vou Falar Que Não Quero","src":"VOU-FALAR-QUE-NAO-QUERO-Vitor-Fernandes.mp3","genero":"FORRÓ"},
   {"id":688,"artista_titulo":"Natanzinho Lima - Sonho de Amor","src":"Natanzinho-Lima-Sonho-de-Amor.m4a","genero":"FORRÓ"},
   {"id":691,"artista_titulo":"Eric Land e Natanzinho - Pilantra É Meio","src":"PILANTRA-E-MEIO-Eric Land-Natanzinho-Lima.m4a","genero":"FORRÓ"},
-
-
   {"id":98,"artista_titulo":"Kiko Zambich - A Francesa","src":"A-Francesa-Kiko-Zambich-mpb.m4a","genero":"MPB"},
   {"id":99,"artista_titulo":"Carlinhos Brown - A Namorada","src":"A-Namorada-Carlinhos_Brown-mpb.m4a","genero":"MPB"},
   {"id":100,"artista_titulo":"Tie e J. Gomes - A Noite","src":"A_Noite_-_Tie_e_J_Gomes-pmp.m4a","genero":"MPB"},
@@ -264,8 +261,6 @@
   {"id":702,"artista_titulo":"MC Livinho e MC Pedrinho - Se Saudade Sentir","src":"MC_Livinho_e_MC_Pedrinho_-_Se_Saudade_Sentir.m4a","genero":"MPB"},
   {"id":705,"artista_titulo":"Desconhecido - Pensando em Você","src":"Pensando_em_Você_.m4a","genero":"MPB"},
   {"id":707,"artista_titulo":"J9 e Ryan SP - Se Eu Ficar Pa Nem Me Testa","src":"Se_Eu_Ficar_Pa_Nem_Me_Testa_-_J9,_Ryan_SP.m4a","genero":"MPB"},
-
-  // ==================== SAMBA ====================
   {"id":252,"artista_titulo":"Bezerra da Silva - A Semente","src":"BEZERRA_DA_SILVA_A_SEMENTE.m4a","genero":"SAMBA"},
   {"id":253,"artista_titulo":"Raça Negra - É Tarde Demais","src":"Raca_Negra_Tarde_Demais.m4a","genero":"SAMBA"},
   {"id":254,"artista_titulo":"Péricles - Até Que Durou (Ao Vivo)","src":"At_Que_At_Que_Durou_Ao_Vivo_PERICLIS.m4a","genero":"SAMBA"},
@@ -322,8 +317,6 @@
   {"id":698,"artista_titulo":"Dilsinho - Some","src":"Dilsinho-Some.m4a","genero":"SAMBA"},
   {"id":704,"artista_titulo":"O Poeta - Dalê","src":"O_Poeta_-_Dalê.m4a","genero":"SAMBA"},
   {"id":708,"artista_titulo":"Sem ReZnha - Eu Juro","src":"Sem_ReZnha_-_Eu_Juro_-_Pagode.m4a","genero":"SAMBA"},
-
-
   {"id":304,"artista_titulo":"A-ha - Take On Me","src":"A_ha_Take_On_Me_muzzik.m4a","genero":"POP"},
   {"id":305,"artista_titulo":"ABBA - The Winner Takes It All","src":"The_Winner_Takes_It_All-ABBA.m4a","genero":"POP"},
   {"id":306,"artista_titulo":"Adrian Cal - Senhas","src":"SENHAS-ADRIAN-CAL.m4a","genero":"POP"},
@@ -461,8 +454,6 @@
   {"id":440,"artista_titulo":"Valerie - Live at BBC","src":"Valerie_Live_At_BBC_P.m4a","genero":"POP"},
   {"id":443,"artista_titulo":"Non Blondes - What's Up","src":"WHAT_S_UP_Non_Blondes_P.m4a","genero":"POP"},
   {"id":444,"artista_titulo":"Wicked Game - Wicked Game","src":"Wicked_Game_Wicked_Game_P.m4a","genero":"POP"},
-
-  
   {"id":445,"artista_titulo":"Luan Santana - Água Com Açúcar","src":"Luan_Santana_Agua_Com_Acucar_S.m4a","genero":"SERTANEJO"},
   {"id":446,"artista_titulo":"Lauana Prado - Andorinha Machucada","src":"Andorinha_Machucada-LAUNA-PRADO-SERTA.m4a","genero":"SERTANEJO"},
   {"id":447,"artista_titulo":"Gustavo Mioto part. Jorge e Mateus - Anti-Amor","src":"Gustavo_Mioto_Anti_Amor_Part_Jorge_e_Mateus_S.m4a","genero":"SERTANEJO"},
@@ -549,8 +540,6 @@
   {"id":701,"artista_titulo":"Maiara e Maraisa - Aí Eu Bebo","src":"Maiara_e_Maraisa_-_Aí_Eu_bebo.m4a","genero":"SERTANEJO"},
   {"id":710,"artista_titulo":"Zé Neto e Cristiano - Status Que Eu Não Queria","src":"Zé_Neto_e_Cristiano_-_STATUS_QUE_EU_NÃO_QUERIA.m4a","genero":"SERTANEJO"},
   {"id":711,"artista_titulo":"Gusttavo Lima - Apelido Carinhoso","src":"Gusttavo_Lima_-_Apelido_Carinhoso_-_.m4a","genero":"SERTANEJO"},
-
-  
   {"id":519,"artista_titulo":"Tião Carreiro e Pardinho - A Coisa Tá Feia","src":"A-coisa-ta-feia-TIAO_CARREIRO-PARDINHO.m4a","genero":"MODA TOP"},
   {"id":520,"artista_titulo":"Editor - A Coisa Tá Feia","src":"A_coisa_A_coisa_t_feia.m4a","genero":"MODA TOP"},
   {"id":521,"artista_titulo":"Cersa e Paulinho - A Sementinha","src":"A_Sementinha_Cersa-paulinho.m4a","genero":"MODA TOP"},
@@ -583,8 +572,6 @@
   {"id":548,"artista_titulo":"Trio Parada Dura - Canoeiro","src":"Trio_Parada_Dura_Canoeiro_MM.m4a","genero":"MODA TOP"},
   {"id":549,"artista_titulo":"Zé Henrique e Gabriel - Mala Amarela","src":"Z_Henrique_Gabriel_Mala_Amarela_MM.m4a","genero":"MODA TOP"},
   {"id":550,"artista_titulo":"Zé Mulato e Cassiano - Diário do Caipira","src":"Z_Mulato_Cassiano_Diario_do_Caipira_MM.m4a","genero":"MODA TOP"},
-
-
   {"id":551,"artista_titulo":"Reginaldo Rossi - A Raposa e as Uvas","src":"A_Raposa_A_Raposa_e_as_Uvas_Reginaldo-Rossi.m4a","genero":"BREGA"},
   {"id":552,"artista_titulo":"Milionário e José Rico - Brigas","src":"Brigas-Brigas-MILIONARIO-JOSE-RICO-BREGA.m4a","genero":"BREGA"},
   {"id":553,"artista_titulo":"Vontade - Canteiros","src":"CANTEIROS_Vontade_BREGA.m4a","genero":"BREGA"},
@@ -627,8 +614,6 @@
   {"id":590,"artista_titulo":"Vida pelo Avesso - Vida Pelo Avesso","src":"VIDA_PELO_VIDA_PELO_AVESSO_B.m4a","genero":"BREGA"},
   {"id":591,"artista_titulo":"Lostalgia - Você Não Me Ensinou a Te Esquecer","src":"Voc_nao_me_ensinou_a_te_esquecer_Lostalgia_B.m4a","genero":"BREGA"},
   {"id":592,"artista_titulo":"Waldik Soriano - Um Homem Chora de Paixão","src":"Waldik_Soriano_Um_Homem_Chora_De_Paix_B.m4a","genero":"BREGA"},
-
-  // ==================== REGGAE ====================
   {"id":593,"artista_titulo":"Maneva - Anunciação","src":"Maneva-Anunciacoo.m4a","genero":"REGGAE"},
   {"id":594,"artista_titulo":"Cidade Negra - A Sombra da Maldade","src":"Cidade-Negra-Sombra.m4a","genero":"REGGAE"},
   {"id":595,"artista_titulo":"Cidade Negra - Girassol","src":"CidadeNegraGirassol.m4a","genero":"REGGAE"},
@@ -644,8 +629,6 @@
   {"id":605,"artista_titulo":"Charlie Brown Jr. - Zóio de Lula","src":"Zóio_De_Lula.m4a","genero":"REGGAE"},
   {"id":606,"artista_titulo":"Natiruts - Sorri, Sou Rei","src":"Natiruts_Sorri_Sou_Rei_R.m4a","genero":"REGGAE"},
   {"id":680,"artista_titulo":"Gabriel Pensador - Cachimbo da Paz","src":"Cachimbo-da-Paz .m4a","genero":"REGGAE"},
-
-
   {"id":607,"artista_titulo":"Beyoncé - Beyoncé","src":"Beyonc_Beyonc_GLOBAL.m4a","genero":"GLOBAL HITS"},
   {"id":608,"artista_titulo":"Don't Need Love - Don't Need Love","src":"Don_t_Need_Don_t_Need_Love_GLOBAL.m4a","genero":"GLOBAL HITS"},
   {"id":609,"artista_titulo":"Ed Sheeran - Shape of You","src":"Ed_Sheeran_Shape_Of_You_global.m4a","genero":"GLOBAL HITS"},
@@ -658,8 +641,6 @@
   {"id":699,"artista_titulo":"Edv - Eu Não Esperava","src":"Eu_Não_Esperava.m4a","genero":"GLOBAL HITS"},
   {"id":703,"artista_titulo":"MC Vine 7 e MC Tuto - Na Relíquia do 2T","src":"NA_RELÍQUIA_DO_2T_-_MC_Vine_7,_MC_Tuto.m4a","genero":"GLOBAL HITS"},
   {"id":706,"artista_titulo":"Rapunzel - Perna Bamba","src":"Perna_Bamba-Rapunzel.m4a","genero":"GLOBAL HITS"},
-
-
   {"id":614,"artista_titulo":"Cristo - Ele Não Desiste","src":"ele_nao_desiste-CRISTO.m4a","genero":"CRISTÃ HITS"},
   {"id":615,"artista_titulo":"Eu Escolho Deus - Eu Escolho Deus","src":"Eu_Escolho_Eu_Escolho_Deus_CRISTO.m4a","genero":"CRISTÃ HITS"},
   {"id":709,"artista_titulo":"Kako e MC Hariel - Velho Oeste","src":"Velho_Oeste_-_Kako_e_MC_Hariel.m4a","genero":"CRISTÃ HITS"}
