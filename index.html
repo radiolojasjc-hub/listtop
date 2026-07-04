@@ -191,7 +191,7 @@
 </head>
 <body>
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="apk300.mp4" type="video/mp4">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
     </video>
 
     <div id="splash">
@@ -309,11 +309,23 @@
     <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
-        const PLAYLIST_URL = 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/playlist.json';
+        // ==================== CONFIGURAÇÕES ====================
+        const PLAYLIST_URL = 'playlist.json'; // Arquivo local (pode ser substituído por URL externa)
         const NUMERO_WHATSAPP = "5512988461978";
         const MAX_HISTORICO = 25;
         const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
 
+        // ==================== PLAYLIST DE EXEMPLO (caso o JSON não seja carregado) ====================
+        const PLAYLIST_EXEMPLO = [
+            { id: "1", title: "Exemplo 1 - MPB", artist: "Artista MPB", genero: "MPB", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" },
+            { id: "2", title: "Exemplo 2 - Pop", artist: "Artista Pop", genero: "POP", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" },
+            { id: "3", title: "Exemplo 3 - Sertanejo", artist: "Artista Sertanejo", genero: "SERTANEJO", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" },
+            { id: "4", title: "Exemplo 4 - Forró", artist: "Artista Forró", genero: "FORRÓ", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" },
+            { id: "5", title: "Exemplo 5 - Gospel", artist: "Artista Gospel", genero: "CRISTÃ HITS", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" },
+            { id: "6", title: "Exemplo 6 - Reggae", artist: "Artista Reggae", genero: "REGGAE", src: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3" }
+        ];
+
+        // ==================== VARIÁVEIS GLOBAIS ====================
         let musicas = [], currentPlaylist = [], currentIndex = 0, isPlaying = false, shuffleMode = false;
         let isBackgroundActive = false, timerInterval = null, modoAtual = "MPB_POP", ultimoGeneroTocado = null;
         let historicoReproducao = [], favorites = [], modoFavoritosAtivo = false, generoAtualPesquisa = null;
@@ -353,6 +365,7 @@
             "CRISTÃ HITS": "#f39c12", "REGGAE": "#008000"
         };
 
+        // ==================== FUNÇÕES AUXILIARES ====================
         function showNotification(msg, duration = 1500) {
             notification.textContent = msg;
             notification.classList.add('show');
@@ -588,11 +601,12 @@
         }
 
         function trocarVideoPorGenero(genero) {
-            let src = 'apk300.mp4';
-            const g = (genero || '').toUpperCase().trim();
-            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
-            else if (g === 'CRISTÃ HITS' || g === 'CRISTÃ' || g === 'GOSPEL') src = 'cristo.mp4';
-            if (!bgVideo.src.includes(src)) { bgVideo.src = src; bgVideo.load(); bgVideo.play().catch(e => {}); }
+            // Como não temos vídeos locais, mantemos o vídeo de exemplo (mov_bbb.mp4) ou podemos alternar para outros públicos
+            // Você pode substituir por URLs de vídeos do YouTube ou outros
+            // Exemplo: se for SERTANEJO, trocar para um vídeo de sertanejo público
+            // Mas aqui vamos manter o mesmo vídeo para simplificar.
+            // Se quiser, pode adicionar lógica para mudar o vídeo.
+            // O vídeo já está definido no HTML com src="https://www.w3schools.com/html/mov_bbb.mp4"
         }
 
         function createSilentAudio() {
@@ -866,6 +880,7 @@
             document.getElementById('feedbackModal').classList.add('open');
         }
 
+        // ==================== EVENTOS DO PLAYER ====================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
         audio.addEventListener('ended', nextTrack);
@@ -971,14 +986,17 @@
             showControls();
         });
 
+        // ==================== CARREGAMENTO DA PLAYLIST ====================
         async function carregarPlaylist() {
             try {
                 const res = await fetch(PLAYLIST_URL);
-                if (!res.ok) throw new Error('Erro');
-                return await res.json();
+                if (!res.ok) throw new Error('Arquivo não encontrado');
+                const dados = await res.json();
+                if (!Array.isArray(dados) || dados.length === 0) throw new Error('Playlist vazia');
+                return dados;
             } catch (e) {
-                showNotification('Erro ao carregar playlist!', 2000);
-                return [];
+                console.warn('Usando playlist de exemplo:', e.message);
+                return PLAYLIST_EXEMPLO;
             }
         }
 
@@ -991,6 +1009,11 @@
                     if (g === "FORRO" || g === "FORRÓ") g = "FORRÓ";
                     m.genero = g;
                 });
+
+                // Se ainda não houver músicas, usa a playlist de exemplo
+                if (musicas.length === 0) {
+                    musicas = PLAYLIST_EXEMPLO;
+                }
 
                 try {
                     const saved = localStorage.getItem('radio_favorites_simple');
