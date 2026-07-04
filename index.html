@@ -23,8 +23,20 @@
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
         .fav-top-btn .badge { background: #ff2d7f; color: #000; border-radius: 50%; padding: 0 4px; font-size: 0.45rem; font-weight: bold; min-width: 14px; text-align: center; }
         
-        /* INPUT SEM AUTOCOMPLETE - REMOVE TAG PRETA */
-        .search-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); border-radius: 20px; padding: 2px 8px; color: white; font-size: 0.5rem; width: 70px; transition: width 0.3s; }
+        /* CAMPO DE BUSCA - FORÇADO PARA NÃO MOSTRAR SUGESTÕES */
+        .search-input { 
+            background: rgba(0,0,0,0.5); 
+            border: 1px solid rgba(0,243,255,0.3); 
+            border-radius: 20px; 
+            padding: 2px 8px; 
+            color: white; 
+            font-size: 0.5rem; 
+            width: 70px; 
+            transition: width 0.3s;
+            /* Remove o estilo padrão do navegador */
+            -webkit-appearance: none;
+            appearance: none;
+        }
         .search-input:focus { width: 110px; outline: none; border-color: var(--neon-cyan); }
         .search-input::placeholder { color: #666; }
         
@@ -72,7 +84,6 @@
         @keyframes equalize { 0% { height: 4px; opacity: 0.5; } 100% { height: 30px; opacity: 1; } }
         .equalizer.paused span { animation-play-state: paused; height: 4px !important; opacity: 0.3 !important; }
         
-        /* LETREIRO SUBIU UM POUCO (bottom: 115px) */
         .teaching-bar { position: fixed; bottom: 115px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); padding: 6px 22px; border-radius: 40px; font-size: 0.6rem; font-weight: 800; color: #ddd; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; letter-spacing: 0.5px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .teaching-bar span { color: var(--neon-pink); font-weight: 900; }
         .teaching-bar .cyan { color: var(--neon-cyan); font-weight: 900; }
@@ -167,6 +178,9 @@
         .historico-item .genero-tag { font-size: 0.5rem; padding: 2px 8px; border-radius: 12px; background: rgba(0,243,255,0.15); color: var(--neon-cyan); }
         .historico-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
         
+        /* Campo escondido para enganar o navegador */
+        .hidden-field { display: none; }
+        
         @media (max-width: 480px) {
             .now-playing .music-title { font-size: 1.2rem; }
             .now-playing .music-artist { font-size: 0.9rem; }
@@ -212,13 +226,18 @@
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB/POP</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar" autocomplete="off" autocorrect="off" spellcheck="false">
+                <!-- CAMPO DE BUSCA COM name="busca" para evitar autocomplete de senha/cartão -->
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar" name="busca" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
                 <div class="menu-button" id="menuButton" style="display: flex;"><i class="fas fa-ellipsis-v"></i></div>
             </div>
         </div>
+        
+        <!-- CAMPO ESCONDIDO PARA ENGANAR O NAVEGADOR -->
+        <input type="text" class="hidden-field" autocomplete="username">
+        <input type="password" class="hidden-field" autocomplete="new-password">
         
         <div class="info-scroll" id="infoScroll">
             <p id="scrollText">🎵 RÁDIO PLAY 12 - TOCANDO AGORA! 🎵</p>
@@ -238,7 +257,6 @@
             </div>
         </div>
 
-        <!-- LETREIRO SUBIU UM POUCO (bottom: 115px) -->
         <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span></div>
     </div>
 
@@ -911,7 +929,7 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
 
-        // ========== MENU - TODOS OS BOTÕES FUNCIONANDO ==========
+        // ========== MENU ==========
         document.getElementById('sleepMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open'); 
             iniciarSleepTimer(); 
@@ -948,7 +966,6 @@
             }
         });
 
-        // INPUT SEM AUTOCOMPLETE
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim();
             if (termo === '') {
