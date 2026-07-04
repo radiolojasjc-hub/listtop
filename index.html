@@ -33,6 +33,16 @@
         .audio-status.active .dot { background: #4ade80; animation: pulse-dot 1s infinite; }
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
+        /* MENU 3 PONTINHOS ALINHADO NA MESMA LINHA */
+        .menu-button { position: relative; top: auto; right: auto; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; border: 1px solid rgba(0,243,255,0.3); flex-shrink: 0; }
+        .menu-button:active { background: var(--neon-cyan); color: #000; }
+        .menu-popup { position: absolute; top: 42px; right: 8px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 6px; z-index: 32; display: none; flex-direction: column; gap: 4px; border: 1px solid var(--neon-cyan); min-width: 130px; }
+        .menu-popup.open { display: flex; }
+        .menu-popup button { background: rgba(255,255,255,0.08); border: none; color: white; padding: 5px 12px; border-radius: 30px; font-size: 0.6rem; display: flex; align-items: center; gap: 6px; cursor: pointer; text-align: left; }
+        .menu-popup button:active { background: var(--neon-cyan); color: #000; }
+        .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
+        .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
+        
         .info-scroll { position: fixed; top: 44px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 3px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
         .info-scroll p { color: white; font-size: 0.55rem; font-weight: 900; letter-spacing: 1px; font-family: monospace; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 8px rgba(0,243,255,0.8); }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
@@ -62,9 +72,13 @@
         @keyframes equalize { 0% { height: 4px; opacity: 0.5; } 100% { height: 30px; opacity: 1; } }
         .equalizer.paused span { animation-play-state: paused; height: 4px !important; opacity: 0.3 !important; }
         
-        .tap-hint { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 3px 12px; border-radius: 30px; font-size: 0.45rem; color: #aaa; z-index: 25; pointer-events: none; }
-        .teaching-bar { position: fixed; bottom: 125px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); padding: 3px 14px; border-radius: 30px; font-size: 0.45rem; color: #888; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
-        .teaching-bar span { color: var(--neon-pink); font-weight: bold; }
+        /* LETREIRO - SUBIU E FICOU MAIS ROBUSTO */
+        .teaching-bar { position: fixed; bottom: 105px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 5px 18px; border-radius: 30px; font-size: 0.55rem; font-weight: 700; color: #ccc; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.08); white-space: nowrap; letter-spacing: 0.3px; }
+        .teaching-bar span { color: var(--neon-pink); font-weight: 900; }
+        .teaching-bar .cyan { color: var(--neon-cyan); font-weight: 900; }
+        
+        /* TAP HINT REMOVIDO - INFORMAÇÕES ESTÃO NO LETREIRO */
+        .tap-hint { display: none; }
         
         .bottom-controls { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border-top: 1px solid rgba(0,243,255,0.3); padding: 6px 12px 10px; z-index: 20; transform: translateY(100%); transition: transform 0.3s ease; }
         .bottom-controls.visible { transform: translateY(0); }
@@ -89,15 +103,6 @@
         .fab-sub-btn:active { background: var(--neon-cyan); color: #000; }
         .fab-sub-btn i { font-size: 0.85rem; width: 18px; text-align: center; pointer-events: none; }
         .fab-sub-btn .fab-icon-youtube { color: #FF0000; }
-        
-        .menu-button { position: absolute; top: 6px; right: 8px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; z-index: 31; border: 1px solid rgba(0,243,255,0.3); }
-        .menu-button:active { background: var(--neon-cyan); color: #000; }
-        .menu-popup { position: absolute; top: 42px; right: 8px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 6px; z-index: 32; display: none; flex-direction: column; gap: 4px; border: 1px solid var(--neon-cyan); min-width: 130px; }
-        .menu-popup.open { display: flex; }
-        .menu-popup button { background: rgba(255,255,255,0.08); border: none; color: white; padding: 5px 12px; border-radius: 30px; font-size: 0.6rem; display: flex; align-items: center; gap: 6px; cursor: pointer; text-align: left; }
-        .menu-popup button:active { background: var(--neon-cyan); color: #000; }
-        .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
-        .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
         
         #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s; }
         #splash.hidden { opacity: 0; pointer-events: none; }
@@ -129,14 +134,15 @@
         .fav-empty { color: #888; padding: 30px; text-align: center; }
         .fav-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
         
-        .genres-modal { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px 30px 0 0; padding: 8px 6px 10px; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; max-height: 50vh; overflow-y: auto; }
+        /* CAIXAS DE GÊNERO MAIORES */
+        .genres-modal { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px 30px 0 0; padding: 12px 10px 16px; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; max-height: 60vh; overflow-y: auto; }
         .genres-modal.open { transform: translateY(0); }
-        .genres-modal h3 { text-align: center; margin-bottom: 5px; font-size: 0.7rem; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .genres-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-bottom: 5px; }
-        .genre-card { border-radius: 4px; cursor: pointer; transition: all 0.3s ease; border: 1.5px solid rgba(255,255,255,0.1); aspect-ratio: 4 / 1.6; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; text-align: center; color: white; font-weight: bold; font-size: 0.45rem; text-shadow: 0 0 5px black; padding: 2px; }
+        .genres-modal h3 { text-align: center; margin-bottom: 8px; font-size: 0.85rem; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .genres-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+        .genre-card { border-radius: 10px; cursor: pointer; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.12); aspect-ratio: 4 / 2.2; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; text-align: center; color: white; font-weight: bold; font-size: 0.7rem; text-shadow: 0 0 5px black; padding: 6px; }
         .genre-card:active { transform: scale(0.94); border-color: var(--neon-cyan); }
         .genre-card.fav-card { border-color: #ff2d7f; background: linear-gradient(135deg, rgba(255,45,127,0.2), #1a1a2e); }
-        .close-genres { width: 100%; padding: 4px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 0.65rem; cursor: pointer; font-weight: bold; }
+        .close-genres { width: 100%; padding: 8px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 0.8rem; cursor: pointer; font-weight: bold; }
         
         .feedback-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; max-height: 90vh; overflow-y: auto; }
         .feedback-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
@@ -179,13 +185,13 @@
             .ctrl-btn { width: 28px; height: 28px; font-size: 0.65rem; }
             .play-big { width: 36px; height: 36px; font-size: 0.9rem; }
             .buttons-row { gap: 8px; }
-            .tap-hint { bottom: 80px; font-size: 0.4rem; padding: 2px 8px; }
+            .teaching-bar { bottom: 90px; font-size: 0.45rem; padding: 4px 12px; }
             .bottom-controls { padding: 4px 8px 8px; }
-            .genres-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
-            .genre-card { font-size: 0.4rem; aspect-ratio: 4/1.6; }
+            .genres-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .genre-card { font-size: 0.55rem; aspect-ratio: 4/2.2; }
             .audio-status { font-size: 0.4rem; padding: 1px 4px; }
-            .teaching-bar { bottom: 105px; font-size: 0.4rem; padding: 2px 10px; }
             .fab-container { bottom: 80px; right: 8px; }
+            .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
         }
     </style>
 </head>
@@ -212,6 +218,7 @@
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
+                <div class="menu-button" id="menuButton" style="display: flex;"><i class="fas fa-ellipsis-v"></i></div>
             </div>
         </div>
         
@@ -233,8 +240,8 @@
             </div>
         </div>
 
-        <div class="tap-hint">👆 Toque na tela para mostrar controles</div>
-        <div class="teaching-bar">💡 Clique no <span>❤️</span> para favoritar • Toque 2x no título para <span>adicionar</span></div>
+        <!-- LETREIRO COM TODAS AS INFORMAÇÕES -->
+        <div class="teaching-bar">💡 Clique no <span>❤️</span> para favoritar • Toque 2x no título para <span>adicionar</span> • 👆 Toque na tela para <span class="cyan">controles</span></div>
     </div>
 
     <div class="fav-modal" id="favModal">
@@ -293,7 +300,6 @@
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
-    <div class="menu-button" id="menuButton" style="display: none;"><i class="fas fa-ellipsis-v"></i></div>
     <div class="menu-popup" id="menuPopup">
         <button class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i> Fechar</button>
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
@@ -345,6 +351,7 @@
         const equalizer = document.getElementById('equalizer');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const backgroundAudio = document.getElementById('backgroundAudio');
+        const menuPopup = document.getElementById('menuPopup');
 
         const coresPorGenero = {
             "MPB/POP": "#00f3ff", "SERTANEJO": "#8B4513", "FORRÓ": "#ff6b35",
@@ -471,7 +478,7 @@
             generos.forEach(g => {
                 const card = document.createElement('div');
                 card.className = 'genre-card';
-                card.style.border = `1.5px solid ${coresPorGenero[g]}`;
+                card.style.border = `2px solid ${coresPorGenero[g]}`;
                 card.style.color = coresPorGenero[g];
                 card.textContent = g;
                 card.onclick = () => { filterByGenre(g === 'MPB/POP' ? 'MPB_POP' : g); };
@@ -483,7 +490,7 @@
                 const card = document.createElement('div');
                 card.className = 'genre-card';
                 const cor = coresPorGenero[g] || '#fff';
-                card.style.border = `1.5px solid ${cor}`;
+                card.style.border = `2px solid ${cor}`;
                 card.textContent = g;
                 card.onclick = () => { filterByGenre(g); };
                 genresGrid.appendChild(card);
@@ -905,14 +912,14 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
 
-        document.getElementById('sleepMenuBtn').addEventListener('click', () => { document.getElementById('menuPopup').classList.remove('open'); iniciarSleepTimer(); });
-        document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { document.documentElement.requestFullscreen(); document.getElementById('menuPopup').classList.remove('open'); });
+        document.getElementById('sleepMenuBtn').addEventListener('click', () => { menuPopup.classList.remove('open'); iniciarSleepTimer(); });
+        document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { document.documentElement.requestFullscreen(); menuPopup.classList.remove('open'); });
         document.getElementById('btStatusMenuBtn').addEventListener('click', () => { 
             if (!navigator.bluetooth) { showNotification("❌ Não suportado", 1500); return; }
             navigator.bluetooth.requestDevice({ acceptAllDevices: true }).then(d => showNotification(`✅ ${d.name || 'Dispositivo'}`, 2000)).catch(() => showNotification("❌ Nenhum", 1500));
-            document.getElementById('menuPopup').classList.remove('open');
+            menuPopup.classList.remove('open');
         });
-        document.getElementById('feedbackMenuBtn').addEventListener('click', () => { openFeedback(); document.getElementById('menuPopup').classList.remove('open'); });
+        document.getElementById('feedbackMenuBtn').addEventListener('click', () => { openFeedback(); menuPopup.classList.remove('open'); });
 
         document.getElementById('progressBar').addEventListener('click', (e) => {
             if (audio.duration && !isNaN(audio.duration)) {
@@ -932,10 +939,27 @@
             } else { buscarMusica(termo); }
         });
 
-        menuButton.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('menuPopup').classList.toggle('open'); showControls(); });
-        document.getElementById('closeMenuBtn').addEventListener('click', () => { document.getElementById('menuPopup').classList.remove('open'); });
-        document.addEventListener('click', () => { document.getElementById('menuPopup').classList.remove('open'); showControls(); });
-        document.addEventListener('touchstart', () => { document.getElementById('menuPopup').classList.remove('open'); showControls(); });
+        // MENU 3 PONTINHOS - ABRE E FECHA
+        menuButton.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            menuPopup.classList.toggle('open'); 
+            showControls(); 
+        });
+
+        // BOTÃO FECHAR DO MENU
+        document.getElementById('closeMenuBtn').addEventListener('click', () => { 
+            menuPopup.classList.remove('open'); 
+        });
+
+        // FECHA O MENU AO CLICAR FORA
+        document.addEventListener('click', () => { 
+            menuPopup.classList.remove('open'); 
+            showControls(); 
+        });
+        document.addEventListener('touchstart', () => { 
+            menuPopup.classList.remove('open'); 
+            showControls(); 
+        });
 
         tapToStart.addEventListener('click', async () => {
             showNotification('🔊 Ativando...', 1000);
@@ -1020,7 +1044,6 @@
                     setTimeout(() => {
                         splash.style.display = 'none';
                         appContainer.style.display = 'block';
-                        menuButton.style.display = 'flex';
                         tapToStart.style.display = 'block';
                     }, 500);
                 }, 500);
