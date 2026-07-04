@@ -23,6 +23,7 @@
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
         .fav-top-btn .badge { background: #ff2d7f; color: #000; border-radius: 50%; padding: 0 4px; font-size: 0.45rem; font-weight: bold; min-width: 14px; text-align: center; }
         
+        /* INPUT SEM AUTOCOMPLETE - REMOVE TAG PRETA */
         .search-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); border-radius: 20px; padding: 2px 8px; color: white; font-size: 0.5rem; width: 70px; transition: width 0.3s; }
         .search-input:focus { width: 110px; outline: none; border-color: var(--neon-cyan); }
         .search-input::placeholder { color: #666; }
@@ -71,8 +72,8 @@
         @keyframes equalize { 0% { height: 4px; opacity: 0.5; } 100% { height: 30px; opacity: 1; } }
         .equalizer.paused span { animation-play-state: paused; height: 4px !important; opacity: 0.3 !important; }
         
-        /* LETREIRO CENTRALIZADO E MAIS ROBUSTO */
-        .teaching-bar { position: fixed; bottom: 105px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); padding: 6px 22px; border-radius: 40px; font-size: 0.6rem; font-weight: 800; color: #ddd; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; letter-spacing: 0.5px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        /* LETREIRO SUBIU UM POUCO (bottom: 115px) */
+        .teaching-bar { position: fixed; bottom: 115px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); padding: 6px 22px; border-radius: 40px; font-size: 0.6rem; font-weight: 800; color: #ddd; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; letter-spacing: 0.5px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .teaching-bar span { color: var(--neon-pink); font-weight: 900; }
         .teaching-bar .cyan { color: var(--neon-cyan); font-weight: 900; }
         
@@ -182,7 +183,7 @@
             .ctrl-btn { width: 28px; height: 28px; font-size: 0.65rem; }
             .play-big { width: 36px; height: 36px; font-size: 0.9rem; }
             .buttons-row { gap: 8px; }
-            .teaching-bar { bottom: 90px; font-size: 0.5rem; padding: 5px 14px; }
+            .teaching-bar { bottom: 95px; font-size: 0.5rem; padding: 5px 14px; }
             .bottom-controls { padding: 4px 8px 8px; }
             .genres-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
             .genre-card { font-size: 0.55rem; aspect-ratio: 4/2.2; }
@@ -211,7 +212,7 @@
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB/POP</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar" autocomplete="off" autocorrect="off" spellcheck="false">
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
@@ -237,7 +238,7 @@
             </div>
         </div>
 
-        <!-- LETREIRO CENTRALIZADO E ROBUSTO - SEM INFORMAÇÕES DE FAVORITO E TOQUE 2X -->
+        <!-- LETREIRO SUBIU UM POUCO (bottom: 115px) -->
         <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span></div>
     </div>
 
@@ -947,6 +948,7 @@
             }
         });
 
+        // INPUT SEM AUTOCOMPLETE
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim();
             if (termo === '') {
