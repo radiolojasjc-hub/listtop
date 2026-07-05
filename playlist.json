@@ -1,5 +1,5 @@
-{
-  "FORRÓ": [
+
+  [
     {"id":1,"artist":"Joyce Alane e Zeca Baleiro","title":"A Natureza das Coisas","genero":"FORRÓ","src":"A_Natureza_das_Coisas_Joyce_Alane_e_Zeca_Baleiro_muzzik.m4a"},
     {"id":2,"artist":"Neo Pinel","title":"A Rural","genero":"FORRÓ","src":"A_Rural_A-Neo_Pinel.m4a"},
     {"id":3,"artist":"Batista Lima","title":"Ainda É Tempo","genero":"FORRÓ","src":"AINDA-E-TEMPO-BATS-LIMA-FORRO.m4a"},
@@ -103,9 +103,9 @@
     {"id":691,"artist":"Eric Land-Natanzinho","title":"PILANTRA-E-MEIO","genero":"FORRÓ","src":"PILANTRA-E-MEIO-Eric Land-Natanzinho-Lima.m4a"},
     {"id":714,"artist":"CAPIM COM MEL","title":"Teu Corpo","genero":"FORRÓ","src":"CAPIM-TEU-CHEIRO.m4a"},
     {"id":715,"artist":"Mastruz Com Leite","title":"Seis Cordas","genero":"FORRÓ","src":"CAVALO-DE-PAU-SEIS-CORDAS.m4a"},
-    {"id":716,"artist":"ZEZA","title":"TE AMOS FORTALEZA","genero":"FORRÓ","src":"ZEZA-FORTALEZA.m4a"}
-  ],
-  "MPB": [
+    {"id":716,"artist":"ZEZA","title":"TE AMOS FORTALEZA","genero":"FORRÓ","src":"ZEZA-FORTALEZA.m4a"},
+  
+  
     {"id":98,"artist":"Kiko Zambich","title":"A Francesa","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
     {"id":99,"artist":"Carlinhos Brown","title":"A Namorada","genero":"MPB","src":"A-Namorada-Carlinhos_Brown-mpb.m4a"},
     {"id":100,"artist":"Tie e J. Gomes","title":"A Noite","genero":"MPB","src":"A_Noite_-_Tie_e_J_Gomes-pmp.m4a"},
@@ -289,9 +289,9 @@
     {"id":702,"artist":"_Se_Saudade_Sentir","title":"MC_Livinho_e_MC_Pedrinho_","genero":"MPB","src":"MC_Livinho_e_MC_Pedrinho_-_Se_Saudade_Sentir.m4a"},
     {"id":705,"artist":"Desconhecido","title":"Pensando_em_Você_","genero":"MPB","src":"Pensando_em_Você_.m4a"},
     {"id":707,"artist":"_J _Ryan_SP","title":"Se_Eu_Ficar_Pa_Nem_Me_Testa_","genero":"MPB","src":"Se_Eu_Ficar_Pa_Nem_Me_Testa_-_J9,_Ryan_SP.m4a"},
-    {"id":712,"artist":"Banda Líbanos","title":"Além do Horizonte","genero":"MPB","src":"LIBANOS-RENASERA.m4a"}
-  ],
-  "SAMBA": [
+    {"id":712,"artist":"Banda Líbanos","title":"Além do Horizonte","genero":"MPB","src":"LIBANOS-RENASERA.m4a"},
+  
+  
     {"id":252,"artist":"Bezerra da Silva","title":"A Semente","genero":"SAMBA","src":"BEZERRA_DA_SILVA_A_SEMENTE.m4a"},
     {"id":253,"artist":"Raça Negra","title":"É Tarde Demais","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"},
     {"id":254,"artist":"Péricles","title":"Até Que Durou (Ao Vivo)","genero":"SAMBA","src":"At_Que_At_Que_Durou_Ao_Vivo_PERICLIS.m4a"},
@@ -356,9 +356,9 @@
     {"id":693,"artist":"Sorriso-Maroto","title":"Sorriso-Maroto-Brigas-por nada","genero":"SAMBA","src":"Sorriso-Maroto-Brigas-por-nada.m4a"},
     {"id":698,"artist":"Dilsinho","title":"Some","genero":"SAMBA","src":"Dilsinho-Some.m4a"},
     {"id":704,"artist":"_Dalê","title":"O_Poeta_","genero":"SAMBA","src":"O_Poeta_-_Dalê.m4a"},
-    {"id":708,"artist":"ReZnha_Pagode","title":"Sem_ReZnha_-_Eu_Juro_","genero":"SAMBA","src":"Sem_ReZnha_-_Eu_Juro_-_Pagode.m4a"}
-  ],
-  "POP": [
+    {"id":708,"artist":"ReZnha_Pagode","title":"Sem_ReZnha_-_Eu_Juro_","genero":"SAMBA","src":"Sem_ReZnha_-_Eu_Juro_-_Pagode.m4a"},
+  
+  
     {"id":304,"artist":"A-ha","title":"Take On Me","genero":"POP","src":"A_ha_Take_On_Me_muzzik.m4a"},
     {"id":305,"artist":"ABBA","title":"The Winner Takes It All","genero":"POP","src":"The_Winner_Takes_It_All-ABBA.m4a"},
     {"id":306,"artist":"Adrian Cal","title":"Senhas","genero":"POP","src":"SENHAS-ADRIAN-CAL.m4a"},
@@ -508,9 +508,9 @@
     {"id":666,"artist":"U2","title":"I Still Haven't Found","genero":"POP","src":"U2_-_I_Still_Haven.m4a"},
     {"id":667,"artist":"Culture Club","title":"Karma Chameleon","genero":"POP","src":"Culture_Club_-_Karma_Chameleon.m4a"},
     {"id":668,"artist":"The Outfield","title":"Your Love","genero":"POP","src":"The_Outfield_-_Your_Love.m4a"},
-    {"id":669,"artist":"REO Speedwagon","title":"Can't Fight This Feeling","genero":"POP","src":"REO_Speedwagon_-_Can_t_Fight_This_Feeling.m4a"}
-  ],
-  "SERTANEJO": [
+    {"id":669,"artist":"REO Speedwagon","title":"Can't Fight This Feeling","genero":"POP","src":"REO_Speedwagon_-_Can_t_Fight_This_Feeling.m4a"},
+  
+
     {"id":445,"artist":"Luan Santana","title":"Água Com Açúcar","genero":"SERTANEJO","src":"Luan_Santana_Agua_Com_Acucar_S.m4a"},
     {"id":446,"artist":"Lauana Prado","title":"Andorinha Machucada","genero":"SERTANEJO","src":"Andorinha_Machucada-LAUNA-PRADO-SERTA.m4a"},
     {"id":447,"artist":"Gustavo Mioto part. Jorge e Mateus","title":"Anti-Amor","genero":"SERTANEJO","src":"Gustavo_Mioto_Anti_Amor_Part_Jorge_e_Mateus_S.m4a"},
@@ -597,9 +597,9 @@
     {"id":701,"artist":"Maiara_e_Maraisa_","title":"Aí_Eu_bebo","genero":"SERTANEJO","src":"Maiara_e_Maraisa_-_Aí_Eu_bebo.m4a"},
     {"id":710,"artist":"Zé_Neto_e_Cristiano","title":"STATUS_QUE_EU_NÃO_QUERIA","genero":"SERTANEJO","src":"Zé_Neto_e_Cristiano_-_STATUS_QUE_EU_NÃO_QUERIA.m4a"},
     {"id":711,"artist":"Apelido_Carinhoso","title":"Apelido_Carinhoso","genero":"SERTANEJO","src":"Gusttavo_Lima_-_Apelido_Carinhoso_-_.m4a"},
-    {"id":713,"artist":"Bruno Marrone","title":"Surto De Amor","genero":"SERTANEJO","src":"BRUNO_&-MARRONE-SUTO-DE-AMOR.m4a"}
-  ],
-  "MODA TOP": [
+    {"id":713,"artist":"Bruno Marrone","title":"Surto De Amor","genero":"SERTANEJO","src":"BRUNO_&-MARRONE-SUTO-DE-AMOR.m4a"},
+  
+  
     {"id":519,"artist":"Tião Carreiro e Pardinho","title":"A Coisa Tá Feia","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO_CARREIRO-PARDINHO.m4a"},
     {"id":520,"artist":"Editor","title":"A Coisa Tá Feia","genero":"MODA TOP","src":"A_coisa_A_coisa_t_feia.m4a"},
     {"id":521,"artist":"Cersa e Paulinho","title":"A Sementinha","genero":"MODA TOP","src":"A_Sementinha_Cersa-paulinho.m4a"},
@@ -631,9 +631,9 @@
     {"id":547,"artist":"Almir Sater","title":"Tocando em Frente","genero":"MODA TOP","src":"Tocando-em-Frente..m4a"},
     {"id":548,"artist":"Trio Parada Dura","title":"Canoeiro","genero":"MODA TOP","src":"Trio_Parada_Dura_Canoeiro_MM.m4a"},
     {"id":549,"artist":"Zé Henrique e Gabriel","title":"Mala Amarela","genero":"MODA TOP","src":"Z_Henrique_Gabriel_Mala_Amarela_MM.m4a"},
-    {"id":550,"artist":"Zé Mulato e Cassiano","title":"Diário do Caipira","genero":"MODA TOP","src":"Z_Mulato_Cassiano_Diario_do_Caipira_MM.m4a"}
-  ],
-  "BREGA": [
+    {"id":550,"artist":"Zé Mulato e Cassiano","title":"Diário do Caipira","genero":"MODA TOP","src":"Z_Mulato_Cassiano_Diario_do_Caipira_MM.m4a"},
+  
+  
     {"id":551,"artist":"Reginaldo Rossi","title":"A Raposa e as Uvas","genero":"BREGA","src":"A_Raposa_A_Raposa_e_as_Uvas_Reginaldo-Rossi.m4a"},
     {"id":552,"artist":"Milionário e José Rico","title":"Brigas","genero":"BREGA","src":"Brigas-Brigas-MILIONARIO-JOSE-RICO-BREGA.m4a"},
     {"id":553,"artist":"Vontade","title":"Canteiros","genero":"BREGA","src":"CANTEIROS_Vontade_BREGA.m4a"},
@@ -675,9 +675,9 @@
     {"id":589,"artist":"Roberto Muller","title":"Te Responderei","genero":"BREGA","src":"Te_Responderei_ROBERTO-MULER-B.m4a"},
     {"id":590,"artist":"Vida pelo Avesso","title":"Vida Pelo Avesso","genero":"BREGA","src":"VIDA_PELO_VIDA_PELO_AVESSO_B.m4a"},
     {"id":591,"artist":"Lostalgia","title":"Você Não Me Ensinou a Te Esquecer","genero":"BREGA","src":"Voc_nao_me_ensinou_a_te_esquecer_Lostalgia_B.m4a"},
-    {"id":592,"artist":"Waldik Soriano","title":"Um Homem Chora de Paixão","genero":"BREGA","src":"Waldik_Soriano_Um_Homem_Chora_De_Paix_B.m4a"}
-  ],
-  "REGGAE": [
+    {"id":592,"artist":"Waldik Soriano","title":"Um Homem Chora de Paixão","genero":"BREGA","src":"Waldik_Soriano_Um_Homem_Chora_De_Paix_B.m4a"},
+  
+  
     {"id":593,"artist":"Maneva","title":"Anunciação","genero":"REGGAE","src":"Maneva-Anunciacoo.m4a"},
     {"id":594,"artist":"Cidade Negra","title":"A Sombra da Maldade","genero":"REGGAE","src":"Cidade-Negra-Sombra.m4a"},
     {"id":595,"artist":"Cidade Negra","title":"Girassol","genero":"REGGAE","src":"CidadeNegraGirassol.m4a"},
@@ -715,9 +715,9 @@
     {"id":677,"artist":"Natiruts","title":"Presente De Um Beija-Flor","genero":"REGGAE","src":"Presente_De_Um_Beija-Flor.m4a"},
     {"id":678,"artist":"Natiruts","title":"Tudo Vai Dar Certo","genero":"REGGAE","src":"Tudo_Vai_Dar_Certo-Natiruts.m4a"},
     {"id":680,"artist":"GABRIEL PENSADOR","title":"Cachimbo-da PAZ","genero":"REGGAE","src":"Cachimbo-da-Paz .m4a"},
-    {"id":717,"artist":"NATIRUTS","title":"SORRI SOU REI","genero":"REGGAE","src":"SORRI-SOU-REI.m4a"}
-  ],
-  "GLOBAL HITS": [
+    {"id":717,"artist":"NATIRUTS","title":"SORRI SOU REI","genero":"REGGAE","src":"SORRI-SOU-REI.m4a"},
+  
+  
     {"id":607,"artist":"Beyoncé","title":"Beyoncé","genero":"GLOBAL HITS","src":"Beyonc_Beyonc_GLOBAL.m4a"},
     {"id":608,"artist":"Don't Need Love","title":"Don't Need Love","genero":"GLOBAL HITS","src":"Don_t_Need_Don_t_Need_Love_GLOBAL.m4a"},
     {"id":609,"artist":"Ed Sheeran","title":"Shape of You","genero":"GLOBAL HITS","src":"Ed_Sheeran_Shape_Of_You_global.m4a"},
@@ -729,11 +729,11 @@
     {"id":696,"artist":"_Ponto_Final___Ponto_Fraco___Dividido_ Ao_Vivo _M A_ kbps","title":"Davi_Quaresma _Gaab_","genero":"GLOBAL HITS","src":"Davi_Quaresma,_Gaab_-_Ponto_Final___Ponto_Fraco___Dividido_(Ao_Vivo)_M4A_128kbps.m4a"},
     {"id":699,"artist":"edv","title":"Eu_Não_Esperava","genero":"GLOBAL HITS","src":"Eu_Não_Esperava.m4a"},
     {"id":703,"artist":"_MC_Vine_ _MC_Tuto","title":"NA_RELÍQUIA_DO","genero":"GLOBAL HITS","src":"NA_RELÍQUIA_DO_2T_-_MC_Vine_7,_MC_Tuto.m4a"},
-    {"id":706,"artist":"Rapunzel","title":"Perna_Bamba","genero":"GLOBAL HITS","src":"Perna_Bamba-Rapunzel.m4a"}
-  ],
-  "CRISTÃ HITS": [
+    {"id":706,"artist":"Rapunzel","title":"Perna_Bamba","genero":"GLOBAL HITS","src":"Perna_Bamba-Rapunzel.m4a"},
+  
+  
     {"id":614,"artist":"Cristo","title":"Ele Não Desiste","genero":"CRISTÃ HITS","src":"ele_nao_desiste-CRISTO.m4a"},
     {"id":615,"artist":"Eu Escolho Deus","title":"Eu Escolho Deus","genero":"CRISTÃ HITS","src":"Eu_Escolho_Eu_Escolho_Deus_CRISTO.m4a"},
     {"id":709,"artist":"Kako_e_MC_Hariel","title":"Velho_Oeste_","genero":"CRISTÃ HITS","src":"Velho_Oeste_-_Kako_e_MC_Hariel.m4a"}
   ]
-}
+
