@@ -23,7 +23,6 @@
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
         .fav-top-btn .badge { background: #ff2d7f; color: #000; border-radius: 50%; padding: 0 4px; font-size: 0.45rem; font-weight: bold; min-width: 14px; text-align: center; }
         
-        /* CAMPO DE BUSCA - FORÇADO PARA NÃO MOSTRAR SUGESTÕES */
         .search-input { 
             background: rgba(0,0,0,0.5); 
             border: 1px solid rgba(0,243,255,0.3); 
@@ -33,7 +32,6 @@
             font-size: 0.5rem; 
             width: 70px; 
             transition: width 0.3s;
-            /* Remove o estilo padrão do navegador */
             -webkit-appearance: none;
             appearance: none;
         }
@@ -178,7 +176,6 @@
         .historico-item .genero-tag { font-size: 0.5rem; padding: 2px 8px; border-radius: 12px; background: rgba(0,243,255,0.15); color: var(--neon-cyan); }
         .historico-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
         
-        /* Campo escondido para enganar o navegador */
         .hidden-field { display: none; }
         
         @media (max-width: 480px) {
@@ -226,7 +223,6 @@
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB/POP</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <!-- CAMPO DE BUSCA COM name="busca" para evitar autocomplete de senha/cartão -->
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar" name="busca" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
@@ -235,7 +231,6 @@
             </div>
         </div>
         
-        <!-- CAMPO ESCONDIDO PARA ENGANAR O NAVEGADOR -->
         <input type="text" class="hidden-field" autocomplete="username">
         <input type="password" class="hidden-field" autocomplete="new-password">
         
@@ -580,18 +575,31 @@
             if (historicoReproducao.length > MAX_HISTORICO) historicoReproducao.pop();
         }
 
+        // ========== FUNÇÕES CORRIGIDAS ==========
         function getMusicaAntiRepeticao(lista, evitarId = null) {
             if (!lista || lista.length === 0) return null;
-            if (lista.length === 1) { const u = lista[0]; adicionarAoHistorico(u); return u; }
-            let ids = new Set(historicoReproducao.map(m => m.id));
-            let candidatas = lista.filter(m => !ids.has(m.id));
-            if (candidatas.length === 0) {
-                const liberados = historicoReproducao.slice(-8).map(m => m.id);
-                candidatas = lista.filter(m => liberados.includes(m.id));
-                if (candidatas.length === 0) candidatas = [...lista];
+            if (lista.length === 1) {
+                const unica = lista[0];
+                adicionarAoHistorico(unica);
+                return unica;
             }
-            if (evitarId && candidatas.length > 1) candidatas = candidatas.filter(m => m.id !== evitarId);
-            if (candidatas.length === 0) candidatas = [...lista];
+            
+            // Pega as últimas 10 músicas tocadas (não pode repetir as últimas 10)
+            const ultimasTocadas = new Set(historicoReproducao.slice(0, 10).map(m => m.id));
+            
+            // Filtra músicas que NÃO estão nas últimas 10 tocadas
+            let candidatas = lista.filter(m => !ultimasTocadas.has(m.id));
+            
+            // Se não tiver candidatas, libera para repetir (mas evita a música atual)
+            if (candidatas.length === 0) {
+                candidatas = lista.filter(m => m.id !== evitarId);
+                // Se ainda assim não tiver, pega qualquer uma
+                if (candidatas.length === 0) {
+                    candidatas = [...lista];
+                }
+            }
+            
+            // Escolhe aleatoriamente
             const escolhida = candidatas[Math.floor(Math.random() * candidatas.length)];
             adicionarAoHistorico(escolhida);
             return escolhida;
@@ -600,126 +608,189 @@
         function getMusicaMPBPOPAntiRepeticao(evitarId = null) {
             const mpb = musicas.filter(m => m.genero === "MPB");
             const pop = musicas.filter(m => m.genero === "POP");
-            if (mpb.length === 0 && pop.length === 0) return getMusicaAntiRepeticao(musicas, evitarId);
+            
+            if (mpb.length === 0 && pop.length === 0) {
+                return getMusicaAntiRepeticao(musicas, evitarId);
+            }
             if (mpb.length === 0) return getMusicaAntiRepeticao(pop, evitarId);
             if (pop.length === 0) return getMusicaAntiRepeticao(mpb, evitarId);
-            let novoGenero = ultimoGeneroTocado === "MPB" ? "POP" : ultimoGeneroTocado === "POP" ? "MPB" : Math.random() < 0.5 ? "MPB" : "POP";
-            const lista = novoGenero === "MPB" ? mpb : pop;
-            const m = getMusicaAntiRepeticao(lista, evitarId);
-            if (m) ultimoGeneroTocado = m.genero;
-            return m;
-        }
-
-        function trocarVideoPorGenero(genero) {
-            let src = 'apk300.mp4';
-            const g = (genero || '').toUpperCase().trim();
-            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
-            else if (g === 'CRISTÃ HITS' || g === 'CRISTÃ' || g === 'GOSPEL') src = 'cristo.mp4';
-            if (!bgVideo.src.includes(src)) { bgVideo.src = src; bgVideo.load(); bgVideo.play().catch(e => {}); }
-        }
-
-        function createSilentAudio() {
-            try {
-                const sampleRate = 44100, duration = 1, numSamples = sampleRate * duration;
-                const buffer = new ArrayBuffer(44 + numSamples * 2);
-                const view = new DataView(buffer);
-                const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
-                writeString(view, 0, 'RIFF'); view.setUint32(4, 36 + numSamples * 2, true);
-                writeString(view, 8, 'WAVE'); writeString(view, 12, 'fmt ');
-                view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-                view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
-                view.setUint16(32, 2, true); view.setUint16(34, 16, true);
-                writeString(view, 36, 'data'); view.setUint32(40, numSamples * 2, true);
-                let offset = 44;
-                for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
-                return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
-            } catch(e) { return ''; }
-        }
-
-        async function ativarAudio() {
-            try {
-                showLoading(true);
-                const silentUrl = createSilentAudio();
-                if (!silentUrl) throw new Error('Erro');
-                backgroundAudio.src = silentUrl;
-                backgroundAudio.loop = true;
-                backgroundAudio.volume = 0.001;
-                await backgroundAudio.play();
-                isBackgroundActive = true;
-                audioStatus.classList.add('active');
-                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
-                if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch(e) {}
-                await playMusic();
-                showLoading(false);
-                return true;
-            } catch (error) {
-                isBackgroundActive = true;
-                audioStatus.classList.add('active');
-                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
-                await playMusic();
-                showLoading(false);
-                return true;
+            
+            // Alterna entre MPB e POP
+            let generoEscolhido;
+            if (ultimoGeneroTocado === "MPB") {
+                generoEscolhido = "POP";
+            } else if (ultimoGeneroTocado === "POP") {
+                generoEscolhido = "MPB";
+            } else {
+                generoEscolhido = Math.random() < 0.5 ? "MPB" : "POP";
             }
+            
+            const lista = generoEscolhido === "MPB" ? mpb : pop;
+            const musica = getMusicaAntiRepeticao(lista, evitarId);
+            
+            if (musica) {
+                ultimoGeneroTocado = musica.genero;
+            } else {
+                // Fallback: tenta o outro gênero
+                const outraLista = generoEscolhido === "MPB" ? pop : mpb;
+                const fallback = getMusicaAntiRepeticao(outraLista, evitarId);
+                if (fallback) {
+                    ultimoGeneroTocado = fallback.genero;
+                    return fallback;
+                }
+                // Último recurso: qualquer música
+                const qualquer = getMusicaAntiRepeticao(musicas, evitarId);
+                if (qualquer) {
+                    ultimoGeneroTocado = qualquer.genero;
+                    return qualquer;
+                }
+                return null;
+            }
+            return musica;
+        }
+
+        function garantirMusica() {
+            if (!musicas || musicas.length === 0) return false;
+            
+            // Se não tem música atual, pega uma
+            if (!currentPlaylist || currentPlaylist.length === 0) {
+                const m = musicas[Math.floor(Math.random() * musicas.length)];
+                if (m) {
+                    currentPlaylist = [m];
+                    currentIndex = 0;
+                    updateNowPlaying(m);
+                    adicionarAoHistorico(m);
+                    return true;
+                }
+                return false;
+            }
+            return true;
         }
 
         async function playMusic() {
-            if (!isBackgroundActive) { showNotification("⚠️ Ative o áudio!", 1000); return; }
-            if (!musicas.length) { showNotification("Playlist vazia!", 1500); return; }
+            if (!isBackgroundActive) { 
+                showNotification("⚠️ Ative o áudio!", 1000); 
+                return; 
+            }
+            if (!musicas.length) { 
+                showNotification("Playlist vazia!", 1500); 
+                return; 
+            }
+            
             let track = null;
             
             if (modoAtual === "FAVORITOS") {
-                if (currentPlaylist.length === 0) { entrarModoFavoritos(); return; }
-                if (shuffleMode) {
-                    const disp = currentPlaylist.filter(m => !historicoReproducao.find(h => h.id === m.id));
-                    track = disp.length > 0 ? disp[Math.floor(Math.random() * disp.length)] : currentPlaylist[0];
-                } else {
-                    let novoIndex = (currentIndex + 1) % currentPlaylist.length;
-                    let tentativas = 0;
-                    while (tentativas < currentPlaylist.length) {
-                        const test = currentPlaylist[novoIndex];
-                        if (!historicoReproducao.find(h => h.id === test.id)) break;
-                        novoIndex = (novoIndex + 1) % currentPlaylist.length;
-                        tentativas++;
-                    }
-                    currentIndex = novoIndex;
-                    track = currentPlaylist[currentIndex];
+                if (currentPlaylist.length === 0) { 
+                    entrarModoFavoritos(); 
+                    return; 
                 }
+                // Pega índice da música atual
+                const atualId = currentPlaylist[currentIndex]?.id;
+                let novoIndice = currentIndex;
+                
+                // Tenta encontrar uma música diferente da atual
+                let tentativas = 0;
+                do {
+                    if (shuffleMode) {
+                        novoIndice = Math.floor(Math.random() * currentPlaylist.length);
+                    } else {
+                        novoIndice = (currentIndex + 1) % currentPlaylist.length;
+                    }
+                    tentativas++;
+                } while (tentativas < 20 && 
+                        currentPlaylist[novoIndice]?.id === atualId && 
+                        currentPlaylist.length > 1);
+                
+                currentIndex = novoIndice;
+                track = currentPlaylist[currentIndex];
                 if (track) adicionarAoHistorico(track);
+                
             } else if (modoAtual === "MPB_POP") {
                 const evitarId = currentPlaylist[0]?.id || null;
                 track = getMusicaMPBPOPAntiRepeticao(evitarId);
-                if (track) { currentPlaylist = [track]; currentIndex = 0; }
-            } else {
-                if (currentPlaylist.length === 0) { track = getMusicaAntiRepeticao(musicas); if (track) currentPlaylist = [track]; } 
-                else {
-                    if (shuffleMode) {
-                        const disp = currentPlaylist.filter(m => !historicoReproducao.find(h => h.id === m.id));
-                        track = disp.length > 0 ? disp[Math.floor(Math.random() * disp.length)] : currentPlaylist[0];
-                    } else {
-                        let novoIndex = (currentIndex + 1) % currentPlaylist.length;
-                        let tentativas = 0;
-                        while (tentativas < currentPlaylist.length) {
-                            const test = currentPlaylist[novoIndex];
-                            if (!historicoReproducao.find(h => h.id === test.id)) break;
-                            novoIndex = (novoIndex + 1) % currentPlaylist.length;
-                            tentativas++;
-                        }
-                        currentIndex = novoIndex;
-                        track = currentPlaylist[currentIndex];
+                if (track) {
+                    currentPlaylist = [track];
+                    currentIndex = 0;
+                } else {
+                    // Fallback crítico
+                    track = musicas[Math.floor(Math.random() * musicas.length)];
+                    if (track) {
+                        currentPlaylist = [track];
+                        currentIndex = 0;
+                        adicionarAoHistorico(track);
                     }
+                }
+            } else {
+                // Modo normal
+                if (currentPlaylist.length === 0) {
+                    track = getMusicaAntiRepeticao(musicas);
+                    if (track) {
+                        currentPlaylist = [track];
+                        currentIndex = 0;
+                    }
+                } else {
+                    const atualId = currentPlaylist[currentIndex]?.id;
+                    let novoIndice = currentIndex;
+                    let tentativas = 0;
+                    
+                    // Tenta achar uma música diferente
+                    do {
+                        if (shuffleMode) {
+                            novoIndice = Math.floor(Math.random() * currentPlaylist.length);
+                        } else {
+                            novoIndice = (currentIndex + 1) % currentPlaylist.length;
+                        }
+                        tentativas++;
+                    } while (tentativas < 20 && 
+                            currentPlaylist[novoIndice]?.id === atualId && 
+                            currentPlaylist.length > 1);
+                    
+                    currentIndex = novoIndice;
+                    track = currentPlaylist[currentIndex];
                     if (track) adicionarAoHistorico(track);
                 }
             }
             
-            if (!track || !track.src) { showNotification("Música indisponível", 1000); nextTrack(); return; }
+            // Se ainda não tem track, pega qualquer uma
+            if (!track) {
+                track = musicas[Math.floor(Math.random() * musicas.length)];
+                if (track) {
+                    currentPlaylist = [track];
+                    currentIndex = 0;
+                    adicionarAoHistorico(track);
+                }
+            }
+            
+            if (!track || !track.src) { 
+                showNotification("Música indisponível", 1000); 
+                setTimeout(nextTrack, 500);
+                return; 
+            }
+            
+            // Toca a música
             trocarVideoPorGenero(track.genero);
             audio.pause();
             audio.src = track.src;
             audio.load();
+            
             audio.oncanplay = () => {
-                audio.play().then(() => updateNowPlaying(track)).catch(() => nextTrack());
+                audio.play()
+                    .then(() => {
+                        updateNowPlaying(track);
+                        isPlaying = true;
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        equalizer.classList.remove('paused');
+                        startTimer();
+                    })
+                    .catch(() => {
+                        showNotification("Erro ao tocar", 1000);
+                        setTimeout(nextTrack, 1000);
+                    });
             };
-            audio.onerror = () => { nextTrack(); };
+            
+            audio.onerror = () => {
+                setTimeout(nextTrack, 1000);
+            };
         }
 
         function togglePlay() {
@@ -729,44 +800,122 @@
         }
 
         function nextTrack() {
-            if (modoAtual === "FAVORITOS") {
-                if (currentPlaylist.length === 0) { entrarModoFavoritos(); return; }
-                if (currentPlaylist.length === 1) { const u = currentPlaylist[0]; adicionarAoHistorico(u); updateNowPlaying(u); trocarVideoPorGenero(u.genero); if (isPlaying) playMusic(); showControls(); return; }
-                let proxima = null, tentativas = 0;
-                const evitarId = currentPlaylist[currentIndex]?.id;
-                while (tentativas < currentPlaylist.length * 3) {
-                    let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                    const cand = currentPlaylist[idx];
-                    if (cand.id === evitarId && currentPlaylist.length > 1) continue;
-                    if (!historicoReproducao.find(h => h.id === cand.id) || historicoReproducao.length < 8 || currentPlaylist.length <= 8) {
-                        proxima = cand; currentIndex = idx; break;
-                    }
-                    tentativas++;
-                }
-                if (!proxima) { currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length; proxima = currentPlaylist[currentIndex]; }
-                if (proxima) { adicionarAoHistorico(proxima); updateNowPlaying(proxima); trocarVideoPorGenero(proxima.genero); if (isPlaying) playMusic(); }
-                showControls(); return;
+            // Garante que temos músicas
+            if (!garantirMusica()) {
+                showNotification("Playlist vazia!", 1500);
+                return;
             }
+            
+            // Se for favoritos, trata separado
+            if (modoAtual === "FAVORITOS") {
+                if (currentPlaylist.length === 0) { 
+                    entrarModoFavoritos(); 
+                    return; 
+                }
+                if (currentPlaylist.length === 1) { 
+                    // Só tem uma música, repete ela
+                    const unica = currentPlaylist[0];
+                    adicionarAoHistorico(unica);
+                    updateNowPlaying(unica);
+                    trocarVideoPorGenero(unica.genero);
+                    if (isPlaying) playMusic();
+                    showControls();
+                    return;
+                }
+                // Pega próxima
+                const atualId = currentPlaylist[currentIndex]?.id;
+                let tentativas = 0;
+                let novoIdx = currentIndex;
+                do {
+                    novoIdx = shuffleMode ? 
+                        Math.floor(Math.random() * currentPlaylist.length) : 
+                        (currentIndex + 1) % currentPlaylist.length;
+                    tentativas++;
+                } while (tentativas < 20 && 
+                        currentPlaylist[novoIdx]?.id === atualId && 
+                        currentPlaylist.length > 1);
+                
+                currentIndex = novoIdx;
+                const track = currentPlaylist[currentIndex];
+                if (track) {
+                    adicionarAoHistorico(track);
+                    updateNowPlaying(track);
+                    trocarVideoPorGenero(track.genero);
+                    if (isPlaying) playMusic();
+                }
+                showControls();
+                return;
+            }
+            
+            // Modo MPB/POP
             if (modoAtual === "MPB_POP") {
                 const atual = currentPlaylist[0];
                 const nova = getMusicaMPBPOPAntiRepeticao(atual?.id);
-                if (nova) { currentPlaylist = [nova]; currentIndex = 0; updateNowPlaying(nova); trocarVideoPorGenero(nova.genero); if (isPlaying) playMusic(); }
-            } else {
-                if (currentPlaylist.length === 0) { const m = getMusicaAntiRepeticao(musicas); if (m) { currentPlaylist = [m]; currentIndex = 0; updateNowPlaying(m); trocarVideoPorGenero(m.genero); if (isPlaying) playMusic(); } return; }
-                if (currentPlaylist.length === 1) { const u = currentPlaylist[0]; adicionarAoHistorico(u); updateNowPlaying(u); trocarVideoPorGenero(u.genero); if (isPlaying) playMusic(); showControls(); return; }
-                let proxima = null, tentativas = 0;
-                const evitarId = currentPlaylist[currentIndex]?.id;
-                while (tentativas < currentPlaylist.length * 3) {
-                    let idx = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
-                    const cand = currentPlaylist[idx];
-                    if (cand.id === evitarId && currentPlaylist.length > 1) continue;
-                    if (!historicoReproducao.find(h => h.id === cand.id) || historicoReproducao.length < 8 || currentPlaylist.length <= 8) {
-                        proxima = cand; currentIndex = idx; break;
+                if (nova) {
+                    currentPlaylist = [nova];
+                    currentIndex = 0;
+                    updateNowPlaying(nova);
+                    trocarVideoPorGenero(nova.genero);
+                    if (isPlaying) playMusic();
+                } else {
+                    // Fallback
+                    const fallback = musicas[Math.floor(Math.random() * musicas.length)];
+                    if (fallback) {
+                        currentPlaylist = [fallback];
+                        currentIndex = 0;
+                        updateNowPlaying(fallback);
+                        trocarVideoPorGenero(fallback.genero);
+                        if (isPlaying) playMusic();
                     }
-                    tentativas++;
                 }
-                if (!proxima) { currentIndex = shuffleMode ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length; proxima = currentPlaylist[currentIndex]; }
-                if (proxima) { adicionarAoHistorico(proxima); updateNowPlaying(proxima); trocarVideoPorGenero(proxima.genero); if (isPlaying) playMusic(); }
+                showControls();
+                return;
+            }
+            
+            // Modo normal
+            if (currentPlaylist.length === 0) {
+                const m = getMusicaAntiRepeticao(musicas);
+                if (m) {
+                    currentPlaylist = [m];
+                    currentIndex = 0;
+                    updateNowPlaying(m);
+                    trocarVideoPorGenero(m.genero);
+                    if (isPlaying) playMusic();
+                }
+                showControls();
+                return;
+            }
+            
+            if (currentPlaylist.length === 1) {
+                const unica = currentPlaylist[0];
+                adicionarAoHistorico(unica);
+                updateNowPlaying(unica);
+                trocarVideoPorGenero(unica.genero);
+                if (isPlaying) playMusic();
+                showControls();
+                return;
+            }
+            
+            // Pega próxima música
+            const atualId = currentPlaylist[currentIndex]?.id;
+            let tentativas = 0;
+            let novoIdx = currentIndex;
+            do {
+                novoIdx = shuffleMode ? 
+                    Math.floor(Math.random() * currentPlaylist.length) : 
+                    (currentIndex + 1) % currentPlaylist.length;
+                tentativas++;
+            } while (tentativas < 20 && 
+                    currentPlaylist[novoIdx]?.id === atualId && 
+                    currentPlaylist.length > 1);
+            
+            currentIndex = novoIdx;
+            const track = currentPlaylist[currentIndex];
+            if (track) {
+                adicionarAoHistorico(track);
+                updateNowPlaying(track);
+                trocarVideoPorGenero(track.genero);
+                if (isPlaying) playMusic();
             }
             showControls();
         }
@@ -889,6 +1038,58 @@
             document.getElementById('feedbackModal').classList.add('open');
         }
 
+        function trocarVideoPorGenero(genero) {
+            let src = 'apk300.mp4';
+            const g = (genero || '').toUpperCase().trim();
+            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
+            else if (g === 'CRISTÃ HITS' || g === 'CRISTÃ' || g === 'GOSPEL') src = 'cristo.mp4';
+            if (!bgVideo.src.includes(src)) { bgVideo.src = src; bgVideo.load(); bgVideo.play().catch(e => {}); }
+        }
+
+        function createSilentAudio() {
+            try {
+                const sampleRate = 44100, duration = 1, numSamples = sampleRate * duration;
+                const buffer = new ArrayBuffer(44 + numSamples * 2);
+                const view = new DataView(buffer);
+                const writeString = (view, offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
+                writeString(view, 0, 'RIFF'); view.setUint32(4, 36 + numSamples * 2, true);
+                writeString(view, 8, 'WAVE'); writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+                view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
+                view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+                writeString(view, 36, 'data'); view.setUint32(40, numSamples * 2, true);
+                let offset = 44;
+                for (let i = 0; i < numSamples; i++) { view.setInt16(offset, 0, true); offset += 2; }
+                return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
+            } catch(e) { return ''; }
+        }
+
+        async function ativarAudio() {
+            try {
+                showLoading(true);
+                const silentUrl = createSilentAudio();
+                if (!silentUrl) throw new Error('Erro');
+                backgroundAudio.src = silentUrl;
+                backgroundAudio.loop = true;
+                backgroundAudio.volume = 0.001;
+                await backgroundAudio.play();
+                isBackgroundActive = true;
+                audioStatus.classList.add('active');
+                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
+                if ('wakeLock' in navigator) try { await navigator.wakeLock.request('screen'); } catch(e) {}
+                await playMusic();
+                showLoading(false);
+                return true;
+            } catch (error) {
+                isBackgroundActive = true;
+                audioStatus.classList.add('active');
+                audioStatus.innerHTML = '<span class="dot"></span> Ativado';
+                await playMusic();
+                showLoading(false);
+                return true;
+            }
+        }
+
         // ========== EVENTOS ==========
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
@@ -929,7 +1130,7 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
 
-        // ========== MENU ==========
+        // MENU
         document.getElementById('sleepMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open'); 
             iniciarSleepTimer(); 
@@ -976,7 +1177,6 @@
             } else { buscarMusica(termo); }
         });
 
-        // MENU 3 PONTINHOS
         menuButton.addEventListener('click', (e) => { 
             e.stopPropagation(); 
             menuPopup.classList.toggle('open'); 
@@ -1003,7 +1203,6 @@
             try { document.documentElement.requestFullscreen(); } catch(e) {}
         });
 
-        // Fechar modais clicando fora
         document.getElementById('favModal').addEventListener('click', (e) => { if (e.target === document.getElementById('favModal')) document.getElementById('favModal').classList.remove('open'); });
         document.getElementById('feedbackModal').addEventListener('click', (e) => { if (e.target === document.getElementById('feedbackModal')) document.getElementById('feedbackModal').classList.remove('open'); });
         document.getElementById('historicoModal').addEventListener('click', (e) => { if (e.target === document.getElementById('historicoModal')) document.getElementById('historicoModal').classList.remove('open'); });
