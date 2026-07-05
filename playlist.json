@@ -712,11 +712,13 @@
 {"id":710,"artist":"Zé_Neto_e_Cristiano","title":"STATUS_QUE_EU_NÃO_QUERIA","genero":"SERTANEJO","src":"Zé_Neto_e_Cristiano_-_STATUS_QUE_EU_NÃO_QUERIA.m4a"},
 {"id":711,"artist":"Apelido_Carinhoso","title":"Apelido_Carinhoso","genero":"SERTANEJO","src":"Gusttavo_Lima_-_Apelido_Carinhoso_-_.m4a"},
 
-{"id":712,"artist":"Banda Líbanos","title":"Além do Horizonte","genero":"MPB","src":"LIBANOS-RENASERA.m4a"},
-{"id":713,"artist":"Bruno Marrone","title":"Surto De Amor","genero":"MPB","src":"BRUNO_&-MARRONE-SUTO-DE-AMOR.m4a"}
-{ "id":714,"artist":"Teu Corpo Queima Como o Sol Demais","title":"Teu Corpo","genero":"FORRÓ","src":"(CAPIM)TEU-CHEIRO.m4a"},
-{"id":715,"artist":"Mastruz Com Leite","title":"Seis Cordas","genero":"FORRÓ","src":"(CAVALO-DE-PAU)SEIS-CORDAs.m4a"},
-  
-{"id":716,"artist":"ZEZA","title":"TE AMOS FORTALEZA","genero":"FORRÓ","src":"(ZEZA)FORTALEZA.m4a"},
- {"id":717,"artist":"NATIRUTS","title":"SORRI SOU REI","genero":"FORRÓ","src":"(SORRI-SOU-REI.m4a"} 
+  {"id":712,"artist":"Banda Líbanos","title":"Além do Horizonte","genero":"MPB","src":"LIBANOS-RENASERA.m4a"},
+  {"id":713,"artist":"Bruno Marrone","title":"Surto De Amor","genero":"MPB","src":"BRUNO_&-MARRONE-SUTO-DE-AMOR.m4a"},
+  {"id":714,"artist":"CAPIM COM MEL","title":"Teu Corpo","genero":"FORRÓ","src":"(CAPIM)TEU-CHEIRO.m4a"},
+  {"id":715,"artist":"Mastruz Com Leite","title":"Seis Cordas","genero":"FORRÓ","src":"(CAVALO-DE-PAU)SEIS-CORDAs.m4a"},
+  {"id":716,"artist":"ZEZA","title":"TE AMOS FORTALEZA","genero":"FORRÓ","src":"(ZEZA)FORTALEZA.m4a"},
+  {"id":717,"artist":"NATIRUTS","title":"SORRI SOU REI","genero":"FORRÓ","src":"SORRI-SOU-REI.m4a"},
+  {"id":572,"artist":"Violão de Ouro","title":"O Pranto","genero":"BREGA","src":"O_Pranto-VIOLAO-DE-OURO-B.m4a"}
+]
+
 ]
