@@ -53,8 +53,20 @@
         .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
         .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
         
-        .info-scroll { position: fixed; top: 44px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 3px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
-        .info-scroll p { color: white; font-size: 0.55rem; font-weight: 900; letter-spacing: 1px; font-family: monospace; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 8px rgba(0,243,255,0.8); }
+        /* Letreiro - texto mais robusto e maior */
+        .info-scroll { position: fixed; top: 44px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
+        .info-scroll p { 
+            color: white; 
+            font-size: 0.85rem; 
+            font-weight: 900; 
+            letter-spacing: 2px; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            animation: scrollText 20s linear infinite; 
+            display: inline-block; 
+            padding-right: 50px; 
+            text-shadow: 0 0 15px rgba(0,243,255,0.9), 0 0 30px rgba(0,243,255,0.5); 
+            text-transform: uppercase;
+        }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .now-playing { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; width: 90%; max-width: 400px; cursor: grab; user-select: none; -webkit-user-select: none; }
@@ -116,6 +128,7 @@
         .splash-loading i { font-size: 2rem; color: var(--neon-cyan); }
         .splash-loading p { margin-top: 10px; font-size: 0.85rem; }
         
+        /* Botão ATIVAR RÁDIO - responsivo e verde neon */
         #tap-to-start { 
             position: fixed; 
             bottom: 30%; 
@@ -123,23 +136,26 @@
             transform: translateX(-50%); 
             background: linear-gradient(135deg, #4ade80, #22c55e); 
             color: #000; 
-            padding: 14px 32px; 
+            padding: 14px 28px; 
             border-radius: 60px; 
-            font-weight: bold; 
+            font-weight: 900; 
             font-size: 1.1rem; 
             z-index: 10000; 
             cursor: pointer; 
             display: none; 
             animation: btnPulse 1.5s infinite; 
             border: none;
-            box-shadow: 0 0 30px rgba(74, 222, 128, 0.5);
-            letter-spacing: 1px;
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.6);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
         #tap-to-start:hover { transform: translateX(-50%) scale(1.05); }
+        #tap-to-start:active { transform: translateX(-50%) scale(0.95); }
         @keyframes btnPulse { 
-            0% { transform: translateX(-50%) scale(1); opacity: 0.9; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); } 
-            50% { transform: translateX(-50%) scale(1.03); opacity: 1; box-shadow: 0 0 40px rgba(74, 222, 128, 0.7); } 
-            100% { transform: translateX(-50%) scale(1); opacity: 0.9; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); } 
+            0% { transform: translateX(-50%) scale(1); opacity: 0.9; box-shadow: 0 0 25px rgba(74, 222, 128, 0.3); } 
+            50% { transform: translateX(-50%) scale(1.04); opacity: 1; box-shadow: 0 0 50px rgba(74, 222, 128, 0.8); } 
+            100% { transform: translateX(-50%) scale(1); opacity: 0.9; box-shadow: 0 0 25px rgba(74, 222, 128, 0.3); } 
         }
         
         .notification { position: fixed; top: 52px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: var(--neon-cyan); padding: 3px 12px; border-radius: 30px; font-size: 0.55rem; z-index: 10001; opacity: 0; transition: opacity 0.3s; pointer-events: none; border-left: 3px solid var(--neon-cyan); }
@@ -210,8 +226,8 @@
             .search-input { width: 50px; font-size: 0.45rem; }
             .search-input:focus { width: 85px; }
             .top-bar { padding: 4px 6px; }
-            .info-scroll { top: 38px; padding: 2px 8px; }
-            .info-scroll p { font-size: 0.45rem; }
+            .info-scroll { top: 38px; padding: 4px 10px; }
+            .info-scroll p { font-size: 0.7rem; letter-spacing: 1px; }
             .ctrl-btn { width: 28px; height: 28px; font-size: 0.65rem; }
             .play-big { width: 36px; height: 36px; font-size: 0.9rem; }
             .buttons-row { gap: 8px; }
@@ -222,6 +238,12 @@
             .audio-status { font-size: 0.4rem; padding: 1px 4px; }
             .fab-container { bottom: 80px; right: 8px; }
             .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
+            /* Botão ativar áudio menor no celular */
+            #tap-to-start { 
+                padding: 10px 18px; 
+                font-size: 0.9rem; 
+                bottom: 25%; 
+            }
         }
     </style>
 </head>
@@ -644,7 +666,6 @@
             buildGenresGrid();
             showNotification(`🎵 ${genero} (${musicas.length} músicas)`, 2000);
             document.getElementById('genresModal').classList.remove('open');
-            // Entra em tela cheia ao mudar de gênero
             goFullscreen();
         }
 
@@ -692,6 +713,7 @@
             const g = (genero || '').toUpperCase().trim();
             if (g === 'SERTANEJO') src = 'sertanejo.mp4';
             else if (g === 'CRISTÃ' || g === 'CRISTÃ HITS' || g === 'GOSPEL') src = 'cristo.mp4';
+            // Se o vídeo já estiver carregado com o mesmo src, não recarrega
             if (!bgVideo.src.includes(src)) {
                 bgVideo.src = src;
                 bgVideo.load();
@@ -1011,7 +1033,6 @@
                         splash.style.display = 'none';
                         appContainer.style.display = 'block';
                         tapToStart.style.display = 'block';
-                        // Entra em tela cheia ao iniciar
                         goFullscreen();
                     }, 500);
                 }, 500);
@@ -1062,7 +1083,7 @@
         document.getElementById('prevBtn').addEventListener('click', prevTrack);
         shuffleBtn.addEventListener('click', toggleShuffle);
 
-        // Sleep Timer corrigido
+        // Sleep Timer
         document.getElementById('sleepMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open'); 
             const minutos = prompt('⏰ Desligar em quantos minutos? (5, 15, 30, 60)', '15');
@@ -1080,14 +1101,14 @@
             }, mins * 60000);
         });
         
-        // Tela Cheia corrigida
+        // Tela Cheia
         document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open'); 
             goFullscreen();
             showNotification('⛶ Tela cheia ativada', 1000);
         });
         
-        // Bluetooth corrigido
+        // Bluetooth
         document.getElementById('btStatusMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open');
             if (!navigator.bluetooth) { showNotification("❌ Bluetooth não suportado neste navegador", 1500); return; }
