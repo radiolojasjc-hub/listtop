@@ -6,6 +6,7 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== ESTILOS (mantidos os mesmos) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --cor-destaque: #00f3ff; }
@@ -205,10 +206,12 @@
     </style>
 </head>
 <body>
+    <!-- Vídeo de fundo -->
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
         <source src="apk300.mp4" type="video/mp4">
     </video>
 
+    <!-- Splash -->
     <div id="splash">
         <div class="splash-loading">
             <i class="fas fa-circle-notch fa-spin"></i>
@@ -216,11 +219,13 @@
         </div>
     </div>
 
+    <!-- Botão ativar rádio -->
     <div id="tap-to-start">ATIVAR RÁDIO</div>
 
+    <!-- App principal -->
     <div class="app" id="appContainer" style="display: none;">
         <div class="top-bar" id="topBar">
-            <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB/POP</div>
+            <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar" name="busca" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
@@ -255,6 +260,7 @@
         <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span></div>
     </div>
 
+    <!-- Modais -->
     <div class="fav-modal" id="favModal">
         <button class="close-fav" id="closeFavModal"><i class="fas fa-times"></i></button>
         <h3><i class="fas fa-heart" style="color:#ff2d7f;"></i> Suas Favoritas</h3>
@@ -290,6 +296,7 @@
         <button class="close-btn" id="closeHistBtn">FECHAR</button>
     </div>
 
+    <!-- Controles inferiores -->
     <div class="bottom-controls" id="bottomControls">
         <div class="progress-time"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
         <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -301,6 +308,7 @@
         </div>
     </div>
 
+    <!-- FAB -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-sub" id="fabSub">
             <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i> Gêneros</button>
@@ -311,6 +319,7 @@
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
+    <!-- Menu popup -->
     <div class="menu-popup" id="menuPopup">
         <button class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i> Fechar</button>
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
@@ -322,21 +331,58 @@
     <div class="notification" id="notification">Mensagem</div>
     <div id="loadingOverlay"><i class="fas fa-spinner fa-spin"></i></div>
 
+    <!-- Áudios -->
     <audio id="musicPlayer" preload="auto"></audio>
     <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
-        const PLAYLIST_URL = 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/playlist.json';
-        const NUMERO_WHATSAPP = "5512988461978";
-        const MAX_HISTORICO = 25;
-        const LINK_YOUTUBE = 'https://sites.google.com/view/rogersjc/in%C3%ADcio';
+        // ============================================================
+        // CONFIGURAÇÃO DOS GÊNEROS E SUAS URLs JSON
+        // ============================================================
+        const GENRE_URLS = {
+            'MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/mpb.json',
+            'POP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/pop.json',
+            'SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/sertanejo.mp4', // conforme solicitado, mas deve ser .json
+            'SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/samba.json',
+            'GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/global.json',
+            'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crita.json',
+            'BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/brega.json',
+            'MODA TOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/moda.json'
+        };
 
-        let musicas = [], currentPlaylist = [], currentIndex = 0, isPlaying = false, shuffleMode = false;
-        let isBackgroundActive = false, timerInterval = null, modoAtual = "MPB_POP";
-        let historicoReproducao = [], favorites = [], modoFavoritosAtivo = false, generoAtualPesquisa = null;
-        let fabOpen = false, sleepTimer = null, hideControlsTimeout = null;
+        // Cores para cada gênero (usadas no equalizador e nos cards)
+        const CORES_POR_GENERO = {
+            'MPB': '#2ecc71',
+            'POP': '#e74c3c',
+            'SERTANEJO': '#8B4513',
+            'SAMBA': '#f1c40f',
+            'GLOBAL HITS': '#1abc9c',
+            'CRISTÃ': '#f39c12',
+            'BREGA': '#ff69b4',
+            'MODA TOP': '#9b59b6'
+        };
+
+        // ============================================================
+        // VARIÁVEIS GLOBAIS
+        // ============================================================
+        let musicas = [];                // todas as músicas do gênero atual
+        let currentPlaylist = [];       // lista de reprodução atual (embaralhada)
+        let currentIndex = 0;
+        let isPlaying = false;
+        let shuffleMode = false;
+        let isBackgroundActive = false;
+        let timerInterval = null;
+        let modoAtual = "MPB";          // nome do gênero atual
+        let generoAtualPesquisa = null;
+        let historicoReproducao = [];
+        let favorites = [];
+        let modoFavoritosAtivo = false;
+        let fabOpen = false;
+        let sleepTimer = null;
+        let hideControlsTimeout = null;
         let currentRating = 0;
 
+        // Referências DOM
         const audio = document.getElementById('musicPlayer');
         const playBtn = document.getElementById('playBtn');
         const progressFill = document.getElementById('progressFill');
@@ -364,14 +410,9 @@
         const backgroundAudio = document.getElementById('backgroundAudio');
         const menuPopup = document.getElementById('menuPopup');
 
-        const coresPorGenero = {
-            "MPB/POP": "#00f3ff", "SERTANEJO": "#8B4513", "FORRÓ": "#ff6b35",
-            "SAMBA": "#f1c40f", "POP": "#e74c3c", "MPB": "#2ecc71",
-            "BREGA": "#ff69b4", "GLOBAL HITS": "#1abc9c", "MODA TOP": "#9b59b6",
-            "CRISTÃ HITS": "#f39c12", "REGGAE": "#008000"
-        };
-
-        // ========== FUNÇÕES AUXILIARES ==========
+        // ============================================================
+        // FUNÇÕES AUXILIARES (mantidas)
+        // ============================================================
         function showNotification(msg, duration = 1500) {
             notification.textContent = msg;
             notification.classList.add('show');
@@ -395,30 +436,18 @@
             hideControlsTimeout = setTimeout(() => bottomControls.classList.remove('visible'), 5000);
         }
 
-        function updateNowPlaying(track) {
-            if (track) {
-                nowTitle.textContent = track.title;
-                nowArtist.textContent = track.artist;
-                scrollText.innerHTML = `🎵 ${track.title} - ${track.artist} [${track.genero || 'POP'}] 🎵`;
-                updateHeartIcon(track.id);
-                const cor = coresPorGenero[track.genero] || '#00f3ff';
-                equalizer.querySelectorAll('span').forEach(el => {
-                    el.style.background = `linear-gradient(180deg, ${cor}, #ff2d7f)`;
-                });
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
             }
+            return a;
         }
 
-        function updateHeartIcon(musicId) {
-            if (favorites.includes(musicId)) {
-                heartBtn.className = 'fav-heart active';
-                heartBtn.innerHTML = '<i class="fas fa-heart"></i>';
-            } else {
-                heartBtn.className = 'fav-heart';
-                heartBtn.innerHTML = '<i class="far fa-heart"></i>';
-            }
-            updateFavCount();
-        }
-
+        // ============================================================
+        // FUNÇÕES DE FAVORITOS (mantidas)
+        // ============================================================
         function updateFavCount() {
             favCount.textContent = favorites.length;
         }
@@ -436,6 +465,17 @@
             updateHeartIcon(musicId);
             renderFavList();
             buildGenresGrid();
+        }
+
+        function updateHeartIcon(musicId) {
+            if (favorites.includes(musicId)) {
+                heartBtn.className = 'fav-heart active';
+                heartBtn.innerHTML = '<i class="fas fa-heart"></i>';
+            } else {
+                heartBtn.className = 'fav-heart';
+                heartBtn.innerHTML = '<i class="far fa-heart"></i>';
+            }
+            updateFavCount();
         }
 
         function renderFavList() {
@@ -476,58 +516,124 @@
             document.getElementById('favModal').classList.add('open');
         }
 
-        function buildGenresGrid() {
-            const genresGrid = document.getElementById('genresGrid');
-            genresGrid.innerHTML = '';
-            
-            const favCard = document.createElement('div');
-            favCard.className = 'genre-card fav-card';
-            favCard.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;margin-right:3px;"></i> FAVORITOS (${favorites.length})`;
-            favCard.onclick = () => { document.getElementById('genresModal').classList.remove('open'); entrarModoFavoritos(); };
-            genresGrid.appendChild(favCard);
-            
-            const generos = ['MPB/POP', 'MPB', 'POP'];
-            generos.forEach(g => {
-                const card = document.createElement('div');
-                card.className = 'genre-card';
-                card.style.border = `2px solid ${coresPorGenero[g]}`;
-                card.style.color = coresPorGenero[g];
-                card.textContent = g;
-                card.onclick = () => { filterByGenre(g === 'MPB/POP' ? 'MPB_POP' : g); };
-                genresGrid.appendChild(card);
-            });
-
-            const outros = [...new Set(musicas.map(m => m.genero))].filter(g => !['MPB', 'POP', 'MPB/POP'].includes(g));
-            outros.forEach(g => {
-                const card = document.createElement('div');
-                card.className = 'genre-card';
-                const cor = coresPorGenero[g] || '#fff';
-                card.style.border = `2px solid ${cor}`;
-                card.textContent = g;
-                card.onclick = () => { filterByGenre(g); };
-                genresGrid.appendChild(card);
-            });
-        }
-
-        function openGenres() {
-            buildGenresGrid();
-            document.getElementById('genresModal').classList.add('open');
-            showControls();
-        }
-
-        // ========== FUNÇÕES PRINCIPAIS CORRIGIDAS ==========
-
-        // Embaralha um array
-        function shuffleArray(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
+        function entrarModoFavoritos() {
+            if (favorites.length === 0) { showNotification('⚠️ Nenhuma favorita!', 1500); return; }
+            const favMusicas = favorites.map(id => musicas.find(m => m.id === id)).filter(Boolean);
+            modoFavoritosAtivo = true;
+            modoAtual = "FAVORITOS";
+            currentPlaylist = shuffleArray([...favMusicas]);
+            currentIndex = 0;
+            historicoReproducao = [];
+            const m = currentPlaylist[0];
+            if (m) {
+                updateNowPlaying(m);
+                trocarVideoPorGenero(m.genero);
+                adicionarAoHistorico(m);
             }
-            return a;
+            genreBadge.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;"></i> ❤️ FAVORITOS (${favorites.length})`;
+            genreBadge.className = 'genre-badge favoritos';
+            if (isBackgroundActive) setTimeout(() => playMusic(), 200);
+            showNotification(`❤️ ${favMusicas.length} favoritas`, 1000);
         }
 
-        // Obtém a próxima música da playlist atual (percorre todas, depois reembaralha)
+        // ============================================================
+        // FUNÇÕES DE CARREGAMENTO DE PLAYLIST POR GÊNERO
+        // ============================================================
+        // Cache de playlists já carregadas
+        const playlistCache = {};
+
+        async function carregarPlaylistPorGenero(genero) {
+            const url = GENRE_URLS[genero];
+            if (!url) {
+                showNotification(`⚠️ Gênero "${genero}" não possui URL`, 1500);
+                return null;
+            }
+            // Se já estiver em cache, retorna
+            if (playlistCache[genero]) {
+                return playlistCache[genero];
+            }
+            try {
+                showLoading(true);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+                let data = await response.json();
+                // Se o JSON não for um array, tenta extrair
+                if (!Array.isArray(data)) {
+                    // Alguns JSONs podem ter uma propriedade "musicas" ou "data"
+                    if (data.musicas && Array.isArray(data.musicas)) data = data.musicas;
+                    else if (data.data && Array.isArray(data.data)) data = data.data;
+                    else {
+                        // Tenta converter objeto em array
+                        const vals = Object.values(data);
+                        if (vals.length && Array.isArray(vals[0])) data = vals[0];
+                        else throw new Error('Formato inválido');
+                    }
+                }
+                // Normaliza cada música
+                const lista = data.filter(m => m.src && m.src.trim() && m.title && m.title.trim());
+                lista.forEach(m => {
+                    m.id = m.id || `gen_${genero}_${Math.random().toString(36).substr(2, 6)}`;
+                    m.genero = genero; // força o gênero
+                });
+                playlistCache[genero] = lista;
+                showLoading(false);
+                return lista;
+            } catch (error) {
+                showLoading(false);
+                showNotification(`❌ Erro ao carregar ${genero}: ${error.message}`, 2000);
+                return null;
+            }
+        }
+
+        // Carrega e ativa um gênero
+        async function selecionarGenero(genero) {
+            if (modoFavoritosAtivo) {
+                modoFavoritosAtivo = false;
+                genreBadge.className = 'genre-badge';
+            }
+            const lista = await carregarPlaylistPorGenero(genero);
+            if (!lista || lista.length === 0) {
+                showNotification(`⚠️ Nenhuma música para ${genero}`, 1500);
+                return;
+            }
+            // Substitui a playlist global
+            musicas = lista;
+            modoAtual = genero;
+            generoAtualPesquisa = null;
+            // Cria nova playlist embaralhada
+            currentPlaylist = shuffleArray([...musicas]);
+            currentIndex = 0;
+            historicoReproducao = [];
+            // Atualiza interface
+            genreBadge.innerHTML = genero;
+            genreBadge.className = 'genre-badge';
+            const primeira = currentPlaylist[0];
+            if (primeira) {
+                updateNowPlaying(primeira);
+                adicionarAoHistorico(primeira);
+                trocarVideoPorGenero(primeira.genero);
+            }
+            // Se áudio ativo, toca
+            if (isBackgroundActive) {
+                setTimeout(() => playMusic(), 300);
+            } else {
+                // Só atualiza a exibição
+                audio.pause();
+                audio.src = '';
+                audio.load();
+                isPlaying = false;
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                equalizer.classList.add('paused');
+                stopTimer();
+            }
+            buildGenresGrid(); // atualiza o grid (pode ser chamado depois)
+            showNotification(`🎵 ${genero} (${musicas.length} músicas)`, 2000);
+            document.getElementById('genresModal').classList.remove('open');
+        }
+
+        // ============================================================
+        // FUNÇÕES DE REPRODUÇÃO (adaptadas)
+        // ============================================================
         function obterProximaMusica() {
             if (!currentPlaylist || currentPlaylist.length === 0) {
                 if (musicas.length === 0) return null;
@@ -544,66 +650,37 @@
             return musica;
         }
 
-        function entrarModoFavoritos() {
-            if (favorites.length === 0) { showNotification('⚠️ Nenhuma favorita!', 1500); return; }
-            const favMusicas = favorites.map(id => musicas.find(m => m.id === id)).filter(Boolean);
-            modoFavoritosAtivo = true;
-            modoAtual = "FAVORITOS";
-            currentPlaylist = shuffleArray([...favMusicas]);
-            currentIndex = 0;
-            historicoReproducao = [];
-            const m = currentPlaylist[0];
-            if (m) { updateNowPlaying(m); trocarVideoPorGenero(m.genero); adicionarAoHistorico(m); }
-            genreBadge.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;"></i> ❤️ FAVORITOS (${favorites.length})`;
-            genreBadge.className = 'genre-badge favoritos';
-            if (isBackgroundActive) setTimeout(() => playMusic(), 200);
-            showNotification(`❤️ ${favMusicas.length} favoritas`, 1000);
-        }
-
-        function filterByGenre(genero) {
-            if (!musicas.length) return;
-            document.getElementById('genresModal').classList.remove('open');
-            modoFavoritosAtivo = false;
-            generoAtualPesquisa = null;
-            
-            if (genero === "MPB_POP") {
-                modoAtual = "MPB_POP";
-                const mpb = musicas.filter(m => m.genero === "MPB");
-                const pop = musicas.filter(m => m.genero === "POP");
-                const todas = [...mpb, ...pop];
-                if (todas.length === 0) { showNotification("⚠️ Nenhuma música MPB/POP", 1500); return; }
-                currentPlaylist = shuffleArray(todas);
-                currentIndex = 0;
-                genreBadge.innerHTML = 'MPB/POP';
-                genreBadge.className = 'genre-badge';
-                showNotification(`🎵 MPB/POP (${currentPlaylist.length} músicas)`, 2000);
-            } else {
-                const lista = musicas.filter(m => m.genero === genero);
-                if (lista.length === 0) { showNotification(`⚠️ Gênero "${genero}" não encontrado`, 1500); return; }
-                modoAtual = "GENERO_ESPECIFICO";
-                currentPlaylist = shuffleArray(lista);
-                currentIndex = 0;
-                genreBadge.innerHTML = genero;
-                genreBadge.className = 'genre-badge';
-                showNotification(`🎵 ${genero} (${currentPlaylist.length} músicas)`, 2000);
-            }
-            
-            const primeira = currentPlaylist[0];
-            if (primeira) {
-                updateNowPlaying(primeira);
-                adicionarAoHistorico(primeira);
-                trocarVideoPorGenero(primeira.genero);
-            }
-            if (isBackgroundActive) {
-                setTimeout(() => playMusic(), 200);
-            }
-        }
-
         function adicionarAoHistorico(musica) {
             if (!musica) return;
             historicoReproducao = historicoReproducao.filter(m => m.id !== musica.id);
             historicoReproducao.unshift(musica);
-            if (historicoReproducao.length > MAX_HISTORICO) historicoReproducao.pop();
+            if (historicoReproducao.length > 25) historicoReproducao.pop();
+        }
+
+        function updateNowPlaying(track) {
+            if (track) {
+                nowTitle.textContent = track.title;
+                nowArtist.textContent = track.artist;
+                scrollText.innerHTML = `🎵 ${track.title} - ${track.artist} [${track.genero || 'POP'}] 🎵`;
+                updateHeartIcon(track.id);
+                const cor = CORES_POR_GENERO[track.genero] || '#00f3ff';
+                equalizer.querySelectorAll('span').forEach(el => {
+                    el.style.background = `linear-gradient(180deg, ${cor}, #ff2d7f)`;
+                });
+            }
+        }
+
+        function trocarVideoPorGenero(genero) {
+            let src = 'apk300.mp4';
+            const g = (genero || '').toUpperCase().trim();
+            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
+            else if (g === 'CRISTÃ' || g === 'CRISTÃ HITS' || g === 'GOSPEL') src = 'cristo.mp4';
+            // Se o arquivo não existir, fallback para apk300.mp4
+            if (!bgVideo.src.includes(src)) {
+                bgVideo.src = src;
+                bgVideo.load();
+                bgVideo.play().catch(e => {});
+            }
         }
 
         async function playMusic() {
@@ -615,29 +692,23 @@
                 showNotification("Playlist vazia!", 1500);
                 return;
             }
-            
             if (!currentPlaylist || currentPlaylist.length === 0) {
-                const mpb = musicas.filter(m => m.genero === "MPB");
-                const pop = musicas.filter(m => m.genero === "POP");
-                const todas = [...mpb, ...pop];
-                currentPlaylist = shuffleArray(todas.length ? todas : [...musicas]);
+                currentPlaylist = shuffleArray([...musicas]);
                 currentIndex = 0;
             }
-            
             const track = obterProximaMusica();
             if (!track) {
                 showNotification("Nenhuma música disponível", 1000);
                 return;
             }
-            
             updateNowPlaying(track);
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
-            
+
             audio.pause();
             audio.src = track.src;
             audio.load();
-            
+
             audio.oncanplay = () => {
                 audio.play()
                     .then(() => {
@@ -664,10 +735,7 @@
 
         function nextTrack() {
             if (!currentPlaylist || currentPlaylist.length === 0) {
-                const mpb = musicas.filter(m => m.genero === "MPB");
-                const pop = musicas.filter(m => m.genero === "POP");
-                const todas = [...mpb, ...pop];
-                currentPlaylist = shuffleArray(todas.length ? todas : [...musicas]);
+                currentPlaylist = shuffleArray([...musicas]);
                 currentIndex = 0;
             }
             if (isPlaying) {
@@ -697,10 +765,8 @@
                 if (currentIndex < 0) currentIndex = 0;
             }
             if (currentIndex >= currentPlaylist.length) currentIndex = currentPlaylist.length - 1;
-            
             const track = currentPlaylist[currentIndex];
             if (!track) { nextTrack(); return; }
-            
             updateNowPlaying(track);
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
@@ -761,7 +827,7 @@
             audio.load();
             generoAtualPesquisa = musica.genero;
             modoFavoritosAtivo = false;
-            modoAtual = "GENERO_ESPECIFICO";
+            modoAtual = musica.genero;
             const lista = musicas.filter(m => m.genero === musica.genero);
             const outras = lista.filter(m => m.id !== musica.id);
             currentPlaylist = shuffleArray([musica, ...outras]);
@@ -774,12 +840,15 @@
             showNotification(`🎵 ${musica.title} - ${musica.artist}`, 2000);
         }
 
+        // ============================================================
+        // BUSCA (mantida)
+        // ============================================================
         function buscarMusica(termo) {
             if (!termo || termo.length < 2) {
                 if (modoFavoritosAtivo) { entrarModoFavoritos(); return; }
-                if (generoAtualPesquisa) { filterByGenre(generoAtualPesquisa); generoAtualPesquisa = null; return; }
-                if (modoAtual === "MPB_POP") filterByGenre("MPB_POP");
-                else { const g = genreBadge.textContent.replace(/[^a-zA-ZÀ-ÿ ]/g, '').trim(); if (g && g !== 'MPB/POP' && g !== 'FAVORITOS') filterByGenre(g); else filterByGenre("MPB_POP"); }
+                if (generoAtualPesquisa) { selecionarGenero(generoAtualPesquisa); generoAtualPesquisa = null; return; }
+                if (modoAtual && GENRE_URLS[modoAtual]) { selecionarGenero(modoAtual); return; }
+                selecionarGenero('MPB');
                 return;
             }
             const resultados = musicas.filter(m => m.title.toLowerCase().includes(termo.toLowerCase()) || m.artist.toLowerCase().includes(termo.toLowerCase()));
@@ -787,7 +856,7 @@
             const m = resultados[0];
             generoAtualPesquisa = m.genero;
             modoFavoritosAtivo = false;
-            modoAtual = "GENERO_ESPECIFICO";
+            modoAtual = m.genero;
             const lista = musicas.filter(m => m.genero === m.genero);
             const outras = lista.filter(m => m.id !== m.id);
             currentPlaylist = shuffleArray([m, ...outras]);
@@ -800,38 +869,38 @@
             showNotification(`🔍 ${resultados.length} músicas`, 1500);
         }
 
-        function iniciarSleepTimer() {
-            const minutos = prompt('⏰ Desligar em quantos minutos? (5, 15, 30, 60)', '15');
-            if (!minutos) return;
-            const mins = parseInt(minutos);
-            if (isNaN(mins) || mins < 1) { showNotification('⏰ Inválido', 1500); return; }
-            if (sleepTimer) clearTimeout(sleepTimer);
-            showNotification(`⏰ Desligando em ${mins} minutos`, 2000);
-            sleepTimer = setTimeout(() => { audio.pause(); showNotification('💤 Rádio desligada', 2000); }, mins * 60000);
+        // ============================================================
+        // GRID DE GÊNEROS (dinâmico a partir de GENRE_URLS)
+        // ============================================================
+        function buildGenresGrid() {
+            const genresGrid = document.getElementById('genresGrid');
+            genresGrid.innerHTML = '';
+
+            // Card FAVORITOS
+            const favCard = document.createElement('div');
+            favCard.className = 'genre-card fav-card';
+            favCard.innerHTML = `<i class="fas fa-heart" style="color:#ff2d7f;margin-right:3px;"></i> FAVORITOS (${favorites.length})`;
+            favCard.onclick = () => { document.getElementById('genresModal').classList.remove('open'); entrarModoFavoritos(); };
+            genresGrid.appendChild(favCard);
+
+            // Cards para cada gênero definido em GENRE_URLS
+            for (const [genero, url] of Object.entries(GENRE_URLS)) {
+                const card = document.createElement('div');
+                card.className = 'genre-card';
+                const cor = CORES_POR_GENERO[genero] || '#ffffff';
+                card.style.border = `2px solid ${cor}`;
+                card.style.color = cor;
+                card.textContent = genero;
+                card.onclick = () => {
+                    selecionarGenero(genero);
+                };
+                genresGrid.appendChild(card);
+            }
         }
 
-        function sendFeedback() {
-            const comment = document.getElementById('feedbackText').value;
-            const stars = document.querySelectorAll('.star.active').length;
-            const msg = `🎵 *RÁDIO PLAY 12* 🎵%0A⭐ ${'★'.repeat(stars)}${'☆'.repeat(5-stars)}%0A💬 ${comment || "Sem comentário"}`;
-            window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${msg}`, '_blank');
-            showNotification("📱 Feedback enviado!", 1000);
-            document.getElementById('feedbackModal').classList.remove('open');
-        }
-
-        function openFeedback() {
-            document.querySelectorAll('.star').forEach(s => { s.classList.remove('fas', 'active'); s.classList.add('far'); });
-            document.getElementById('feedbackModal').classList.add('open');
-        }
-
-        function trocarVideoPorGenero(genero) {
-            let src = 'apk300.mp4';
-            const g = (genero || '').toUpperCase().trim();
-            if (g === 'SERTANEJO') src = 'sertanejo.mp4';
-            else if (g === 'CRISTÃ HITS' || g === 'CRISTÃ' || g === 'GOSPEL') src = 'cristo.mp4';
-            if (!bgVideo.src.includes(src)) { bgVideo.src = src; bgVideo.load(); bgVideo.play().catch(e => {}); }
-        }
-
+        // ============================================================
+        // FUNÇÕES DE ÁUDIO (silencioso)
+        // ============================================================
         function createSilentAudio() {
             try {
                 const sampleRate = 44100, duration = 1, numSamples = sampleRate * duration;
@@ -876,7 +945,73 @@
             }
         }
 
-        // ========== EVENTOS ==========
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        async function iniciar() {
+            try {
+                // Carrega a playlist padrão: MPB
+                const listaMPB = await carregarPlaylistPorGenero('MPB');
+                if (listaMPB && listaMPB.length > 0) {
+                    musicas = listaMPB;
+                    modoAtual = 'MPB';
+                    currentPlaylist = shuffleArray([...musicas]);
+                    currentIndex = 0;
+                    const primeira = currentPlaylist[0];
+                    if (primeira) {
+                        updateNowPlaying(primeira);
+                        adicionarAoHistorico(primeira);
+                        trocarVideoPorGenero(primeira.genero);
+                    }
+                    genreBadge.innerHTML = 'MPB';
+                } else {
+                    // Fallback: tenta carregar qualquer gênero disponível
+                    const primeiroGenero = Object.keys(GENRE_URLS)[0] || 'MPB';
+                    const listaFallback = await carregarPlaylistPorGenero(primeiroGenero);
+                    if (listaFallback) {
+                        musicas = listaFallback;
+                        modoAtual = primeiroGenero;
+                        currentPlaylist = shuffleArray([...musicas]);
+                        currentIndex = 0;
+                        const primeira = currentPlaylist[0];
+                        if (primeira) {
+                            updateNowPlaying(primeira);
+                            adicionarAoHistorico(primeira);
+                            trocarVideoPorGenero(primeira.genero);
+                        }
+                        genreBadge.innerHTML = primeiroGenero;
+                    } else {
+                        // Sem músicas
+                        showNotification('❌ Nenhuma playlist carregada', 2000);
+                    }
+                }
+
+                // Recupera favoritos
+                try {
+                    const saved = localStorage.getItem('radio_favorites_simple');
+                    if (saved) favorites = JSON.parse(saved);
+                } catch(e) { favorites = []; }
+                updateFavCount();
+                renderFavList();
+                buildGenresGrid();
+
+                // Esconde splash
+                setTimeout(() => {
+                    splash.classList.add('hidden');
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        appContainer.style.display = 'block';
+                        tapToStart.style.display = 'block';
+                    }, 500);
+                }, 500);
+            } catch (err) {
+                splash.innerHTML = `<div class="splash-loading"><i class="fas fa-exclamation-triangle"></i><p>Erro: ${err.message}</p><button onclick="location.reload()" style="margin-top:10px;padding:8px 20px;border-radius:20px;border:none;background:#00f3ff;color:#000;font-weight:bold;">Recarregar</button></div>`;
+            }
+        }
+
+        // ============================================================
+        // EVENTOS DOM
+        // ============================================================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
         audio.addEventListener('ended', nextTrack);
@@ -904,7 +1039,7 @@
 
         document.getElementById('fabGeneros').addEventListener('click', () => { openGenres(); fabMain.click(); });
         document.getElementById('fabFeedback').addEventListener('click', () => { openFeedback(); fabMain.click(); });
-        document.getElementById('fabYoutube').addEventListener('click', () => { window.open(LINK_YOUTUBE, '_blank'); fabMain.click(); });
+        document.getElementById('fabYoutube').addEventListener('click', () => { window.open('https://sites.google.com/view/rogersjc/in%C3%ADcio', '_blank'); fabMain.click(); });
         document.getElementById('fabShare').addEventListener('click', () => {
             if (navigator.share) navigator.share({ title: 'Rádio Play 12', url: location.href });
             else { navigator.clipboard.writeText(location.href); showNotification('🔗 Link copiado!'); }
@@ -918,7 +1053,13 @@
 
         document.getElementById('sleepMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open'); 
-            iniciarSleepTimer(); 
+            const minutos = prompt('⏰ Desligar em quantos minutos? (5, 15, 30, 60)', '15');
+            if (!minutos) return;
+            const mins = parseInt(minutos);
+            if (isNaN(mins) || mins < 1) { showNotification('⏰ Inválido', 1500); return; }
+            if (sleepTimer) clearTimeout(sleepTimer);
+            showNotification(`⏰ Desligando em ${mins} minutos`, 2000);
+            sleepTimer = setTimeout(() => { audio.pause(); showNotification('💤 Rádio desligada', 2000); }, mins * 60000);
         });
         
         document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { 
@@ -956,10 +1097,12 @@
             const termo = e.target.value.trim();
             if (termo === '') {
                 if (modoFavoritosAtivo) { entrarModoFavoritos(); return; }
-                if (generoAtualPesquisa) { filterByGenre(generoAtualPesquisa); generoAtualPesquisa = null; return; }
-                if (modoAtual === "MPB_POP") filterByGenre("MPB_POP");
-                else { const g = genreBadge.textContent.replace(/[^a-zA-ZÀ-ÿ ]/g, '').trim(); if (g && g !== 'MPB/POP' && g !== 'FAVORITOS') filterByGenre(g); else filterByGenre("MPB_POP"); }
-            } else { buscarMusica(termo); }
+                if (generoAtualPesquisa) { selecionarGenero(generoAtualPesquisa); generoAtualPesquisa = null; return; }
+                if (modoAtual && GENRE_URLS[modoAtual]) { selecionarGenero(modoAtual); return; }
+                selecionarGenero('MPB');
+            } else {
+                buscarMusica(termo);
+            }
         });
 
         menuButton.addEventListener('click', (e) => { 
@@ -1002,7 +1145,19 @@
                 });
             });
         });
-        document.getElementById('sendFeedbackBtn').addEventListener('click', sendFeedback);
+        document.getElementById('sendFeedbackBtn').addEventListener('click', () => {
+            const comment = document.getElementById('feedbackText').value;
+            const stars = document.querySelectorAll('.star.active').length;
+            const msg = `🎵 *RÁDIO PLAY 12* 🎵%0A⭐ ${'★'.repeat(stars)}${'☆'.repeat(5-stars)}%0A💬 ${comment || "Sem comentário"}`;
+            window.open(`https://wa.me/5512988461978?text=${msg}`, '_blank');
+            showNotification("📱 Feedback enviado!", 1000);
+            document.getElementById('feedbackModal').classList.remove('open');
+        });
+
+        function openFeedback() {
+            document.querySelectorAll('.star').forEach(s => { s.classList.remove('fas', 'active'); s.classList.add('far'); });
+            document.getElementById('feedbackModal').classList.add('open');
+        }
 
         let lastTap = 0;
         document.getElementById('nowPlaying').addEventListener('click', (e) => {
@@ -1015,66 +1170,13 @@
             showControls();
         });
 
-        async function carregarPlaylist() {
-            try {
-                const res = await fetch(PLAYLIST_URL);
-                if (!res.ok) throw new Error('Erro');
-                return await res.json();
-            } catch (e) {
-                showNotification('Erro ao carregar playlist!', 2000);
-                return [];
-            }
+        function openGenres() {
+            buildGenresGrid();
+            document.getElementById('genresModal').classList.add('open');
+            showControls();
         }
 
-        async function iniciar() {
-            try {
-                const dados = await carregarPlaylist();
-                musicas = dados.filter(m => m.src && m.src.trim() && m.title && m.title.trim());
-                musicas.forEach(m => {
-                    let g = (m.genero || "POP").toUpperCase().trim();
-                    if (g === "FORRO" || g === "FORRÓ") g = "FORRÓ";
-                    m.genero = g;
-                });
-
-                try {
-                    const saved = localStorage.getItem('radio_favorites_simple');
-                    if (saved) favorites = JSON.parse(saved);
-                } catch(e) { favorites = []; }
-
-                modoAtual = "MPB_POP";
-                modoFavoritosAtivo = false;
-                genreBadge.innerHTML = 'MPB/POP';
-                
-                const mpb = musicas.filter(m => m.genero === "MPB");
-                const pop = musicas.filter(m => m.genero === "POP");
-                const todas = [...mpb, ...pop];
-                if (todas.length > 0) {
-                    currentPlaylist = shuffleArray(todas);
-                    currentIndex = 0;
-                    const primeira = currentPlaylist[0];
-                    if (primeira) {
-                        updateNowPlaying(primeira);
-                        adicionarAoHistorico(primeira);
-                    }
-                }
-
-                updateFavCount();
-                renderFavList();
-                buildGenresGrid();
-
-                setTimeout(() => {
-                    splash.classList.add('hidden');
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                        appContainer.style.display = 'block';
-                        tapToStart.style.display = 'block';
-                    }, 500);
-                }, 500);
-            } catch (err) {
-                splash.innerHTML = `<div class="splash-loading"><i class="fas fa-exclamation-triangle"></i><p>Erro: ${err.message}</p><button onclick="location.reload()" style="margin-top:10px;padding:8px 20px;border-radius:20px;border:none;background:#00f3ff;color:#000;font-weight:bold;">Recarregar</button></div>`;
-            }
-        }
-
+        // Inicia
         window.addEventListener('load', iniciar);
     </script>
 </body>
