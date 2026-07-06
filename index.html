@@ -6,7 +6,7 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== ESTILOS (mantidos os mesmos) ===== */
+        /* ===== ESTILOS (mantidos) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --cor-destaque: #00f3ff; }
@@ -86,8 +86,6 @@
         .teaching-bar { position: fixed; bottom: 115px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); padding: 6px 22px; border-radius: 40px; font-size: 0.6rem; font-weight: 800; color: #ddd; z-index: 26; pointer-events: none; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; letter-spacing: 0.5px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .teaching-bar span { color: var(--neon-pink); font-weight: 900; }
         .teaching-bar .cyan { color: var(--neon-cyan); font-weight: 900; }
-        
-        .tap-hint { display: none; }
         
         .bottom-controls { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border-top: 1px solid rgba(0,243,255,0.3); padding: 6px 12px 10px; z-index: 20; transform: translateY(100%); transition: transform 0.3s ease; }
         .bottom-controls.visible { transform: translateY(0); }
@@ -206,12 +204,10 @@
     </style>
 </head>
 <body>
-    <!-- Vídeo de fundo -->
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
         <source src="apk300.mp4" type="video/mp4">
     </video>
 
-    <!-- Splash -->
     <div id="splash">
         <div class="splash-loading">
             <i class="fas fa-circle-notch fa-spin"></i>
@@ -219,10 +215,8 @@
         </div>
     </div>
 
-    <!-- Botão ativar rádio -->
     <div id="tap-to-start">ATIVAR RÁDIO</div>
 
-    <!-- App principal -->
     <div class="app" id="appContainer" style="display: none;">
         <div class="top-bar" id="topBar">
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB</div>
@@ -296,7 +290,6 @@
         <button class="close-btn" id="closeHistBtn">FECHAR</button>
     </div>
 
-    <!-- Controles inferiores -->
     <div class="bottom-controls" id="bottomControls">
         <div class="progress-time"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
         <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -308,7 +301,6 @@
         </div>
     </div>
 
-    <!-- FAB -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-sub" id="fabSub">
             <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i> Gêneros</button>
@@ -319,7 +311,6 @@
         <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
     </div>
 
-    <!-- Menu popup -->
     <div class="menu-popup" id="menuPopup">
         <button class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i> Fechar</button>
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
@@ -331,18 +322,18 @@
     <div class="notification" id="notification">Mensagem</div>
     <div id="loadingOverlay"><i class="fas fa-spinner fa-spin"></i></div>
 
-    <!-- Áudios -->
     <audio id="musicPlayer" preload="auto"></audio>
     <audio id="backgroundAudio" preload="auto" style="display: none;"></audio>
 
     <script>
         // ============================================================
-        // CONFIGURAÇÃO DOS GÊNEROS E SUAS URLs JSON
+        // LISTA COMPLETA DE GÊNEROS COM SUAS URLs
         // ============================================================
         const GENRE_URLS = {
             'MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/mpb.json',
             'POP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/pop.json',
-            'SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/sertanejo.mp4', // conforme solicitado, mas deve ser .json
+            'SERTANEJO': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/sertanejo.json',
+            'FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/forro.json',
             'SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/samba.json',
             'GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/global.json',
             'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crita.json',
@@ -350,11 +341,12 @@
             'MODA TOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/moda.json'
         };
 
-        // Cores para cada gênero (usadas no equalizador e nos cards)
+        // Cores para cada gênero (para o equalizador e cards)
         const CORES_POR_GENERO = {
             'MPB': '#2ecc71',
             'POP': '#e74c3c',
             'SERTANEJO': '#8B4513',
+            'FORRÓ': '#ff6b35',
             'SAMBA': '#f1c40f',
             'GLOBAL HITS': '#1abc9c',
             'CRISTÃ': '#f39c12',
@@ -365,14 +357,14 @@
         // ============================================================
         // VARIÁVEIS GLOBAIS
         // ============================================================
-        let musicas = [];                // todas as músicas do gênero atual
-        let currentPlaylist = [];       // lista de reprodução atual (embaralhada)
+        let musicas = [];
+        let currentPlaylist = [];
         let currentIndex = 0;
         let isPlaying = false;
         let shuffleMode = false;
         let isBackgroundActive = false;
         let timerInterval = null;
-        let modoAtual = "MPB";          // nome do gênero atual
+        let modoAtual = "MPB";
         let generoAtualPesquisa = null;
         let historicoReproducao = [];
         let favorites = [];
@@ -380,7 +372,7 @@
         let fabOpen = false;
         let sleepTimer = null;
         let hideControlsTimeout = null;
-        let currentRating = 0;
+        const playlistCache = {};
 
         // Referências DOM
         const audio = document.getElementById('musicPlayer');
@@ -411,7 +403,7 @@
         const menuPopup = document.getElementById('menuPopup');
 
         // ============================================================
-        // FUNÇÕES AUXILIARES (mantidas)
+        // FUNÇÕES AUXILIARES
         // ============================================================
         function showNotification(msg, duration = 1500) {
             notification.textContent = msg;
@@ -446,7 +438,7 @@
         }
 
         // ============================================================
-        // FUNÇÕES DE FAVORITOS (mantidas)
+        // FAVORITOS
         // ============================================================
         function updateFavCount() {
             favCount.textContent = favorites.length;
@@ -537,18 +529,14 @@
         }
 
         // ============================================================
-        // FUNÇÕES DE CARREGAMENTO DE PLAYLIST POR GÊNERO
+        // CARREGAMENTO DE PLAYLIST POR GÊNERO
         // ============================================================
-        // Cache de playlists já carregadas
-        const playlistCache = {};
-
         async function carregarPlaylistPorGenero(genero) {
             const url = GENRE_URLS[genero];
             if (!url) {
                 showNotification(`⚠️ Gênero "${genero}" não possui URL`, 1500);
                 return null;
             }
-            // Se já estiver em cache, retorna
             if (playlistCache[genero]) {
                 return playlistCache[genero];
             }
@@ -557,23 +545,19 @@
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
                 let data = await response.json();
-                // Se o JSON não for um array, tenta extrair
                 if (!Array.isArray(data)) {
-                    // Alguns JSONs podem ter uma propriedade "musicas" ou "data"
                     if (data.musicas && Array.isArray(data.musicas)) data = data.musicas;
                     else if (data.data && Array.isArray(data.data)) data = data.data;
                     else {
-                        // Tenta converter objeto em array
                         const vals = Object.values(data);
                         if (vals.length && Array.isArray(vals[0])) data = vals[0];
                         else throw new Error('Formato inválido');
                     }
                 }
-                // Normaliza cada música
                 const lista = data.filter(m => m.src && m.src.trim() && m.title && m.title.trim());
                 lista.forEach(m => {
                     m.id = m.id || `gen_${genero}_${Math.random().toString(36).substr(2, 6)}`;
-                    m.genero = genero; // força o gênero
+                    m.genero = genero;
                 });
                 playlistCache[genero] = lista;
                 showLoading(false);
@@ -585,7 +569,6 @@
             }
         }
 
-        // Carrega e ativa um gênero
         async function selecionarGenero(genero) {
             if (modoFavoritosAtivo) {
                 modoFavoritosAtivo = false;
@@ -596,15 +579,12 @@
                 showNotification(`⚠️ Nenhuma música para ${genero}`, 1500);
                 return;
             }
-            // Substitui a playlist global
             musicas = lista;
             modoAtual = genero;
             generoAtualPesquisa = null;
-            // Cria nova playlist embaralhada
             currentPlaylist = shuffleArray([...musicas]);
             currentIndex = 0;
             historicoReproducao = [];
-            // Atualiza interface
             genreBadge.innerHTML = genero;
             genreBadge.className = 'genre-badge';
             const primeira = currentPlaylist[0];
@@ -613,11 +593,9 @@
                 adicionarAoHistorico(primeira);
                 trocarVideoPorGenero(primeira.genero);
             }
-            // Se áudio ativo, toca
             if (isBackgroundActive) {
                 setTimeout(() => playMusic(), 300);
             } else {
-                // Só atualiza a exibição
                 audio.pause();
                 audio.src = '';
                 audio.load();
@@ -626,13 +604,13 @@
                 equalizer.classList.add('paused');
                 stopTimer();
             }
-            buildGenresGrid(); // atualiza o grid (pode ser chamado depois)
+            buildGenresGrid();
             showNotification(`🎵 ${genero} (${musicas.length} músicas)`, 2000);
             document.getElementById('genresModal').classList.remove('open');
         }
 
         // ============================================================
-        // FUNÇÕES DE REPRODUÇÃO (adaptadas)
+        // REPRODUÇÃO
         // ============================================================
         function obterProximaMusica() {
             if (!currentPlaylist || currentPlaylist.length === 0) {
@@ -675,7 +653,6 @@
             const g = (genero || '').toUpperCase().trim();
             if (g === 'SERTANEJO') src = 'sertanejo.mp4';
             else if (g === 'CRISTÃ' || g === 'CRISTÃ HITS' || g === 'GOSPEL') src = 'cristo.mp4';
-            // Se o arquivo não existir, fallback para apk300.mp4
             if (!bgVideo.src.includes(src)) {
                 bgVideo.src = src;
                 bgVideo.load();
@@ -841,7 +818,7 @@
         }
 
         // ============================================================
-        // BUSCA (mantida)
+        // BUSCA
         // ============================================================
         function buscarMusica(termo) {
             if (!termo || termo.length < 2) {
@@ -870,7 +847,7 @@
         }
 
         // ============================================================
-        // GRID DE GÊNEROS (dinâmico a partir de GENRE_URLS)
+        // GRID DE GÊNEROS
         // ============================================================
         function buildGenresGrid() {
             const genresGrid = document.getElementById('genresGrid');
@@ -883,7 +860,7 @@
             favCard.onclick = () => { document.getElementById('genresModal').classList.remove('open'); entrarModoFavoritos(); };
             genresGrid.appendChild(favCard);
 
-            // Cards para cada gênero definido em GENRE_URLS
+            // Cards para cada gênero definido
             for (const [genero, url] of Object.entries(GENRE_URLS)) {
                 const card = document.createElement('div');
                 card.className = 'genre-card';
@@ -899,7 +876,7 @@
         }
 
         // ============================================================
-        // FUNÇÕES DE ÁUDIO (silencioso)
+        // ÁUDIO SILENCIOSO
         // ============================================================
         function createSilentAudio() {
             try {
@@ -950,7 +927,7 @@
         // ============================================================
         async function iniciar() {
             try {
-                // Carrega a playlist padrão: MPB
+                // Carrega o gênero padrão: MPB
                 const listaMPB = await carregarPlaylistPorGenero('MPB');
                 if (listaMPB && listaMPB.length > 0) {
                     musicas = listaMPB;
@@ -965,7 +942,7 @@
                     }
                     genreBadge.innerHTML = 'MPB';
                 } else {
-                    // Fallback: tenta carregar qualquer gênero disponível
+                    // Fallback: tenta o primeiro gênero disponível
                     const primeiroGenero = Object.keys(GENRE_URLS)[0] || 'MPB';
                     const listaFallback = await carregarPlaylistPorGenero(primeiroGenero);
                     if (listaFallback) {
@@ -981,7 +958,6 @@
                         }
                         genreBadge.innerHTML = primeiroGenero;
                     } else {
-                        // Sem músicas
                         showNotification('❌ Nenhuma playlist carregada', 2000);
                     }
                 }
@@ -995,7 +971,6 @@
                 renderFavList();
                 buildGenresGrid();
 
-                // Esconde splash
                 setTimeout(() => {
                     splash.classList.add('hidden');
                     setTimeout(() => {
@@ -1176,7 +1151,6 @@
             showControls();
         }
 
-        // Inicia
         window.addEventListener('load', iniciar);
     </script>
 </body>
