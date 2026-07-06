@@ -1,4 +1,4 @@
-
+[
     {"id":98,"artist":"Kiko Zambich","title":"A Francesa","genero":"MPB","src":"A-Francesa-Kiko-Zambich-mpb.m4a"},
     {"id":99,"artist":"Carlinhos Brown","title":"A Namorada","genero":"MPB","src":"A-Namorada-Carlinhos_Brown-mpb.m4a"},
     {"id":100,"artist":"Tie e J. Gomes","title":"A Noite","genero":"MPB","src":"A_Noite_-_Tie_e_J_Gomes-pmp.m4a"},
@@ -183,3 +183,4 @@
     {"id":705,"artist":"Desconhecido","title":"Pensando_em_Você_","genero":"MPB","src":"Pensando_em_Você_.m4a"},
     {"id":707,"artist":"_J _Ryan_SP","title":"Se_Eu_Ficar_Pa_Nem_Me_Testa_","genero":"MPB","src":"Se_Eu_Ficar_Pa_Nem_Me_Testa_-_J9,_Ryan_SP.m4a"},
     {"id":712,"artist":"Banda Líbanos","title":"Além do Horizonte","genero":"MPB","src":"LIBANOS-RENASERA.m4a"}
+    ]
