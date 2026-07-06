@@ -1,4 +1,5 @@
-  {"id":252,"artist":"Bezerra da Silva","title":"A Semente","genero":"SAMBA","src":"BEZERRA_DA_SILVA_A_SEMENTE.m4a"},
+[
+{"id":252,"artist":"Bezerra da Silva","title":"A Semente","genero":"SAMBA","src":"BEZERRA_DA_SILVA_A_SEMENTE.m4a"},
     {"id":253,"artist":"Raça Negra","title":"É Tarde Demais","genero":"SAMBA","src":"Raca_Negra_Tarde_Demais.m4a"},
     {"id":254,"artist":"Péricles","title":"Até Que Durou (Ao Vivo)","genero":"SAMBA","src":"At_Que_At_Que_Durou_Ao_Vivo_PERICLIS.m4a"},
     {"id":255,"artist":"Bruno Diegues part. Thiago Soares","title":"Bom e Novo","genero":"SAMBA","src":"Bruno_Diegues_part_Thiago_Soares_Bom_e_Novo_SAMBA.m4a"},
@@ -63,4 +64,4 @@
     {"id":698,"artist":"Dilsinho","title":"Some","genero":"SAMBA","src":"Dilsinho-Some.m4a"},
     {"id":704,"artist":"_Dalê","title":"O_Poeta_","genero":"SAMBA","src":"O_Poeta_-_Dalê.m4a"},
     {"id":708,"artist":"ReZnha_Pagode","title":"Sem_ReZnha_-_Eu_Juro_","genero":"SAMBA","src":"Sem_ReZnha_-_Eu_Juro_-_Pagode.m4a"}
-  
+]
