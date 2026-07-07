@@ -1,90 +1,730 @@
 [
-
-    {"id":445,"artist":"Luan Santana","title":"Água Com Açúcar","genero":"SERTANEJO","src":"Luan_Santana_gua_Com_A_car_S.m4a"},
-    {"id":516,"artist":"Hugo e Guilherme, Maiara e Maraisa, VH e Alexandre","title":"A Carta","genero":"SERTANEJO","src":"Hugo_e_Guilherme_Maiara_e_Maraisa_Vh_e_Alexandre_A_Carta-SERTA.m4a"},
-    {"id":701,"artist":"Maiara_e_Maraisa_","title":"Aí_Eu_bebo","genero":"SERTANEJO","src":"Maiara_e_Maraisa_-_Aí_Eu_bebo.m4a"},
-    {"id":517,"artist":"VH e Alexandre","title":"Amor I Love You","genero":"SERTANEJO","src":"VH_e_Alexandre_Amor_I_Love_You-S.m4a"},
-    {"id":446,"artist":"Lauana Prado","title":"Andorinha Machucada","genero":"SERTANEJO","src":"Andorinha_Machucada-LAUNA-PRADO-SERTA.m4a"},
-    {"id":679,"artist":"Heitor_Henrique","title":"Cdzin do Forró Boys","genero":"SERTANEJO","src":"Heitor_Henrique_israelerodolffo_Cdzin_do_Forr_Boys_SERTA.m4a"},
-    {"id":447,"artist":"Gustavo Mioto part. Jorge e Mateus","title":"Anti-Amor","genero":"SERTANEJO","src":"Gustavo_Mioto_Anti_Amor_Part_Jorge_e_Mateus_S.m4a"},
-    {"id":711,"artist":"Apelido_Carinhoso","title":"Apelido_Carinhoso","genero":"SERTANEJO","src":"Gusttavo_Lima_-_Apelido_Carinhoso_-_.m4a"},
-    {"id":518,"artist":"VH e Alexandre","title":"Assino com X","genero":"SERTANEJO","src":"VH_e_Alexandre_Assino_com_X-S.m4a"},
-    {"id":448,"artist":"Zé Neto e Cristiano","title":"Barulho do Foguete","genero":"SERTANEJO","src":"Z_Neto_e_Cristiano_Barulho_do_Foguete_Escolhas_S.m4a"},
-    {"id":449,"artist":"Edson e Hudson","title":"Bica D'Água - Modão é Sempre Modão","genero":"SERTANEJO","src":"trashed-1784938535-Edson_Hudson_Bica_D_A_gua_Mod_o_Sempre_Mod_o_muzzik.m4a"},
-    {"id":450,"artist":"Gusttavo Lima","title":"Bloqueado","genero":"SERTANEJO","src":"Gusttavo_Lima_Bloqueado_S.m4a"},
-    {"id":451,"artist":"Vítor e Léo","title":"Borboletas","genero":"SERTANEJO","src":"V_tor_e_V_tor_e_L_o_Borboletas_S.m4a"},
-    {"id":452,"artist":"Lauana Prado","title":"Canarinho Prisioneiro","genero":"SERTANEJO","src":"Lauana_Prado_Canarinho_Prisioneiro_SERTA.m4a"},
-    {"id":453,"artist":"Lauana Prado","title":"Catedral - Tudo de Novo","genero":"SERTANEJO","src":"LAUANA_PRADO_CATEDRAL_TUDO_DE_NOVO_AMOR_I_LOVE_YOU_SERTA.m4a"},
-    {"id":454,"artist":"Gusttavo Lima","title":"Cem Mil","genero":"SERTANEJO","src":"Cem_Mil_Gusttavo_Lima_S.m4a"},
-    {"id":455,"artist":"Lauana Prado","title":"Cobaia","genero":"SERTANEJO","src":"Lauana_Prado_Cobaia_muzzik-S.m4a"},
-    {"id":493,"artist":"Panda","title":"Corpo Nu","genero":"SERTANEJO","src":"Panda_Corpo_Nu_S.m4a"},
-    {"id":456,"artist":"Giovana Costa","title":"Crises de Amor","genero":"SERTANEJO","src":"Crises_de_Amor_Giovana_Costa_SERTA.m4a"},
-    {"id":457,"artist":"Gusttavo Lima","title":"Dança Comigo","genero":"SERTANEJO","src":"Gusttavo_Lima_Danca_Comigo_SERTA.m4a"},
-    {"id":458,"artist":"Rionegro e Solimões","title":"Decida (Ao Vivo)","genero":"SERTANEJO","src":"Decida_Ao_Decida_Ao_Vivo_muzzik-S.m4a"},
-    {"id":459,"artist":"Bison e Comassetto","title":"Decida","genero":"SERTANEJO","src":"Bison_e_Comassetto_Decida_SERTA.m4a"},
-    {"id":460,"artist":"Diego e Victor Hugo","title":"Desbloqueado","genero":"SERTANEJO","src":"Diego-Victor_Hugo-Desbloqueado-SERTA.mp3"},
-    {"id":684,"artist":"Diego-e-Victor-Hugo","title":"Diego-e-Victor-Hugo Tubarões","genero":"SERTANEJO","src":"Diego-e-Victor-Hugo-Tubarões.m4a"},
-    {"id":697,"artist":"Di_Paullo_ Paulino","title":"Di_Paullo_Estrelinha","genero":"SERTANEJO","src":"Di_Paullo_&_Paulino_Estrelinha.m4a"},
-    {"id":461,"artist":"Simone Mendes","title":"Direitos Iguais","genero":"SERTANEJO","src":"Simone_Mendes_Direitos_Iguais_S.m4a"},
-    {"id":462,"artist":"Murilo Huff feat. Marília Mendonça","title":"Dois Enganados","genero":"SERTANEJO","src":"Murilo_Huff_DOIS_ENGANADOS_feat_Marilia_Mendonca_S.m4a"},
-    {"id":463,"artist":"Simone Mendes","title":"Dois Fugitivos","genero":"SERTANEJO","src":"Simone_Mendes_DOIS_FUGITIVOS_S.m4a"},
-    {"id":464,"artist":"Zezé Di Camargo e Luciano","title":"Dou a Vida por um Beijo","genero":"SERTANEJO","src":"Dou_a_Dou_a_Vida_por_um_S.m4a"},
-    {"id":465,"artist":"Rick e Renner","title":"Ela é Demais","genero":"SERTANEJO","src":"Ela_Ela_demais_muzzik-S.m4a"},
-    {"id":466,"artist":"Bruno Marrone e Henrique Diego","title":"Esqueci Você","genero":"SERTANEJO","src":"Bruno_Marrone_e_Henrique_Diego_Esqueci_Voc_SERTA.m4a"},
-    {"id":467,"artist":"VH e Alexandre part. Rafa e Júnior","title":"Estrada do Amor","genero":"SERTANEJO","src":"VH_e_Alexandre_Estrada_do_Amor_part_Rafa_e_Junior_Ouve_A_S.m4a"},
-    {"id":685,"artist":"Marcos- -Belutti","title":"Eu Era","genero":"SERTANEJO","src":"Marcos-&-Belutti-Eu-Era.m4a"},
-    {"id":468,"artist":"Leandro e Leonardo","title":"Eu Juro","genero":"SERTANEJO","src":"Eu_juro_Eu_juro_muzzik-S.m4a"},
-    {"id":469,"artist":"Ana Castela e Zé Felipe","title":"Eu Só Quero Você","genero":"SERTANEJO","src":"Eu_So_Quero_Voc_anacastela-zefelipe_S.m4a"},
-    {"id":470,"artist":"Fogo de Amor","title":"Eu Sem Você","genero":"SERTANEJO","src":"Eu_Sem_Voc_Fogo_de_Amor_Fim_de_Semana_SERTA.m4a"},
-    {"id":471,"artist":"Diego Victor Hugo e Bruno Marrone","title":"Facas","genero":"SERTANEJO","src":"Diego_Victor_Hugo_Bruno_Marrone_Facas_SERTA.m4a"},
-    {"id":472,"artist":"Zé Neto e Cristiano","title":"Ferida Curada","genero":"SERTANEJO","src":"Z_Neto_e_Cristiano_FERIDA_CURADA_S.m4a"},
-    {"id":473,"artist":"Gusttavo Lima","title":"Ficha Limpa","genero":"SERTANEJO","src":"Gusttavo_Lima_Ficha_Limpa_SERTA.m4a"},
-    {"id":474,"artist":"Neto Vinícius e Mayck e Lyan","title":"Garanhão da Madrugada","genero":"SERTANEJO","src":"Neto_Vinicius_Mayck_Lyan_Garanhao_da_Madrugada_S.m4a"},
-    {"id":475,"artist":"Marília Mendonça","title":"Graveto","genero":"SERTANEJO","src":"Marilia_Mendonca_Graveto_S.m4a"},
-    {"id":476,"artist":"Henrique e Juliano","title":"A Maior Saudade","genero":"SERTANEJO","src":"Henrique_e_Juliano_A_MAIOR_SAUDADE_DVD_Manifesto_S.m4a"},
-    {"id":477,"artist":"Hoje Não","title":"Hoje Não é Nosso Dia","genero":"SERTANEJO","src":"Hoje_No_Hoje_No_Nosso_Dia_SERTA.m4a"},
-    {"id":700,"artist":"Gusttavo_Lima","title":"Hora_de_Amar","genero":"SERTANEJO","src":"Gusttavo_Lima_-_Na_Hora_de_Amar.m4a"},
-    {"id":478,"artist":"Leandro e Leonardo","title":"Horizonte Azul","genero":"SERTANEJO","src":"Horizonte_azul_Horizonte_azul-S.m4a"},
-    {"id":479,"artist":"Leonardo","title":"Idas e Voltas","genero":"SERTANEJO","src":"Idas_e_Idas_e_voltas_ROGER-S.m4a"},
-    {"id":480,"artist":"Diego Victor Hugo","title":"Infarto","genero":"SERTANEJO","src":"Diego_Victor_Hugo_Infarto_SERTA.m4a"},
-    {"id":482,"artist":"Eduardo Costa","title":"Melhor ou Pior","genero":"SERTANEJO","src":"Melhor_Ou_Melhor_Ou_Pior_S.m4a"},
-    {"id":483,"artist":"Luan Santana","title":"Memória - Caçador de Corações","genero":"SERTANEJO","src":"Memoria_Memoria_Cacador_de_Corac-S.m4a"},
-    {"id":687,"artist":"MAIARA & MARAIZA","title":"Medo Bobo","genero":"SERTANEJO","src":"Medo-Bobo.m4a"},
-    {"id":484,"artist":"Marília Mendonça, Maiara e Maraisa","title":"Não Aprendi Dizer Adeus","genero":"SERTANEJO","src":"Marilia_Mendonca_Maiara_e_Maraisa_No_Aprendi_Dizer_Adeus_S.m4a"},
-    {"id":485,"artist":"Henrique e Juliano","title":"Não Gosto, Eu Amo","genero":"SERTANEJO","src":"Henrique_e_Juliano_NO_GASTO_EU_AMO-S.m4a"},
-    {"id":486,"artist":"Cleiton e Camargo","title":"Na Hora de Amar","genero":"SERTANEJO","src":"Cleiton_e_Camargo_Na_Hora_De_Amar_S.m4a"},
-    {"id":487,"artist":"Rick e Rangel","title":"Nem Mais Uma Dívida","genero":"SERTANEJO","src":"Rick_e_Rangel_Nem_mais_uma_d_vida_Quando_voc_some_S.m4a"},
-    {"id":488,"artist":"Wesley Safadão","title":"Nessas Horas","genero":"SERTANEJO","src":"WESLEY_SAFADO_Nessas_horas_S.m4a"},
-    {"id":489,"artist":"VH e Alexandre","title":"Não Se Vá","genero":"SERTANEJO","src":"VH_e_Alexandre_NOA-SE-VA-S.m4a"},
-    {"id":490,"artist":"Rick e Renner","title":"Nos Bares da Cidade","genero":"SERTANEJO","src":"Rick_Renner_Nos_Bares_da_Cidade_S.m4a"},
-    {"id":491,"artist":"Thayná Bitencourt","title":"Os Amantes - Porque","genero":"SERTANEJO","src":"Os_Amantes_Os_Amantes_Porque_S.m4a"},
-    {"id":492,"artist":"Chitãozinho e Xororó","title":"Página Virada","genero":"SERTANEJO","src":"Chitaozinho_e_Chitaozinho_e_Xororo_Pagina_Virada-S.m4a"},
-    {"id":689,"artist":"Jeninho-Mariana Fagundes","title":"Peao-Todo-Tatuado","genero":"SERTANEJO","src":"Peao-Todo-Tatuado-Jeninho-Mariana-Fagundes.m4a"},
-    {"id":494,"artist":"VH e Alexandre","title":"Peão Apaixonado","genero":"SERTANEJO","src":"VH_e_Alexandre_Peao_Apaixonado_S.m4a"},
-    {"id":495,"artist":"Gusttavo Lima","title":"Perrengue","genero":"SERTANEJO","src":"Gusttavo_Lima_Perrengue-S.m4a"},
-    {"id":496,"artist":"Diego e Victor Hugo","title":"Pingo de Palavra","genero":"SERTANEJO","src":"Diego_e_Victor_Hugo_Pingo_de_Palavra_SERTA.m4a"},
-    {"id":497,"artist":"Murilo Huff","title":"Pot-Pourri","genero":"SERTANEJO","src":"Murilo_Huff_Pout-pourri-S.m4a"},
-    {"id":498,"artist":"Sabrina Monteiro","title":"Pot-Pourri","genero":"SERTANEJO","src":"POT-POURRI-SABRINA-MONTEIRO.m4a"},
-    {"id":499,"artist":"Zezé Di Camargo e Luciano","title":"Prá Mudar Minha Vida","genero":"SERTANEJO","src":"Zez_Di_Camargo_Luciano_Pr_Mudar_Minha_Vida-S.m4a"},
-    {"id":481,"artist":"Jorge e Mateus","title":"Propaganda","genero":"SERTANEJO","src":"Jorge_Mateus_Propaganda_SERTA.m4a"},
-    {"id":500,"artist":"Matheus e Kauan","title":"Quarta Cadeira","genero":"SERTANEJO","src":"Quarta_Cadeira_MATHEUS_CAUN-S.m4a"},
-    {"id":501,"artist":"Lauana Prado","title":"Que Era Eu","genero":"SERTANEJO","src":"LAUANA_PRADO_QUE_ERA_EU_UM_DIA_DE_DOMINGO-SERTA.m4a"},
-    {"id":502,"artist":"Gusttavo Lima","title":"Retrovisor","genero":"SERTANEJO","src":"Gusttavo_Lima_Retrovisor_SERTA.m4a"},
-    {"id":503,"artist":"Gusttavo Lima part. Fagner","title":"Romance no Deserto","genero":"SERTANEJO","src":"Gusttavo_Lima_Part_Fagner_Romance-S.m4a"},
-    {"id":504,"artist":"Luiza Martins","title":"S de Saudade","genero":"SERTANEJO","src":"Luiza_Martins_S_de_Saudade_S.m4a"},
-    {"id":505,"artist":"Henrique e Juliano","title":"Seja Ex","genero":"SERTANEJO","src":"Henrique_e_Juliano_SEJA_EX_SERTA.m4a"},
-    {"id":506,"artist":"Chitãozinho e Xororó part. Zé Ramalho","title":"Sinônimos","genero":"SERTANEJO","src":"Chitaozinho_Xororo_Sinonimos_Part_Z_Ramalho-S.m4a"},
-    {"id":507,"artist":"Rafael Quadros e Panda","title":"Sou Eu (Cheiro de Shampoo)","genero":"SERTANEJO","src":"Rafael_Quadros_e_Panda_Sou_Eu_Cheiro_De_Shampoo_S.m4a"},
-    {"id":710,"artist":"Zé_Neto_e_Cristiano","title":"STATUS_QUE_EU_NÃO_QUERIA","genero":"SERTANEJO","src":"Zé_Neto_e_Cristiano_-_STATUS_QUE_EU_NÃO_QUERIA.m4a"},
-    {"id":713,"artist":"Bruno Marrone","title":"Surto De Amor","genero":"SERTANEJO","src":"BRUNO_&-MARRONE-SUTO-DE-AMOR.m4a"},
-    {"id":509,"artist":"Edson e Hudson","title":"Te Quero Pra Mim","genero":"SERTANEJO","src":"Edson_Hudson_Te_Quero_Pra_Mim_SERTA.m4a"},
-    {"id":510,"artist":"Victor e Leo","title":"Tem Que Ser Você","genero":"SERTANEJO","src":"Victor_Leo_Tem_Que_Ser_Voc-S.m4a"},
-    {"id":508,"artist":"MARCOS & BELUTE","title":"DFGR","genero":"SERTANEJO","src":"MARCOS_E-BELUTE.mp3"},
-    {"id":511,"artist":"Diego e Arnaldo part. Zé Neto e Cristiano","title":"Último Adeus","genero":"SERTANEJO","src":"Diego_e_Arnaldo_part_Rionegro_e_Solim_es_Boiadeiro_e_Violeiro_Aqui_O_Sistema_Bruto_muzzik.m4a"},
-    {"id":512,"artist":"Paula Machado","title":"Um Bom Perdedor","genero":"SERTANEJO","src":"Declaracao_de_Amor_Um_Bom_Perdedor_PAULA_MACHADO_SERTA.m4a"},
-    {"id":513,"artist":"George Henrique e Rodrigo e Marília Mendonça","title":"Vai Lá em Casa","genero":"SERTANEJO","src":"George-Henrique-e-Rodrigo-Marilia-Mendonca-VAI-LA-EM-CASA-SERTA.mp3"},
-    {"id":514,"artist":"Hugo e Guilherme","title":"Vazou na Braquiara","genero":"SERTANEJO","src":"Vazou-na-Braquiara-SERTA.mp3"},
-    {"id":515,"artist":"Murilo Huff e Natanzinho Lima","title":"Vida de Cão","genero":"SERTANEJO","src":"Murilo_Huff_e_Natanzinho_Lima_Vida_de_Cao-S.m4a"},
-    {"id":695,"artist":"Zé Neto-e-Cristiano","title":"Zé Neto-e-Cristiano-Cadeira Cativa","genero":"SERTANEJO","src":"Zé Neto-e-Cristiano-Cadeir-Cativa.m4a"},
-    {"id":800,"artist":"henrique & Juliano","title":"","genero":"SERTANEJO","src":"Henrique_e_Juliano_N_O_GOSTO_EU_AMO-S.m4a"}
+  {
+    "id": 1,
+    "artist": "TROPICALIA",
+    "title": "FOGO NO FOGO",
+    "genero": "FORRÓ",
+    "src": "Fogo-No-Fogo-Tropykália-.m4a"
+  },
+  {
+    "id": 2,
+    "artist": "Neo Pinel",
+    "title": "A Rural",
+    "genero": "FORRÓ",
+    "src": "A_Rural_A-Neo_Pinel.m4a"
+  },
+  {
+    "id": 3,
+    "artist": "Batista Lima",
+    "title": "Ainda É Tempo",
+    "genero": "FORRÓ",
+    "src": "AINDA-E-TEMPO-BATS-LIMA-FORRO.m4a"
+  },
+  {
+    "id": 4,
+    "artist": "Imperador",
+    "title": "Amar Você É Tão Bom",
+    "genero": "FORRÓ",
+    "src": "Amar-Você-É-Tão-Bom-IMPERADOR-FORRO.m4a"
+  },
+  {
+    "id": 5,
+    "artist": "Solange Almeida",
+    "title": "Anjo Querubim",
+    "genero": "FORRÓ",
+    "src": "Anjo_Querubim_SOLANGE-ALMEIDA-FORRO.m4a"
+  },
+  {
+    "id": 6,
+    "artist": "Roger",
+    "title": "Anjo Bom",
+    "genero": "FORRÓ",
+    "src": "ANJO=BOM-ROGER-F.m4a"
+  },
+  {
+    "id": 7,
+    "artist": "Ju Moura",
+    "title": "Aonde Está Você",
+    "genero": "FORRÓ",
+    "src": "AONDE-ESTÁ-VOCÊ-JU-MOURA-FORRO.m4a"
+  },
+  {
+    "id": 8,
+    "artist": "Solange Almeida e Elba Ramalho",
+    "title": "Bate Coração",
+    "genero": "FORRÓ",
+    "src": "Bate_Cora_o_Solange_Almeida_Elba_Ramalho_FORRO.m4a"
+  },
+  {
+    "id": 9,
+    "artist": "BRASAS DO FORRÓ",
+    "title": "VARIADAS",
+    "genero": "FORRÓ",
+    "src": "Brasas_do_Forr_S_o_Tantas_Coisas_Meiga_Senhorita_Pressentimento_Meu_Cofrinho_de_Amor_muzzik.m4a"
+  },
+  {
+    "id": 10,
+    "artist": "EDY",
+    "title": "POUT-POURRI",
+    "genero": "FORRÓ",
+    "src": "Vai_Vai_Pensa_em_Mim_Ao_Vivo__muzzik.m4a"
+  },
+  {
+    "id": 11,
+    "artist": "Show Forró",
+    "title": "Boa Sorte Samira",
+    "genero": "FORRÓ",
+    "src": "Boa-Sorte-Samira-show-forro.m4a"
+  },
+  {
+    "id": 12,
+    "artist": "Human Nature feat. Rodrigo Teaser e Calcinha Preta",
+    "title": "Bom Demais",
+    "genero": "FORRÓ",
+    "src": "Bom_Demais_Human_Nature_feat_Rodrigo_Teaser_Calcinha_PretaFORRO.m4a"
+  },
+  {
+    "id": 13,
+    "artist": "J. Tatu",
+    "title": "Brasas",
+    "genero": "FORRÓ",
+    "src": "BRASAS-J-TATU_FORRO.m4a"
+  },
+  {
+    "id": 14,
+    "artist": "JOÃO GOMES",
+    "title": "SONHOS",
+    "genero": "FORRÓ",
+    "src": "Jo_o_Gomes_Cantor_SONHO_Jo_o_Gomes_muzzik.m4a"
+  },
+  {
+    "id": 15,
+    "artist": "Cavalo Alado",
+    "title": "Cavalo Alado",
+    "genero": "FORRÓ",
+    "src": "Cavalo_Alado_Cavalo_Alado_FORRO.m4a"
+  },
+  {
+    "id": 16,
+    "artist": "Cheiro de Nós",
+    "title": "Cheiro de Nós (Original Mix)",
+    "genero": "FORRÓ",
+    "src": "Cheiro_de_Cheiro_de_Nos_Original_Mix-FORRO.m4a"
+  },
+  {
+    "id": 17,
+    "artist": "Claudio Ney e Juliana",
+    "title": "Porsche Azul",
+    "genero": "FORRÓ",
+    "src": "Claudio_Ney_e_Juliana_Porsche_Azul_FORRO.m4a"
+  },
+  {
+    "id": 18,
+    "artist": "Claudio Ney e Juliana",
+    "title": "Coisa de I.A.",
+    "genero": "FORRÓ",
+    "src": "Claudio_Ney_e_Juliana_Coisa_de_I_A_FORRO.m4a"
+  },
+  {
+    "id": 19,
+    "artist": "Batista Lima",
+    "title": "De Que Vale Ter Tudo na Vida",
+    "genero": "FORRÓ",
+    "src": "DE_QUE_VALE_TER_TUDO_NA_VIDA_Batista_Lima_FORRO.m4a"
+  },
+  {
+    "id": 20,
+    "artist": "Solange Almeida feat. Erika Ender",
+    "title": "Despacito",
+    "genero": "FORRÓ",
+    "src": "Despacito_Solange_Almeida_feat_Erika_Ender_FORRO.m4a"
+  },
+  {
+    "id": 21,
+    "artist": "Fernandinha",
+    "title": "Dia de Pagamento",
+    "genero": "FORRÓ",
+    "src": "DIA-DE-PAGAMENTO-Fernandinha-FORRO.mp3"
+  },
+  {
+    "id": 22,
+    "artist": "Encantus",
+    "title": "Estrela",
+    "genero": "FORRÓ",
+    "src": "Estrela_ENCANTUS-FORRO.m4a"
+  },
+  {
+    "id": 23,
+    "artist": "Fernandinha",
+    "title": "Tô Fazendo Falta",
+    "genero": "FORRÓ",
+    "src": "Fernandinha_-_Tô_Fazendo_Falta_Forro.m4a"
+  },
+  {
+    "id": 24,
+    "artist": "Fernandinha",
+    "title": "A Vida Tem Dessas Coisas",
+    "genero": "FORRÓ",
+    "src": "Fernandinha_A_Vida_Tem_Dessas_Coisas_forro.m4a"
+  },
+  {
+    "id": 25,
+    "artist": "Fernandinha",
+    "title": "Bye Bye My Love",
+    "genero": "FORRÓ",
+    "src": "Fernandinha_Bye_Bye_My_Love_forro.m4a"
+  },
+  {
+    "id": 26,
+    "artist": "Fernandinha e Filho do Piseiro",
+    "title": "Os Barulhinhos",
+    "genero": "FORRÓ",
+    "src": "Fernandinha_e_Filho_do_Piseiro_Os_Barulhinhos_FORRO.m4a"
+  },
+  {
+    "id": 27,
+    "artist": "MEDOIN",
+    "title": "DONA",
+    "genero": "FORRÓ",
+    "src": "Dona_Dona_muzzik.m4a"
+  },
+  {
+    "id": 28,
+    "artist": "Ítalo",
+    "title": "Fico Assim Sem Você",
+    "genero": "FORRÓ",
+    "src": "FICO-ASSIM-SEM-VOCE.ITALO-FORRO.m4a"
+  },
+  {
+    "id": 29,
+    "artist": "Flávio Leandro",
+    "title": "Onde Deus Possa Me Ouvir",
+    "genero": "FORRÓ",
+    "src": "Flavio_Leandro_Onde_Deus_Possa_Me_Ouvir-forro.m4a"
+  },
+  {
+    "id": 30,
+    "artist": "Sextou",
+    "title": "Forró do Medoin",
+    "genero": "FORRÓ",
+    "src": "FORR0-MEDOIN-SEXTOU-FORRO.m4a"
+  },
+  {
+    "id": 31,
+    "artist": "Anjo Azul",
+    "title": "Vem Pra Mim",
+    "genero": "FORRÓ",
+    "src": "Forro_Anjo_Azul_Vem_Pra_Mim_forro.m4a"
+  },
+  {
+    "id": 32,
+    "artist": "GALICIA",
+    "title": "MEU UNIVÉRSO",
+    "genero": "FORRÓ",
+    "src": "Gal_cia_Meu_Universo_Voc__muzzik.m4a"
+  },
+  {
+    "id": 33,
+    "artist": "Galícia",
+    "title": "Meu Grande Amor",
+    "genero": "FORRÓ",
+    "src": "Galcia_Meu_Grande_Amo-F.m4a"
+  },
+  {
+    "id": 34,
+    "artist": "Guilherme Ferri",
+    "title": "Jardim dos Animais",
+    "genero": "FORRÓ",
+    "src": "Guilherme_Ferri_Jardim_dos_Animais_FORRO.m4a"
+  },
+  {
+    "id": 35,
+    "artist": "Humão Panda",
+    "title": "Edi",
+    "genero": "FORRÓ",
+    "src": "Humao_Panda_edi-forro.m4a"
+  },
+  {
+    "id": 36,
+    "artist": "João Gomes",
+    "title": "Uns Km",
+    "genero": "FORRÓ",
+    "src": "Jo_o_Gomes_Cantor_UNS_KM-FORRO.m4a"
+  },
+  {
+    "id": 37,
+    "artist": "João Gomes",
+    "title": "Fiel",
+    "genero": "FORRÓ",
+    "src": "Jo_o_Gomes_FIEL-FORRO.m4a"
+  },
+  {
+    "id": 38,
+    "artist": "Kally Fonseca",
+    "title": "POUT-POURRI",
+    "genero": "FORRÓ",
+    "src": "Kally-Fonseca-Dj-Maluco-forro.m4a"
+  },
+  {
+    "id": 39,
+    "artist": "Kally Fonseca e Vicente Nery",
+    "title": "Kally Fonseca e Vicente Nery",
+    "genero": "FORRÓ",
+    "src": "Kally_Fonseca_e_Vicente_Nery-FORRO.m4a"
+  },
+  {
+    "id": 40,
+    "artist": "Laninha Show",
+    "title": "V Songs",
+    "genero": "FORRÓ",
+    "src": "Laninha_Show_V-SONGS-FORRO.m4a"
+  },
+  {
+    "id": 41,
+    "artist": "Chambinho do Acordeon e Waldonys",
+    "title": "Lembrança de um Beijo",
+    "genero": "FORRÓ",
+    "src": "Lemb_de_um_Beijo_Chambinho_Do_Acordeon_Waldonys_FORRO.m4a"
+  },
+  {
+    "id": 42,
+    "artist": "Chuva",
+    "title": "Lenda do Guaran",
+    "genero": "FORRÓ",
+    "src": "Lenda_do_Guaran_Chuva-FORRO.m4a"
+  },
+  {
+    "id": 43,
+    "artist": "Medley_Nattan.m4a",
+    "title": "Medley",
+    "genero": "FORRÓ",
+    "src": "Medley_Nattan.m4a"
+  },
+  {
+    "id": 44,
+    "artist": "Mano Walter, Sirano e Sirino",
+    "title": "Tô Bebendo, Tô Pagando",
+    "genero": "FORRÓ",
+    "src": "Mano_Walter_Sirano_Sirino_To_Bebendo_To_Pagando_F.m4a"
+  },
+  {
+    "id": 45,
+    "artist": "Márcia Fellipe",
+    "title": "Péssimo Negócio",
+    "genero": "FORRÓ",
+    "src": "Marcia_Fellipe_Pessimo_Negocio_FORRO.m4a"
+  },
+  {
+    "id": 46,
+    "artist": "Marquinhos Maraial e Xand",
+    "title": "Pequeno Celular",
+    "genero": "FORRÓ",
+    "src": "Marquinhos_Maraial_e_Xand_Pequeno_Celular_F.m4a"
+  },
+  {
+    "id": 47,
+    "artist": "Lagosta Bronzeada",
+    "title": "Mensagem pra Você",
+    "genero": "FORRÓ",
+    "src": "Mensagem_pra_Voc_Lagosta_Bronzeada_muzzik.m4a"
+  },
+  {
+    "id": 48,
+    "artist": "Limão com Mel e Santana",
+    "title": "Meu Cenário",
+    "genero": "FORRÓ",
+    "src": "Meu-Cenário-Anjo_Querubim-Limão_Com_Mel_e_Santana_F.m4a"
+  },
+  {
+    "id": 49,
+    "artist": "LEO FUGUETE",
+    "title": "QUÉM DE NÓS DOIS",
+    "genero": "FORRÓ",
+    "src": "Leo_Foguete_Quem_De_N_s_Dois_muzzik.m4a"
+  },
+  {
+    "id": 50,
+    "artist": "Michele Andrade part. Tony Guerra",
+    "title": "Obsessão",
+    "genero": "FORRÓ",
+    "src": "Michele_Andrade_Obsess_o_part_Tony_Guerra_F.m4a"
+  },
+  {
+    "id": 51,
+    "artist": "Desejo de Menina",
+    "title": "Moldura",
+    "genero": "FORRÓ",
+    "src": "Moldura-Desejo-de-Menina-F.mp3"
+  },
+  {
+    "id": 52,
+    "artist": "Men",
+    "title": "Morena Tropicana",
+    "genero": "FORRÓ",
+    "src": "Morena_Tropicana_MEN_F.m4a"
+  },
+  {
+    "id": 53,
+    "artist": "Sintura de Molas",
+    "title": "Muito Estranho",
+    "genero": "FORRÓ",
+    "src": "Muito_Estranho_SINTURA-DE-MOLAS-F.m4a"
+  },
+  {
+    "id": 54,
+    "artist": "Berg & Taty",
+    "title": "Não Sou de Ninguém",
+    "genero": "FORRÓ",
+    "src": "Não_sou_de_NInguém-Berg-&Taty-forro.m4a"
+  },
+  {
+    "id": 55,
+    "artist": "Nattan e Leo Foguete",
+    "title": "Última Noite",
+    "genero": "FORRÓ",
+    "src": "Nattan_e_Leo_Foguete_Ultima_Noite-F.m4a"
+  },
+  {
+    "id": 56,
+    "artist": "Nattan e Eduardo Costa",
+    "title": "Ainda Tô Aí",
+    "genero": "FORRÓ",
+    "src": "Nattan_Eduardo_Costa_Ainda_T_A_F.m4a"
+  },
+  {
+    "id": 57,
+    "artist": "Nattan",
+    "title": "Vontade de Prestar",
+    "genero": "FORRÓ",
+    "src": "Nattan_Vontade_de_Prestar_F.m4a"
+  },
+  {
+    "id": 58,
+    "artist": "Zé Filho Sanfoneiro",
+    "title": "Paixão Proibida (Ao Vivo)",
+    "genero": "FORRÓ",
+    "src": "Paix_o_Proibida_Ao_Vivo_Z_Filho_Sanfoneiro_FORRO.m4a"
+  },
+  {
+    "id": 59,
+    "artist": "Parceira de Forró",
+    "title": "Parceira de Forró",
+    "genero": "FORRÓ",
+    "src": "Parceira_De_Parceira_De_Forro-f.m4a"
+  },
+  {
+    "id": 60,
+    "artist": "Patrick Costa, Henrique e Juliano, Xand Avião",
+    "title": "Diga Pra Mim",
+    "genero": "FORRÓ",
+    "src": "Patrick_Costa_Henrique_e_Juliano_Xand_Avi_o_Diga_Pra_Mim_F.m4a"
+  },
+  {
+    "id": 61,
+    "artist": "Peruanno e Samyra Show",
+    "title": "Erro Bom",
+    "genero": "FORRÓ",
+    "src": "Peruanno_Samyra_Show_Erro_Bom_F.m4a"
+  },
+  {
+    "id": 62,
+    "artist": "Três Nordestinos",
+    "title": "Petrolina Juazeiro",
+    "genero": "FORRÓ",
+    "src": "PETROLINA_JUAZEIRO_TR_S_NORDESTINOS_F.m4a"
+  },
+  {
+    "id": 63,
+    "artist": "Limão com Mel",
+    "title": "Ponta de Faca - Me Diz Amor",
+    "genero": "FORRÓ",
+    "src": "Ponta_De_Faca-Me_Diz_Amor-Limão_Com_Mel-F.m4a"
+  },
+  {
+    "id": 64,
+    "artist": "Aduílio Mendes",
+    "title": "Pot-Pourri",
+    "genero": "FORRÓ",
+    "src": "POT-POIRRI-ADUILIO-MENDE-FORRO.m4a"
+  },
+  {
+    "id": 65,
+    "artist": "Henry Freitas e Taty Girl",
+    "title": "Fogo no Fogo",
+    "genero": "FORRÓ",
+    "src": "Pot_ncia_Music_Henry_Freitas_Taty_Girl_Fogo_no_Fogo_F.m4a"
+  },
+  {
+    "id": 66,
+    "artist": "Moicano",
+    "title": "Quero Você",
+    "genero": "FORRÓ",
+    "src": "Quero-vc-Moicano.m4a"
+  },
+  {
+    "id": 67,
+    "artist": "Mastruz com Leite",
+    "title": "Raízes do Nordeste",
+    "genero": "FORRÓ",
+    "src": "Ra_zes_do_Nordeste_Mastruz_com_Leite_F.m4a"
+  },
+  {
+    "id": 68,
+    "artist": "Rasta Chinela",
+    "title": "Como Uma Deusa",
+    "genero": "FORRÓ",
+    "src": "Rasta_Chinela_COMO_UMA_DEUSA_F.m4a"
+  },
+  {
+    "id": 69,
+    "artist": "Mastruz com Leite",
+    "title": "Razões",
+    "genero": "FORRÓ",
+    "src": "RAZÕES-Mastruz-forro.mp3"
+  },
+  {
+    "id": 70,
+    "artist": "Roger Cé",
+    "title": "Real",
+    "genero": "FORRÓ",
+    "src": "real-ROGER-CE-F.mp3"
+  },
+  {
+    "id": 71,
+    "artist": "Aline Reis e Zé Cantor",
+    "title": "Remédio pra Raiva",
+    "genero": "FORRÓ",
+    "src": "Remdio_pra_raivaAlinne_Reis_e_ZéCantor-.m4a"
+  },
+  {
+    "id": 72,
+    "artist": "Zezo",
+    "title": "Rogerplay",
+    "genero": "FORRÓ",
+    "src": "Rogerplay-ZEZO-F.m4a"
+  },
+  {
+    "id": 73,
+    "artist": "Roger PA",
+    "title": "Sábado à Noite",
+    "genero": "FORRÓ",
+    "src": "SABADO-A-NOITE-SABADOROGER-PA-F.mp3"
+  },
+  {
+    "id": 74,
+    "artist": "Fernandinha",
+    "title": "Serpente",
+    "genero": "FORRÓ",
+    "src": "SERPENTE-Fernandinha-F.mp3"
+  },
+  {
+    "id": 75,
+    "artist": "CSD Forró",
+    "title": "Sem Radar",
+    "genero": "FORRÓ",
+    "src": "SEM-RADAR-CSDFOR-F.m4a"
+  },
+  {
+    "id": 76,
+    "artist": "Silvânia e Berg",
+    "title": "Duas Paixões",
+    "genero": "FORRÓ",
+    "src": "Silv_nia_e_Berg_Duas_Paix_es_Fique_Amor_Ao_F.m4a"
+  },
+  {
+    "id": 77,
+    "artist": "Avine Vinny e Rey Vaqueiro",
+    "title": "Solteiro Cruel",
+    "genero": "FORRÓ",
+    "src": "Solteiro_Cruel_Avine_Vinny_Rey_Vaqueiro_Fogo_F.m4a"
+  },
+  {
+    "id": 78,
+    "artist": "Sonho Real",
+    "title": "Sonho Real",
+    "genero": "FORRÓ",
+    "src": "Sonho_Real_Sonho_Real_F.m4a"
+  },
+  {
+    "id": 79,
+    "artist": "Limão com Mel e Tropykália",
+    "title": "Tarde Demais",
+    "genero": "FORRÓ",
+    "src": "Tarde_Demais_N_o_D_Prazer_Lim_o_com_Mel_e_Tropyk_lia_F.m4a"
+  },
+  {
+    "id": 80,
+    "artist": "BRASAS DO FORRÓ",
+    "title": "Pout-Pourri",
+    "genero": "FORRÓ",
+    "src": "Brasas_do_Forr_Sendo_Assim_V_Com_Deus_Toca_O_Telefone_Eu_Duvido_DVD_Eitaa_Forroz_oo_muzzik.m4a"
+  },
+  {
+    "id": 81,
+    "artist": "Smira Show Forró",
+    "title": "Último Pau de Arara",
+    "genero": "FORRÓ",
+    "src": "Último-Pau-de-Arara-Smira_show-forro.m4a"
+  },
+  {
+    "id": 82,
+    "artist": "Mara Pavanelly e Dorgival Dantas",
+    "title": "Valeu",
+    "genero": "FORRÓ",
+    "src": "Valeu_Mara_Pavanelly_Dorgival_Dantas-F.m4a"
+  },
+  {
+    "id": 83,
+    "artist": "Vaqueiro",
+    "title": "Vaqueiro e o Motorista",
+    "genero": "FORRÓ",
+    "src": "Vaqueiro_e_Vaqueiro_e_o_Motorista_F.m4a"
+  },
+  {
+    "id": 84,
+    "artist": "Desejo de Menina",
+    "title": "Vida Vazia",
+    "genero": "FORRÓ",
+    "src": "Vida_Vazia-Desejo-de-Menina-forro.mp3"
+  },
+  {
+    "id": 85,
+    "artist": "Fernandinha",
+    "title": "Você Fugiu de Mim",
+    "genero": "FORRÓ",
+    "src": "Voc_Fugiu_Voc_Fugiu_de_Mim_muzzik-S.m4a"
+  },
+  {
+    "id": 86,
+    "artist": "zé vaueiro",
+    "title": "Eu_Te_seguro",
+    "genero": "FORRÓ",
+    "src": "Eu_Te_Eu_Te_Seguro_ze__muzzik.m4a"
+  },
+  {
+    "id": 87,
+    "artist": "Wesley Safadão e Silvânia",
+    "title": "Wesley Safadão e Silvânia",
+    "genero": "FORRÓ",
+    "src": "Wesley_Safad_o_e_Silvnia-F.m4a"
+  },
+  {
+    "id": 88,
+    "artist": "Wesley Safadão e Xand",
+    "title": "Wesley Safadão e Xand",
+    "genero": "FORRÓ",
+    "src": "Wesley_Safad_o_e_Xand-F.m4a"
+  },
+  {
+    "id": 89,
+    "artist": "Wesley Safadão, Xand Avião e Zé Vaqueiro",
+    "title": "Wesley Safadão, Xand Avião e Zé Vaqueiro",
+    "genero": "FORRÓ",
+    "src": "Wesley_Safad_o_Xand_Avi_o_e_Z_Vaqueiro_F.m4a"
+  },
+  {
+    "id": 90,
+    "artist": "ZÉ CANTOR",
+    "title": "VARZE",
+    "genero": "FORRÓ",
+    "src": "Carona_Quero_Ir_Pro_Forr_Pistoleira_Darund_Vuco_Vuco_Z_Cantor_Solteir_es_anos_muzzik.m4a"
+  },
+  {
+    "id": 91,
+    "artist": "JUAREZ",
+    "title": "POT-POURRI",
+    "genero": "FORRÓ",
+    "src": "Quando_Chegar_o_Amanh_Pra_Que_Saber_Meu_Nome_Juarez_O_Brega_Virou_Forroz_o_muzzik.m4a"
+  },
+  {
+    "id": 92,
+    "artist": "EDY",
+    "title": "Pout-Pourri",
+    "genero": "FORRÓ",
+    "src": "Brasas_do_Forr_Sendo_Assim_V_Com_Deus_Toca_O_Telefone_Eu_Duvido_DVD_Eitaa_Forroz_oo_muzzik.m4a"
+  },
+  {
+    "id": 93,
+    "artist": "Solange",
+    "title": "Xote dos Milagres",
+    "genero": "FORRÓ",
+    "src": "Xote_Dos_Milagres_Xote_da_Alegria_Rindo_Toa_Solange-F.m4a"
+  },
+  {
+    "id": 94,
+    "artist": "Zé Cantor",
+    "title": "Farra do Zé",
+    "genero": "FORRÓ",
+    "src": "Z_Cantor_Farra_do_ZE-F.m4a"
+  },
+  {
+    "id": 95,
+    "artist": "Zé Vaqueiro",
+    "title": "Pergunta Boba",
+    "genero": "FORRÓ",
+    "src": "Z_Vaqueiro_Pergunta_Boba_f.m4a"
+  },
+  {
+    "id": 96,
+    "artist": "Zé Felipe e Barões da Pisadinha",
+    "title": "Senta Danada",
+    "genero": "FORRÓ",
+    "src": "Zé-Felipe-Barões-Da-Pisadinha-Senta-Danada-F.mp3"
+  },
+  {
+    "id": 97,
+    "artist": "Zé Vaqueiro",
+    "title": "Ficar por Ficar",
+    "genero": "FORRÓ",
+    "src": "Zé-Vaqueiro-Ficar-por-Fica-Fr.m4a"
+  },
+  {
+    "id": 338,
+    "artist": "GALÍCIA",
+    "title": "Meu Grande Amor",
+    "genero": "FORRÓ",
+    "src": "Galcia_Meu_Grande_Amo-F.m4a"
+  },
+  {
+    "id": 442,
+    "artist": "Vitor Fernandes",
+    "title": "Vou Falar Que Não Quero",
+    "genero": "FORRÓ",
+    "src": "VOU-FALAR-QUE-NAO-QUERO-Vitor-Fernandes.mp3"
+  },
+  {
+    "id": 688,
+    "artist": "Natanzinho-Lima",
+    "title": "Natanzinho-Lima-Sonho-de-Amor",
+    "genero": "FORRÓ",
+    "src": "Natanzinho-Lima-Sonho-de-Amor.m4a"
+  },
+  {
+    "id": 691,
+    "artist": "Washington Brasileiro",
+    "title": "PILANTRA-E-MEIO",
+    "genero": "FORRÓ",
+    "src": "washingtonbrasileiro-lets-go-efe7af1a.mp3"
+  },
+  {
+    "id": 714,
+    "artist": "CAPIM",
+    "title": "TEU CHIERO",
+    "genero": "FORRÓ",
+    "src": "CAPIM-TEU-CHEIRO.m4a"
+  },
+  {
+    "id": 715,
+    "artist": "Mastruz Com Leite",
+    "title": "Seis Cordas",
+    "genero": "FORRÓ",
+    "src": "CAVALO-DE-PAU-SEIS-CORDAS.m4a"
+  },
+  {
+    "id": 716,
+    "artist": "ZEZA",
+    "title": "TE AMOS FORTALEZA",
+    "genero": "FORRÓ",
+    "src": "ZEZA-FORTALEZA.m4a"
+  }
 ]
