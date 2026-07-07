@@ -6,12 +6,12 @@
     <title>Editor de Playlists • PLAY 12</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* (mesmo estilo anterior, mantido) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #0d0d1a; color: #e0e0e0; padding: 20px; min-height: 100vh; }
         .container { max-width: 1300px; margin: 0 auto; }
         h1 { color: #00f3ff; text-shadow: 0 0 20px rgba(0,243,255,0.3); margin-bottom: 10px; font-size: 2rem; display: flex; align-items: center; gap: 10px; }
         .subtitle { color: #888; margin-bottom: 20px; font-size: 0.9rem; }
-        
         .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.08); }
         .controls label { font-weight: 600; color: #aaa; margin-right: 5px; }
         .controls select, .controls input[type="text"] { background: #1a1a2e; color: #fff; border: 1px solid #333; padding: 8px 12px; border-radius: 8px; outline: none; }
@@ -22,46 +22,38 @@
         .controls button.success { background: linear-gradient(135deg, #4ade80, #22c55e); color: #000; }
         .controls button.warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; }
         .controls button.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
-        .controls button.play { background: linear-gradient(135deg, #00f3ff, #ff2d7f); color: #000; }
-
         .search-bar { display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); flex: 1; min-width: 180px; }
         .search-bar i { color: #666; }
         .search-bar input { background: transparent; border: none; color: #fff; padding: 6px 8px; outline: none; width: 100%; font-size: 0.9rem; }
         .search-bar input::placeholder { color: #555; }
-        
         .table-wrapper { overflow-x: auto; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); padding: 10px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         th { background: rgba(0,243,255,0.1); color: #00f3ff; padding: 10px 8px; text-align: left; font-weight: 600; border-bottom: 2px solid #00f3ff; position: sticky; top: 0; z-index: 2; }
         td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
         tr:hover td { background: rgba(255,255,255,0.03); }
-        
         th:nth-child(1), td:nth-child(1) { width: 50px; min-width: 50px; }
         th:nth-child(2), td:nth-child(2) { width: 20%; min-width: 120px; }
         th:nth-child(3), td:nth-child(3) { width: 18%; min-width: 100px; }
         th:nth-child(4), td:nth-child(4) { width: 12%; min-width: 80px; }
         th:nth-child(5), td:nth-child(5) { width: 35%; min-width: 200px; }
-        th:nth-child(6), td:nth-child(6) { width: 110px; min-width: 110px; }
-
+        th:nth-child(6), td:nth-child(6) { width: 130px; min-width: 130px; }
         .editable-input { background: transparent; border: none; color: #fff; width: 100%; padding: 4px; border-radius: 4px; transition: 0.15s; font-size: 0.8rem; }
         .editable-input:hover { background: rgba(255,255,255,0.05); }
         .editable-input:focus { background: #1a1a2e; outline: 1px solid #00f3ff; }
         .editable-input.id { color: #666; width: 50px; }
         .editable-input.src { font-size: 0.7rem; font-family: monospace; }
-        
         .actions { display: flex; gap: 4px; flex-wrap: wrap; }
         .actions button { background: transparent; border: none; color: #888; cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: 0.15s; font-size: 0.9rem; }
         .actions button:hover { background: rgba(255,255,255,0.1); color: #fff; }
         .actions button.del:hover { color: #ff2d7f; background: rgba(255,45,127,0.15); }
         .actions button.move:hover { color: #00f3ff; }
-        
+        .actions button.gen-src:hover { color: #4ade80; background: rgba(74,222,128,0.15); }
         .add-row { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); padding: 8px; text-align: center; cursor: pointer; border-radius: 8px; margin-top: 8px; transition: 0.2s; }
         .add-row:hover { background: rgba(0,243,255,0.05); border-color: #00f3ff; }
-        
         .status { margin-top: 15px; padding: 10px 14px; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 4px solid #00f3ff; font-size: 0.9rem; }
         .status.error { border-left-color: #ff2d7f; color: #ff6b8a; }
         .status.success { border-left-color: #4ade80; color: #7ae0a0; }
         .status.warning { border-left-color: #f59e0b; color: #fbbf24; }
-        
         .export-area { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
         .export-area textarea { width: 100%; height: 120px; background: #0a0a14; color: #c0c0c0; border: 1px solid #333; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.75rem; resize: vertical; }
         .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -70,7 +62,6 @@
         .btn-group button.primary { background: #00f3ff; color: #000; }
         .btn-group button.secondary { background: #333; color: #fff; }
         .btn-group button.danger { background: #ff2d7f; color: #fff; }
-        
         @media (max-width: 600px) {
             .controls { flex-direction: column; align-items: stretch; }
             .controls label { margin-top: 5px; }
@@ -78,12 +69,10 @@
             .editable-input { font-size: 0.7rem; }
             th:nth-child(5), td:nth-child(5) { min-width: 120px; }
         }
-        
         .loading { display: none; text-align: center; padding: 30px; color: #00f3ff; }
         .loading.active { display: block; }
         .loading i { font-size: 2rem; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
         .tr-hidden { display: none; }
         #fileInput { display: none; }
     </style>
@@ -99,7 +88,7 @@
         <button id="loadBtn" class="success"><i class="fas fa-sync"></i> Carregar</button>
         <button id="addBtn" class="primary"><i class="fas fa-plus"></i> Adicionar</button>
         <button id="addMultipleBtn" class="purple"><i class="fas fa-folder-open"></i> Adicionar Múltiplas</button>
-        <button id="sendToPlayerBtn" class="play"><i class="fas fa-play"></i> Enviar para Player</button>
+        <button id="genAllSrcBtn" class="warning"><i class="fas fa-magic"></i> Gerar src para todas</button>
         <button id="saveBtn" class="primary"><i class="fas fa-save"></i> Salvar JSON</button>
         <button id="resetBtn" class="warning"><i class="fas fa-undo"></i> Resetar</button>
         <button id="clearAllBtn" class="danger"><i class="fas fa-trash-alt"></i> Apagar Tudo</button>
@@ -125,7 +114,7 @@
                     <th>Artista</th>
                     <th>Gênero</th>
                     <th>Src (URL)</th>
-                    <th style="width:110px;">Ações</th>
+                    <th style="width:130px;">Ações</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -162,17 +151,19 @@
         'REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/reggae.json'
     };
 
+    // Estado
     let currentGenre = 'MPB';
     let playlistData = [];
     let originalData = [];
     let isDirty = false;
 
+    // DOM
     const genreSelect = document.getElementById('genreSelect');
     const loadBtn = document.getElementById('loadBtn');
     const addBtn = document.getElementById('addBtn');
     const addMultipleBtn = document.getElementById('addMultipleBtn');
     const fileInput = document.getElementById('fileInput');
-    const sendToPlayerBtn = document.getElementById('sendToPlayerBtn');
+    const genAllSrcBtn = document.getElementById('genAllSrcBtn');
     const saveBtn = document.getElementById('saveBtn');
     const resetBtn = document.getElementById('resetBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
@@ -197,6 +188,7 @@
     });
     genreSelect.value = 'MPB';
 
+    // Funções auxiliares
     function setStatus(msg, type = 'success') {
         statusDiv.textContent = msg;
         statusDiv.className = 'status ' + type;
@@ -216,12 +208,77 @@
         return Math.floor(Math.random() * 900000) + 100000;
     }
 
+    // ============================================================
+    // FUNÇÃO PARA GERAR SRC A PARTIR DE ARTISTA E TÍTULO
+    // ============================================================
+    function gerarSrc(artist, title) {
+        // Remove acentos, substitui espaços por _, remove caracteres especiais
+        const normalize = (str) => {
+            return str.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '') // remove acentos
+                .replace(/[^a-zA-Z0-9 ]/g, '') // remove caracteres especiais
+                .trim()
+                .replace(/\s+/g, '_') // espaços para _
+                .toUpperCase();
+        };
+        const a = normalize(artist);
+        const t = normalize(title);
+        // Se algum estiver vazio, usa "unknown"
+        const final = (a ? a : 'UNKNOWN') + '_' + (t ? t : 'UNKNOWN');
+        return final + '.m4a';
+    }
+
+    // ============================================================
+    // GERAR SRC PARA UMA MÚSICA (por índice)
+    // ============================================================
+    function gerarSrcParaMusica(index) {
+        const item = playlistData[index];
+        if (!item) return;
+        const novo = gerarSrc(item.artist || 'Desconhecido', item.title || 'Sem título');
+        item.src = novo;
+        isDirty = true;
+        renderTable(); // recria a tabela para atualizar o campo
+        setStatus(`🔧 src gerado para "${item.title}" -> ${novo}`, 'success');
+    }
+
+    // ============================================================
+    // GERAR SRC PARA TODAS AS MÚSICAS
+    // ============================================================
+    function gerarSrcParaTodas() {
+        if (!playlistData.length) {
+            setStatus('⚠️ Playlist vazia.', 'warning');
+            return;
+        }
+        if (!confirm('Isso vai sobrescrever todos os campos "src" com base no artista e título. Continuar?')) return;
+        let count = 0;
+        playlistData.forEach(item => {
+            const novo = gerarSrc(item.artist || 'Desconhecido', item.title || 'Sem título');
+            if (item.src !== novo) {
+                item.src = novo;
+                count++;
+            }
+        });
+        if (count > 0) {
+            isDirty = true;
+            renderTable();
+            setStatus(`✅ ${count} src(s) atualizados!`, 'success');
+        } else {
+            setStatus('ℹ️ Nenhuma alteração necessária.', 'success');
+        }
+    }
+
+    // ============================================================
+    // FORMATAR JSON (cada objeto em uma linha)
+    // ============================================================
     function formatJsonPerLine(arr) {
         if (!arr || arr.length === 0) return '[]';
         const lines = arr.map(obj => JSON.stringify(obj));
         return '[\n' + lines.join(',\n') + '\n]';
     }
 
+    // ============================================================
+    // CARREGAR PLAYLIST
+    // ============================================================
     async function loadPlaylist(genre) {
         const url = GENRE_URLS[genre];
         if (!url) { setStatus('Gênero inválido', 'error'); return; }
@@ -268,6 +325,9 @@
         }
     }
 
+    // ============================================================
+    // RENDERIZAR TABELA
+    // ============================================================
     function renderTable() {
         tableBody.innerHTML = '';
         const searchTerm = searchInput.value.trim().toLowerCase();
@@ -317,6 +377,14 @@
 
             const tdActions = document.createElement('td');
             tdActions.className = 'actions';
+            
+            // Botão Gerar src individual
+            const genBtn = document.createElement('button');
+            genBtn.innerHTML = '<i class="fas fa-magic"></i>';
+            genBtn.title = 'Gerar src automaticamente';
+            genBtn.className = 'gen-src';
+            genBtn.addEventListener('click', () => gerarSrcParaMusica(index));
+
             const upBtn = document.createElement('button');
             upBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
             upBtn.className = 'move';
@@ -332,7 +400,7 @@
             delBtn.className = 'del';
             delBtn.addEventListener('click', () => removeItem(index));
 
-            tdActions.append(upBtn, downBtn, delBtn);
+            tdActions.append(genBtn, upBtn, downBtn, delBtn);
             tr.append(tdId, tdTitle, tdArtist, tdGenre, tdSrc, tdActions);
             tableBody.appendChild(tr);
         });
@@ -344,6 +412,9 @@
         updateCount();
     }
 
+    // ============================================================
+    // FILTRO DE BUSCA
+    // ============================================================
     function applyFilter(term) {
         const rows = tableBody.querySelectorAll('tr');
         const clean = term.toLowerCase().trim();
@@ -367,6 +438,9 @@
         searchCount.textContent = clean ? `(${visibleCount} / ${playlistData.length})` : '';
     }
 
+    // ============================================================
+    // EVENTOS DE EDIÇÃO
+    // ============================================================
     function onInputChange(e) {
         const input = e.target;
         const tr = input.closest('tr');
@@ -387,7 +461,7 @@
         [playlistData[index], playlistData[newIndex]] = [playlistData[newIndex], playlistData[index]];
         isDirty = true;
         renderTable();
-        setStatus('↕️ Ordem alterada. Salve para persistir.', 'success');
+        setStatus('↕️ Ordem alterada.', 'success');
     }
 
     function removeItem(index) {
@@ -400,15 +474,12 @@
     }
 
     function clearAll() {
-        if (playlistData.length === 0) {
-            setStatus('⚠️ A playlist já está vazia.', 'warning');
-            return;
-        }
-        if (confirm(`⚠️ Tem certeza que deseja APAGAR TODAS as ${playlistData.length} músicas?`)) {
+        if (playlistData.length === 0) { setStatus('⚠️ Playlist vazia.', 'warning'); return; }
+        if (confirm(`⚠️ Apagar todas as ${playlistData.length} músicas?`)) {
             playlistData = [];
             isDirty = true;
             renderTable();
-            setStatus('🗑️ Todas as músicas foram removidas.', 'success');
+            setStatus('🗑️ Todas removidas.', 'success');
             jsonOutput.value = '';
         }
     }
@@ -424,16 +495,13 @@
         playlistData.push(newMusic);
         isDirty = true;
         renderTable();
-        setStatus('➕ Nova música adicionada. Edite os campos e salve.', 'success');
+        setStatus('➕ Nova música adicionada.', 'success');
         const rows = tableBody.querySelectorAll('tr');
         if (rows.length) rows[rows.length - 1].scrollIntoView({ behavior: 'smooth' });
     }
 
     function addMultipleFiles(files) {
-        if (!files || files.length === 0) {
-            setStatus('⚠️ Nenhum arquivo selecionado.', 'warning');
-            return;
-        }
+        if (!files || files.length === 0) { setStatus('⚠️ Nenhum arquivo.', 'warning'); return; }
         let added = 0;
         const newSongs = [];
         for (const file of files) {
@@ -451,46 +519,26 @@
             newSongs.push(newMusic);
             added++;
         }
-        if (added === 0) {
-            setStatus('⚠️ Nenhum arquivo de áudio válido encontrado.', 'warning');
-            return;
-        }
+        if (added === 0) { setStatus('⚠️ Nenhum áudio válido.', 'warning'); return; }
         playlistData.push(...newSongs);
         isDirty = true;
         renderTable();
-        setStatus(`✅ ${added} música(s) adicionadas com sucesso!`, 'success');
+        setStatus(`✅ ${added} música(s) adicionadas.`, 'success');
         const rows = tableBody.querySelectorAll('tr');
         if (rows.length) rows[rows.length - 1].scrollIntoView({ behavior: 'smooth' });
     }
 
     // ============================================================
-    // ENVIAR PARA O PLAYER (INTEGRAÇÃO)
-    // ============================================================
-    function sendToPlayer() {
-        if (playlistData.length === 0) {
-            setStatus('⚠️ Playlist vazia. Adicione músicas primeiro.', 'warning');
-            return;
-        }
-        localStorage.setItem('playlist_editor_play12', JSON.stringify(playlistData));
-        setStatus('✅ Playlist enviada para o player! Abrindo...', 'success');
-        window.open('https://radiolojasjc-hub.github.io/listtop/', '_blank');
-    }
-
-    // ============================================================
     // EXPORTAÇÃO
     // ============================================================
-    function getFormattedJson() {
-        return formatJsonPerLine(playlistData);
-    }
-
+    function getFormattedJson() { return formatJsonPerLine(playlistData); }
     function saveToJson() {
         const output = getFormattedJson();
         jsonOutput.value = output;
-        setStatus('📦 JSON com cada música em uma linha gerado!', 'success');
+        setStatus('📦 JSON gerado!', 'success');
         isDirty = false;
         return output;
     }
-
     function downloadJson() {
         const json = jsonOutput.value || getFormattedJson();
         const blob = new Blob([json], { type: 'application/json' });
@@ -502,38 +550,33 @@
         URL.revokeObjectURL(url);
         setStatus(`⬇️ Download de "${currentGenre}_playlist.json" iniciado.`, 'success');
     }
-
     function copyJson() {
         const json = jsonOutput.value || getFormattedJson();
         navigator.clipboard.writeText(json).then(() => {
-            setStatus('📋 JSON copiado para a área de transferência!', 'success');
+            setStatus('📋 JSON copiado!', 'success');
         }).catch(() => {
             setStatus('❌ Falha ao copiar.', 'error');
         });
     }
-
     function minifyTextarea() {
         try {
             const raw = jsonOutput.value;
-            if (!raw.trim()) { setStatus('⚠️ Textarea vazio.', 'warning'); return; }
+            if (!raw.trim()) { setStatus('⚠️ Vazio.', 'warning'); return; }
             const parsed = JSON.parse(raw);
             jsonOutput.value = formatJsonPerLine(parsed);
-            setStatus('🔄 JSON reformatado com cada música em uma linha.', 'success');
+            setStatus('🔄 Reformatado.', 'success');
         } catch (e) {
-            setStatus('❌ Erro ao processar: JSON inválido.', 'error');
+            setStatus('❌ JSON inválido.', 'error');
         }
     }
 
     function resetPlaylist() {
-        if (!originalData.length) {
-            setStatus('⚠️ Nenhum backup disponível. Recarregue a playlist.', 'error');
-            return;
-        }
-        if (isDirty && !confirm('Você tem alterações não salvas. Deseja realmente descartá-las?')) return;
+        if (!originalData.length) { setStatus('⚠️ Nenhum backup.', 'error'); return; }
+        if (isDirty && !confirm('Descartar alterações?')) return;
         playlistData = JSON.parse(JSON.stringify(originalData));
         isDirty = false;
         renderTable();
-        setStatus('🔄 Playlist restaurada para a versão original.', 'success');
+        setStatus('🔄 Restaurado.', 'success');
         jsonOutput.value = '';
         searchInput.value = '';
         searchCount.textContent = '';
@@ -546,43 +589,27 @@
         currentGenre = genreSelect.value;
         loadPlaylist(currentGenre);
     });
-
-    loadBtn.addEventListener('click', () => {
-        loadPlaylist(currentGenre);
-    });
-
+    loadBtn.addEventListener('click', () => loadPlaylist(currentGenre));
     addBtn.addEventListener('click', addNewMusic);
     addRowBtn.addEventListener('click', addNewMusic);
-
-    addMultipleBtn.addEventListener('click', () => {
-        fileInput.click();
-    });
+    addMultipleBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            addMultipleFiles(e.target.files);
-        }
+        if (e.target.files && e.target.files.length > 0) addMultipleFiles(e.target.files);
         fileInput.value = '';
     });
-
-    sendToPlayerBtn.addEventListener('click', sendToPlayer);
-
+    genAllSrcBtn.addEventListener('click', gerarSrcParaTodas);
     saveBtn.addEventListener('click', saveToJson);
     downloadBtn.addEventListener('click', downloadJson);
     copyBtn.addEventListener('click', copyJson);
     minifyBtn.addEventListener('click', minifyTextarea);
-
     resetBtn.addEventListener('click', resetPlaylist);
     clearAllBtn.addEventListener('click', clearAll);
-
     searchInput.addEventListener('input', (e) => {
-        const term = e.target.value;
-        applyFilter(term);
+        applyFilter(e.target.value);
         updateCount();
     });
 
-    window.addEventListener('load', () => {
-        loadPlaylist('MPB');
-    });
+    window.addEventListener('load', () => loadPlaylist('MPB'));
 </script>
 </body>
 </html>
