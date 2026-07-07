@@ -6,7 +6,6 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Mesmo estilo de antes, mantido */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --neon-green: #4ade80; }
@@ -43,14 +42,16 @@
         .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
         .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
         
-        .info-scroll { position: fixed; top: 44px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
+        /* Letreiro - ajustado top para alinhar com a top bar */
+        .info-scroll { position: fixed; top: 50px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
         .info-scroll p { color: white; font-size: 0.85rem; font-weight: 900; letter-spacing: 2px; font-family: 'Segoe UI', Arial, sans-serif; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 15px rgba(0,243,255,0.9), 0 0 30px rgba(0,243,255,0.5); text-transform: uppercase; }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .now-playing { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; width: 90%; max-width: 400px; cursor: grab; user-select: none; -webkit-user-select: none; }
         .now-playing:active { cursor: grabbing; }
-        .now-playing .music-title { color: white; font-size: 1.6rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; }
-        .now-playing .music-artist { color: #aaa; font-size: 1.2rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; }
+        /* Título e artista mais transparentes */
+        .now-playing .music-title { color: white; font-size: 1.6rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; opacity: 0.7; }
+        .now-playing .music-artist { color: #aaa; font-size: 1.2rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; opacity: 0.7; }
         .fav-heart-center { display: flex; justify-content: center; margin: 10px 0; }
         .now-playing .fav-heart { font-size: 3.5rem; color: #555; cursor: pointer; transition: all 0.3s; text-shadow: 0 0 30px rgba(0,0,0,0.9); display: inline-block; }
         .now-playing .fav-heart.active { color: #ff2d7f; text-shadow: 0 0 40px rgba(255,45,127,0.5); }
@@ -86,16 +87,13 @@
         .shuffle-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.7rem; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
         .shuffle-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); }
         
+        /* FAB simplificado – apenas o botão de gêneros */
         .fab-container { position: fixed; bottom: 100px; right: 12px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
         .fab-main { background: linear-gradient(135deg, #4a4a4a, #2a2a2a); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 1.2rem; box-shadow: 0 0 30px rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.15); }
         .fab-main:active { transform: scale(0.92); background: linear-gradient(135deg, #666, #444); }
         .fab-main i { pointer-events: none; }
-        .fab-sub { background: rgba(0,0,0,0.88); backdrop-filter: blur(14px); border-radius: 30px; padding: 5px; display: none; flex-direction: column; gap: 3px; border: 1px solid rgba(0,243,255,0.2); }
-        .fab-sub.open { display: flex; }
-        .fab-sub-btn { background: rgba(255,255,255,0.06); border: none; color: white; padding: 6px 14px; border-radius: 25px; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; white-space: nowrap; min-width: 100px; }
-        .fab-sub-btn:active { background: var(--neon-cyan); color: #000; }
-        .fab-sub-btn i { font-size: 0.85rem; width: 18px; text-align: center; pointer-events: none; }
-        .fab-sub-btn .fab-icon-youtube { color: #FF0000; }
+        /* Submenu removido – apenas o botão principal */
+        .fab-sub { display: none; }
         
         #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s; }
         #splash.hidden { opacity: 0; pointer-events: none; }
@@ -170,11 +168,10 @@
             .genre-badge { font-size: 0.45rem; max-width: 25%; padding: 2px 6px; }
             .fav-top-btn { font-size: 0.45rem; padding: 2px 6px; }
             .fab-main { width: 42px; height: 42px; font-size: 1rem; }
-            .fab-sub-btn { padding: 5px 10px; font-size: 0.55rem; min-width: 85px; }
             .search-input { width: 50px; font-size: 0.45rem; }
             .search-input:focus { width: 85px; }
             .top-bar { padding: 4px 6px; }
-            .info-scroll { top: 38px; padding: 4px 10px; }
+            .info-scroll { top: 48px; padding: 4px 10px; }
             .info-scroll p { font-size: 0.7rem; letter-spacing: 1px; }
             .ctrl-btn { width: 28px; height: 28px; font-size: 0.65rem; }
             .play-big { width: 36px; height: 36px; font-size: 0.9rem; }
@@ -285,16 +282,13 @@
         </div>
     </div>
 
+    <!-- FAB simplificado: apenas o botão para abrir gêneros -->
     <div class="fab-container" id="fabContainer">
-        <div class="fab-sub" id="fabSub">
-            <button class="fab-sub-btn" id="fabGeneros"><i class="fas fa-guitar"></i> Gêneros</button>
-            <button class="fab-sub-btn" id="fabFeedback"><i class="fas fa-star"></i> Feedback</button>
-            <button class="fab-sub-btn" id="fabYoutube"><i class="fab fa-youtube fab-icon-youtube"></i> Vídeo YouTube</button>
-            <button class="fab-sub-btn" id="fabShare"><i class="fas fa-share-alt"></i> Compartilhar</button>
-        </div>
-        <div class="fab-main" id="fabMain"><i class="fas fa-plus"></i></div>
+        <div class="fab-main" id="fabMain"><i class="fas fa-guitar"></i></div>
+        <!-- submenu removido -->
     </div>
 
+    <!-- Menu de 3 pontinhos (agora com todas as opções) -->
     <div class="menu-popup" id="menuPopup">
         <button class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i> Fechar</button>
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
@@ -302,6 +296,8 @@
         <button id="btStatusMenuBtn"><i class="fab fa-bluetooth"></i> Procurar Bluetooth</button>
         <button id="feedbackMenuBtn"><i class="fas fa-star"></i> Feedback</button>
         <button id="sleepMenuBtn"><i class="fas fa-moon"></i> Sleep Timer</button>
+        <button id="youtubeMenuBtn"><i class="fab fa-youtube" style="color:#FF0000;"></i> Vídeo YouTube</button>
+        <button id="shareMenuBtn"><i class="fas fa-share-alt"></i> Compartilhar</button>
     </div>
 
     <div class="notification" id="notification">Mensagem</div>
@@ -341,7 +337,7 @@
         };
 
         // ============================================================
-        // VARIÁVEIS GLOBAIS (mantidas iguais)
+        // VARIÁVEIS GLOBAIS
         // ============================================================
         let musicas = [];
         let currentPlaylist = [];
@@ -361,7 +357,7 @@
         const playlistCache = {};
         let ultimoId = null;
 
-        // Referências DOM (mantidas)
+        // Referências DOM
         const audio = document.getElementById('musicPlayer');
         const playBtn = document.getElementById('playBtn');
         const progressFill = document.getElementById('progressFill');
@@ -390,7 +386,7 @@
         const menuPopup = document.getElementById('menuPopup');
 
         // ============================================================
-        // FUNÇÕES AUXILIARES (mantidas)
+        // FUNÇÕES AUXILIARES
         // ============================================================
         function showNotification(msg, duration = 1500) {
             notification.textContent = msg;
@@ -451,25 +447,21 @@
         }
 
         function gerarListaCandidatos(artist, title, srcOriginal) {
-            const candidatos = new Set(); // para evitar duplicatas
+            const candidatos = new Set();
 
-            // Limpa e normaliza artista e título
             const a = normalizar(artist || 'DESCONHECIDO');
             const t = normalizar(title || 'SEM_TITULO');
-            const a2 = a.replace(/_/g, '-'); // versão com hífen
+            const a2 = a.replace(/_/g, '-');
             const t2 = t.replace(/_/g, '-');
 
-            // Lista de extensões a tentar (em ordem de preferência)
             const exts = ['m4a', 'mp3'];
 
-            // Função para adicionar combinações
             function addCandidato(base) {
                 for (const ext of exts) {
                     candidatos.add(base + '.' + ext);
                 }
             }
 
-            // 1. Se o src original existe e tem extensão válida, adiciona primeiro
             if (srcOriginal && srcOriginal.trim()) {
                 const ext = srcOriginal.split('.').pop().toLowerCase();
                 if (['m4a','mp3','wav','ogg','flac','aac','wma'].includes(ext)) {
@@ -477,21 +469,16 @@
                 }
             }
 
-            // 2. Variações mais comuns
-            addCandidato(a + '_' + t);    // ARTISTA_TITULO
-            addCandidato(a + '-' + t);    // ARTISTA-TITULO
-            addCandidato(t + '_' + a);    // TITULO_ARTISTA
-            addCandidato(t + '-' + a);    // TITULO-ARTISTA
-            addCandidato(a + t);          // ARTISTATITULO (sem separador)
-            addCandidato(t + a);          // TITULOARTISTA
-
-            // 3. Variações com a2 (hífen) e t2 (hífen) combinadas
+            addCandidato(a + '_' + t);
+            addCandidato(a + '-' + t);
+            addCandidato(t + '_' + a);
+            addCandidato(t + '-' + a);
+            addCandidato(a + t);
+            addCandidato(t + a);
             addCandidato(a2 + '_' + t2);
             addCandidato(a2 + '-' + t2);
             addCandidato(t2 + '_' + a2);
             addCandidato(t2 + '-' + a2);
-
-            // 4. Variações só com artista ou só com título (caso o outro seja desconhecido)
             if (a !== 'DESCONHECIDO') {
                 addCandidato(a);
                 addCandidato(a2);
@@ -501,7 +488,6 @@
                 addCandidato(t2);
             }
 
-            // 5. Se o src original não tinha extensão válida, tenta adicionar ele também com extensões
             if (srcOriginal && srcOriginal.trim()) {
                 const semExt = srcOriginal.replace(/\.[^/.]+$/, '');
                 if (semExt !== srcOriginal) {
@@ -509,14 +495,12 @@
                         candidatos.add(semExt + '.' + ext);
                     }
                 } else {
-                    // Se não tinha extensão, tenta adicionar as extensões
                     for (const ext of exts) {
                         candidatos.add(srcOriginal + '.' + ext);
                     }
                 }
             }
 
-            // Converte Set para Array e retorna
             return Array.from(candidatos);
         }
 
@@ -615,7 +599,7 @@
         }
 
         // ============================================================
-        // CARREGAMENTO DE PLAYLIST POR GÊNERO (mantido)
+        // CARREGAMENTO DE PLAYLIST POR GÊNERO
         // ============================================================
         async function carregarPlaylistPorGenero(genero) {
             const url = GENRE_URLS[genero];
@@ -830,7 +814,6 @@
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
 
-            // Gera lista de candidatos a partir do artista, título e src original
             const candidatos = gerarListaCandidatos(track.artist, track.title, track.src);
 
             if (candidatos.length === 0) {
@@ -839,7 +822,6 @@
                 return;
             }
 
-            // Função recursiva para tentar cada candidato
             let indiceAtual = 0;
             function tentarProximo() {
                 if (indiceAtual >= candidatos.length) {
@@ -863,7 +845,6 @@
                             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                             equalizer.classList.remove('paused');
                             startTimer();
-                            // Atualiza o src no objeto se foi um fallback
                             if (indiceAtual > 0) {
                                 track.src = src;
                             }
@@ -881,7 +862,6 @@
                 };
             }
 
-            // Inicia a primeira tentativa
             tentarProximo();
         }
 
@@ -1005,7 +985,7 @@
         }
 
         // ============================================================
-        // BUSCA (mantida)
+        // BUSCA
         // ============================================================
         function buscarMusica(termo) {
             if (!termo || termo.length < 2) {
@@ -1035,7 +1015,7 @@
         }
 
         // ============================================================
-        // GRID DE GÊNEROS (mantido)
+        // GRID DE GÊNEROS
         // ============================================================
         function buildGenresGrid() {
             const genresGrid = document.getElementById('genresGrid');
@@ -1062,7 +1042,7 @@
         }
 
         // ============================================================
-        // ÁUDIO SILENCIOSO (mantido)
+        // ÁUDIO SILENCIOSO
         // ============================================================
         function createSilentAudio() {
             try {
@@ -1199,7 +1179,7 @@
         }
 
         // ============================================================
-        // EVENTOS DOM (mantidos, pois são muitos)
+        // EVENTOS DOM
         // ============================================================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
@@ -1218,57 +1198,24 @@
         document.getElementById('closeHistModal').addEventListener('click', () => document.getElementById('historicoModal').classList.remove('open'));
         document.getElementById('closeHistBtn').addEventListener('click', () => document.getElementById('historicoModal').classList.remove('open'));
 
-        const fabMain = document.getElementById('fabMain');
-        const fabSub = document.getElementById('fabSub');
-        fabMain.addEventListener('click', () => {
-            fabOpen = !fabOpen;
-            fabSub.classList.toggle('open', fabOpen);
-            fabMain.innerHTML = fabOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-plus"></i>';
+        // FAB simplificado – ao clicar, abre o modal de gêneros
+        document.getElementById('fabMain').addEventListener('click', () => {
+            openGenres();
         });
 
-        document.getElementById('fabGeneros').addEventListener('click', () => { openGenres(); fabMain.click(); });
-        document.getElementById('fabFeedback').addEventListener('click', () => { openFeedback(); fabMain.click(); });
-        document.getElementById('fabYoutube').addEventListener('click', () => { window.open('https://sites.google.com/view/rogersjc/in%C3%ADcio', '_blank'); fabMain.click(); });
-        document.getElementById('fabShare').addEventListener('click', () => {
-            if (navigator.share) navigator.share({ title: 'Rádio Play 12', url: location.href });
-            else { navigator.clipboard.writeText(location.href); showNotification('🔗 Link copiado!'); }
-            fabMain.click();
-        });
-
-        playBtn.addEventListener('click', togglePlay);
-        document.getElementById('nextBtn').addEventListener('click', nextTrack);
-        document.getElementById('prevBtn').addEventListener('click', prevTrack);
-        shuffleBtn.addEventListener('click', toggleShuffle);
-
-        document.getElementById('sleepMenuBtn').addEventListener('click', () => { 
-            menuPopup.classList.remove('open'); 
-            const minutos = prompt('⏰ Desligar em quantos minutos? (5, 15, 30, 60)', '15');
-            if (!minutos) return;
-            const mins = parseInt(minutos);
-            if (isNaN(mins) || mins < 1) { showNotification('⏰ Inválido', 1500); return; }
-            if (sleepTimer) clearTimeout(sleepTimer);
-            showNotification(`⏰ Desligando em ${mins} minutos`, 2000);
-            sleepTimer = setTimeout(() => { 
-                audio.pause(); 
-                isPlaying = false;
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                equalizer.classList.add('paused');
-                showNotification('💤 Rádio desligada pelo Sleep Timer', 2000); 
-            }, mins * 60000);
-        });
-        
-        document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { 
-            menuPopup.classList.remove('open'); 
+        // Menu de 3 pontinhos – eventos
+        document.getElementById('fullscreenMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
             goFullscreen();
             showNotification('⛶ Tela cheia ativada', 1000);
         });
-        
+
         document.getElementById('reloadPlaylistBtn').addEventListener('click', () => {
             menuPopup.classList.remove('open');
             recarregarPlaylist();
         });
 
-        document.getElementById('btStatusMenuBtn').addEventListener('click', () => { 
+        document.getElementById('btStatusMenuBtn').addEventListener('click', () => {
             menuPopup.classList.remove('open');
             if (!navigator.bluetooth) { showNotification("❌ Bluetooth não suportado neste navegador", 1500); return; }
             showNotification("🔍 Procurando dispositivos Bluetooth...", 1500);
@@ -1284,11 +1231,48 @@
                     }
                 });
         });
-        
-        document.getElementById('feedbackMenuBtn').addEventListener('click', () => { 
-            menuPopup.classList.remove('open'); 
-            openFeedback(); 
+
+        document.getElementById('feedbackMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            openFeedback();
         });
+
+        document.getElementById('sleepMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            const minutos = prompt('⏰ Desligar em quantos minutos? (5, 15, 30, 60)', '15');
+            if (!minutos) return;
+            const mins = parseInt(minutos);
+            if (isNaN(mins) || mins < 1) { showNotification('⏰ Inválido', 1500); return; }
+            if (sleepTimer) clearTimeout(sleepTimer);
+            showNotification(`⏰ Desligando em ${mins} minutos`, 2000);
+            sleepTimer = setTimeout(() => {
+                audio.pause();
+                isPlaying = false;
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                equalizer.classList.add('paused');
+                showNotification('💤 Rádio desligada pelo Sleep Timer', 2000);
+            }, mins * 60000);
+        });
+
+        document.getElementById('youtubeMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            window.open('https://sites.google.com/view/rogersjc/in%C3%ADcio', '_blank');
+        });
+
+        document.getElementById('shareMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            if (navigator.share) {
+                navigator.share({ title: 'Rádio Play 12', url: location.href });
+            } else {
+                navigator.clipboard.writeText(location.href);
+                showNotification('🔗 Link copiado!', 1000);
+            }
+        });
+
+        playBtn.addEventListener('click', togglePlay);
+        document.getElementById('nextBtn').addEventListener('click', nextTrack);
+        document.getElementById('prevBtn').addEventListener('click', prevTrack);
+        shuffleBtn.addEventListener('click', toggleShuffle);
 
         document.getElementById('progressBar').addEventListener('click', (e) => {
             if (audio.duration && !isNaN(audio.duration)) {
@@ -1310,23 +1294,23 @@
             }
         });
 
-        menuButton.addEventListener('click', (e) => { 
-            e.stopPropagation(); 
-            menuPopup.classList.toggle('open'); 
-            showControls(); 
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuPopup.classList.toggle('open');
+            showControls();
         });
 
-        document.getElementById('closeMenuBtn').addEventListener('click', () => { 
-            menuPopup.classList.remove('open'); 
+        document.getElementById('closeMenuBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
         });
 
-        document.addEventListener('click', () => { 
-            menuPopup.classList.remove('open'); 
-            showControls(); 
+        document.addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            showControls();
         });
-        document.addEventListener('touchstart', () => { 
-            menuPopup.classList.remove('open'); 
-            showControls(); 
+        document.addEventListener('touchstart', () => {
+            menuPopup.classList.remove('open');
+            showControls();
         });
 
         tapToStart.addEventListener('click', async () => {
