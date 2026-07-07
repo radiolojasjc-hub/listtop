@@ -1,35 +1,296 @@
 [
-{"id":519,"artist":"Tião Carreiro e Pardinho","title":"A Coisa Tá Feia","genero":"MODA TOP","src":"A-coisa-ta-feia-TIAO_CARREIRO-PARDINHO.m4a"},
-    {"id":520,"artist":"Editor","title":"A Coisa Tá Feia","genero":"MODA TOP","src":"A_coisa_A_coisa_t_feia.m4a"},
-    {"id":521,"artist":"Cersa e Paulinho","title":"A Sementinha","genero":"MODA TOP","src":"A_Sementinha_Cersa-paulinho.m4a"},
-    {"id":522,"artist":"Goiás e Paranaense","title":"A Viola e a Saudade","genero":"MODA TOP","src":"A_Viola_A_Viola_e_a_Saudade_Goias-Paranaence.m4a"},
-    {"id":523,"artist":"Tião Carreiro e Pardinho","title":"Boi Soberano","genero":"MODA TOP","src":"Boi_soberano_Tiao_Carreiro_e_Pardinho_MODA.m4a"},
-    {"id":524,"artist":"João Carreiro e Capataz","title":"Boiadeiro Errante","genero":"MODA TOP","src":"Boiadeiro_Errante_Joao_Carreiro_Capataz_MODA.m4a"},
-    {"id":525,"artist":"Gilberto e Gilmar","title":"Boiadeiro Errante","genero":"MODA TOP","src":"Gilberto_e_Gilmar_Boiadeiro_Errante_Ultimo_Adeus_Saudade_De_Minha_Terra_MODA.m4a"},
-    {"id":526,"artist":"Leo & Liu e Léo","title":"Boiadeiro Errante","genero":"MODA TOP","src":"LLiu_e_LEO_Boiadeiro_Errante_MODA.m4a"},
-    {"id":527,"artist":"Bruna Viola","title":"Moda da Pinga","genero":"MODA TOP","src":"Bruna_Viola_Moda_Da_Pinga_MODA.m4a"},
-    {"id":528,"artist":"Eduardo Costa","title":"Cabocla Tereza","genero":"MODA TOP","src":"CABOCLA_TEREZA_Eduardo_Costa_MODA.m4a"},
-    {"id":529,"artist":"Caboclo na Cidade","title":"Caboclo na Cidade","genero":"MODA TOP","src":"Caboclo_Na_Caboclo_Na_Cidade_MODA.m4a"},
-    {"id":530,"artist":"Cerne de Aroeira","title":"ED","genero":"MODA TOP","src":"Cerne_de_Cerne_de_Aroeira_A_MODA.m4a"},
-    {"id":531,"artist":"Dois Passarinhos e Althair Alexandre","title":"Do Outro Lado da Cidade","genero":"MODA TOP","src":"Do_Outro_Lado_Da_Cidade_Dois_Passarinhos_Althair_Alexandre_MODA.m4a"},
-    {"id":532,"artist":"Dom Marcos e Davi","title":"Fazenda São Francisco","genero":"MODA TOP","src":"Dom_Marcos_e_Davi_Pot_Pourri_Fazenda_Sao_Francisco_Loira_Do_Carro_Branco-MODA.m4a"},
-    {"id":533,"artist":"Eduardo Costa","title":"Franguinho na Panela","genero":"MODA TOP","src":"Eduardo_Costa_Franguinho_na_Panela_MODA.m4a"},
-    {"id":534,"artist":"Cersa e Paulino","title":"Franguinho na Panela","genero":"MODA TOP","src":"Franguinho_na_panela-CERSA-PAULINO-MODA.m4a"},
-    {"id":535,"artist":"Felipe e Falcão","title":"Herói Sem Medalha","genero":"MODA TOP","src":"felipe_e_falcao_Heroi_Sem_Medalha_moda.m4a"},
-    {"id":536,"artist":"Daniel","title":"Jeito de Caboclo","genero":"MODA TOP","src":"Jeito_de_caboclo_DANIEL-MODA.m4a"},
-    {"id":537,"artist":"Joãozinho","title":"João Boiadeiro","genero":"MODA TOP","src":"Joao_Boiadeiro-JOAOZINHO-MODA.m4a"},
-    {"id":538,"artist":"Goiano e Paranaense","title":"Meu Recanto","genero":"MODA TOP","src":"Meu_recanto_GOIANO-PARANAECE-M.m4a"},
-    {"id":539,"artist":"Tião Carreiro","title":"Meu Sítio","genero":"MODA TOP","src":"Meu_Sitio-TIAOC-M.m4a"},
-    {"id":540,"artist":"Tião Carreiro e Pardinho","title":"Mundo Velho","genero":"MODA TOP","src":"Mundo_Velho_Tiao_Carreiro_e_Pardinho_M.m4a"},
-    {"id":541,"artist":"Mayck e Lyan","title":"Nelore Valente","genero":"MODA TOP","src":"NELORE_VALENTE_Mayck_e_Lyan_muzzik.m4a"},
-    {"id":542,"artist":"Darlan Souza Reis","title":"O Individado","genero":"MODA TOP","src":"Darlan_Souza_Reis_O_Individado_MODA.m4a"},
-    {"id":543,"artist":"Daniel","title":"Pescador e Catireiro","genero":"MODA TOP","src":"Pescador_e_Catireiro_DANIEL-MM.m4a"},
-    {"id":544,"artist":"Peão Carreiro e Zé Paulo","title":"Porta do Mundo","genero":"MODA TOP","src":"Porta_do_Mundo_Peao_Carreiro_e_Z_Paulo_MM.m4a"},
-    {"id":545,"artist":"Retrato de Mãe","title":"Retrato de Mãe (Acústico)","genero":"MODA TOP","src":"Retrato_de_Retrato_de_MAe_Acustico_MM.m4a"},
-    {"id":546,"artist":"Bison e Comassetto","title":"Se Zé Rico Estivesse Vivo","genero":"MODA TOP","src":"Bison_e_Comassetto_Se_Z_Rico_Estivesse_Vivo_MODA.m4a"},
-    {"id":547,"artist":"Almir Sater","title":"Tocando em Frente","genero":"MODA TOP","src":"Tocando-em-Frente..m4a"},
-    {"id":548,"artist":"Trio Parada Dura","title":"Canoeiro","genero":"MODA TOP","src":"Trio_Parada_Dura_Canoeiro_MM.m4a"},
-
-    {"id":549,"artist":"Zé Henrique e Gabriel","title":"Mala Amarela","genero":"MODA TOP","src":"Z_Henrique_Gabriel_Mala_Amarela_MM.m4a"},
-    {"id":550,"artist":"Zé Mulato e Cassiano","title":"Diário do Caipira","genero":"MODA TOP","src":"Z_Mulato_Cassiano_Diario_do_Caipira_MM.m4a"}
-  ]
+  {
+    "id": 551,
+    "artist": "Reginaldo Rossi",
+    "title": "A Raposa e as Uvas",
+    "genero": "BREGA",
+    "src": "A_Raposa_A_Raposa_e_as_Uvas_Reginaldo-Rossi.m4a"
+  },
+  {
+    "id": 552,
+    "artist": "Milionário e José Rico",
+    "title": "Brigas",
+    "genero": "BREGA",
+    "src": "Brigas-Brigas-MILIONARIO-JOSE-RICO-BREGA.m4a"
+  },
+  {
+    "id": 553,
+    "artist": "Vontade",
+    "title": "Canteiros",
+    "genero": "BREGA",
+    "src": "CANTEIROS_Vontade_BREGA.m4a"
+  },
+  {
+    "id": 554,
+    "artist": "Fernando Mendes",
+    "title": "Coisas Estranhas",
+    "genero": "BREGA",
+    "src": "Coisas_Estranhas_FERNANDO-MENDES-BREGA.m4a"
+  },
+  {
+    "id": 555,
+    "artist": "Renato Blue Caps",
+    "title": "Com Você no Coração",
+    "genero": "BREGA",
+    "src": "COM-VC-NO-CORACAO-RENATO-BLUE-CAPS-BREGA.m4a"
+  },
+  {
+    "id": 556,
+    "artist": "José Augusto",
+    "title": "De Que Vale Ter Tudo na Vida",
+    "genero": "BREGA",
+    "src": "De_Que_Vale_Ter_Tudo_Na_Vida_Jos_Augusto_BREGA.m4a"
+  },
+  {
+    "id": 557,
+    "artist": "Dedim Gouveia",
+    "title": "Dedim Gouveia (Dupla)",
+    "genero": "BREGA",
+    "src": "Dedim_Gouveia_Dupla-BREGA.m4a"
+  },
+  {
+    "id": 558,
+    "artist": "Abílio",
+    "title": "Entre Espumas",
+    "genero": "BREGA",
+    "src": "Entre_Espumas_ABILIO-BREGA.m4a"
+  },
+  {
+    "id": 559,
+    "artist": "Lindomar Castilho",
+    "title": "Eu Vou Rifar Meu Coração",
+    "genero": "BREGA",
+    "src": "Lindomar_Castilho_Eu_Vou_Rifar_Meu_Cora_BREGA.m4a"
+  },
+  {
+    "id": 560,
+    "artist": "Lindomar Castilho",
+    "title": "Feiticeira",
+    "genero": "BREGA",
+    "src": "Feiticeira_LINDOMAR-CAST_BREGA.m4a"
+  },
+  {
+    "id": 561,
+    "artist": "Fernando Mendes",
+    "title": "Faz Mais",
+    "genero": "BREGA",
+    "src": "Fernando_Mendes_Faz_Mais_Faz_BREGA.m4a"
+  },
+  {
+    "id": 562,
+    "artist": "Fernando Mendes",
+    "title": "Recordações",
+    "genero": "BREGA",
+    "src": "Fernando_Mendes_Recordacoes_BREGA.m4a"
+  },
+  {
+    "id": 563,
+    "artist": "Madrugada Amiga",
+    "title": "Madrugada Amiga",
+    "genero": "BREGA",
+    "src": "Madrugada_Amiga_Madrugada_Amiga_BREGA.m4a"
+  },
+  {
+    "id": 564,
+    "artist": "Odair José",
+    "title": "Mande Nem que Seja um Telegrama",
+    "genero": "BREGA",
+    "src": "ODAIR-JOSE-Mande_Nem_Que_Seja_um_Telegrama_B.m4a"
+  },
+  {
+    "id": 565,
+    "artist": "Mano a Mano",
+    "title": "Pedindo Amor",
+    "genero": "BREGA",
+    "src": "MANO_A_MANO_Pedindo_Amor_B.m4a"
+  },
+  {
+    "id": 566,
+    "artist": "Reginaldo Rossi",
+    "title": "Meu Fracasso",
+    "genero": "BREGA",
+    "src": "Meu_Fracasso_Meu_REGILDO-ROSSI-B.m4a"
+  },
+  {
+    "id": 567,
+    "artist": "Altemar Dutra",
+    "title": "Meu Velho",
+    "genero": "BREGA",
+    "src": "MEU_VELHO-ALTEMAR-DUTRA-B.mp3"
+  },
+  {
+    "id": 568,
+    "artist": "Raimundo Soldado",
+    "title": "Minha Garota",
+    "genero": "BREGA",
+    "src": "Minha_Garota_RAIMUNDO-SOLDADO-B.m4a"
+  },
+  {
+    "id": 569,
+    "artist": "Vando",
+    "title": "Mordida na Maçã",
+    "genero": "BREGA",
+    "src": "Mordida_Na_Mordida_Na_Ma_VANDO-B.m4a"
+  },
+  {
+    "id": 570,
+    "artist": "Na Hora do Adeus",
+    "title": "Na Hora do Adeus",
+    "genero": "BREGA",
+    "src": "Na_hora_Na_hora_do_adeus_B.m4a"
+  },
+  {
+    "id": 571,
+    "artist": "Violão de Ouro",
+    "title": "Nosso Juramento",
+    "genero": "BREGA",
+    "src": "Nosso_Juramento_VIOLAO-DE-OURO-B.m4a"
+  },
+  {
+    "id": 572,
+    "artist": "Violão de Ouro",
+    "title": "O Pranto",
+    "genero": "BREGA",
+    "src": "O_Pranto-VIOLAO-DE-OURO-B.m4a"
+  },
+  {
+    "id": 573,
+    "artist": "Zezo Potiguar e Luan Estilizado",
+    "title": "O Vagabundo",
+    "genero": "BREGA",
+    "src": "O_Vagabundo_DVD_Vontade_Ra_Saia_Rodada_Zezo_Potiguar_Luan_Estilizado_B.m4a"
+  },
+  {
+    "id": 574,
+    "artist": "Orlando Dias",
+    "title": "Tenho Ciúme de Tudo",
+    "genero": "BREGA",
+    "src": "Orlando_Dias_Orlando_Dias_Tenho_Ciume_De_Tudo_B.m4a"
+  },
+  {
+    "id": 575,
+    "artist": "Os Dez Mandamentos",
+    "title": "Os Dez Mandamentos do Amor",
+    "genero": "BREGA",
+    "src": "Os_Dez_Os_Dez_Mandamentos_do_Amor_B.m4a"
+  },
+  {
+    "id": 576,
+    "artist": "Osvaldo Oliveira",
+    "title": "Eu Acho Pouco",
+    "genero": "BREGA",
+    "src": "Osvaldo_Oliveira_Eu_Acho_Pouco_B.m4a"
+  },
+  {
+    "id": 577,
+    "artist": "Avontade",
+    "title": "Outra Vida",
+    "genero": "BREGA",
+    "src": "Outra_Vida_Avontade.m4a"
+  },
+  {
+    "id": 578,
+    "artist": "Perfume de Gardênia",
+    "title": "Perfume de Gardênia",
+    "genero": "BREGA",
+    "src": "Perfume_de_Perfume_de_Gardenia_B.m4a"
+  },
+  {
+    "id": 579,
+    "artist": "Amado Batista",
+    "title": "Princesa",
+    "genero": "BREGA",
+    "src": "Princesa_AMADO-BATISTA-BREGA.m4a"
+  },
+  {
+    "id": 580,
+    "artist": "Raimundo Soldado",
+    "title": "Minha Garota",
+    "genero": "BREGA",
+    "src": "Raimundo_Soldado_Minha_Garota_B.m4a"
+  },
+  {
+    "id": 581,
+    "artist": "Roberto Carlos",
+    "title": "Furdúncio",
+    "genero": "BREGA",
+    "src": "Roberto_Carlos_Furduncio-B.m4a"
+  },
+  {
+    "id": 582,
+    "artist": "José Ribeiro",
+    "title": "S Castigo",
+    "genero": "BREGA",
+    "src": "S_Castigo_JOSE-RIBEIRO-B.m4a"
+  },
+  {
+    "id": 583,
+    "artist": "Uni",
+    "title": "Se Errar Outra Vez",
+    "genero": "BREGA",
+    "src": "Se_Errar_Se_Errar_Outra_Vez_UNI-B.m4a"
+  },
+  {
+    "id": 584,
+    "artist": "Nival Santos",
+    "title": "Sendo Assim",
+    "genero": "BREGA",
+    "src": "Sendo_Assim_GEB-NIVAL-SANTOS-B.m4a"
+  },
+  {
+    "id": 585,
+    "artist": "Fernando Mendes",
+    "title": "Sem Você",
+    "genero": "BREGA",
+    "src": "Sem_Voc_Sem_Voc_FERMENDO-MENDEB.m4a"
+  },
+  {
+    "id": 586,
+    "artist": "José Ribeiro",
+    "title": "Serejeira Rosa",
+    "genero": "BREGA",
+    "src": "Serejeira_Rosa_JOSE-RIBEIRO-B.m4a"
+  },
+  {
+    "id": 587,
+    "artist": "Siboney feat. Alcymar Monteiro",
+    "title": "Siboney",
+    "genero": "BREGA",
+    "src": "Siboney_feat_Siboney_feat_Alcymar_Monteiro-B.m4a"
+  },
+  {
+    "id": 588,
+    "artist": "Bartô Gal",
+    "title": "Saudade de Rosa",
+    "genero": "BREGA",
+    "src": "SSaudade_de_Rosa-BARTO-GAL-B.m4a"
+  },
+  {
+    "id": 589,
+    "artist": "Roberto Muller",
+    "title": "Te Responderei",
+    "genero": "BREGA",
+    "src": "Te_Responderei_ROBERTO-MULER-B.m4a"
+  },
+  {
+    "id": 590,
+    "artist": "Vida pelo Avesso",
+    "title": "Vida Pelo Avesso",
+    "genero": "BREGA",
+    "src": "VIDA_PELO_VIDA_PELO_AVESSO_B.m4a"
+  },
+  {
+    "id": 591,
+    "artist": "Lostalgia",
+    "title": "Você Não Me Ensinou a Te Esquecer",
+    "genero": "BREGA",
+    "src": "Voc_nao_me_ensinou_a_te_esquecer_Lostalgia_B.m4a"
+  },
+  {
+    "id": 592,
+    "artist": "Waldik Soriano",
+    "title": "Um Homem Chora de Paixão",
+    "genero": "BREGA",
+    "src": "Waldik_Soriano_Um_Homem_Chora_De_Paix_B.m4a"
+  }
+]
