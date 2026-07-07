@@ -22,6 +22,7 @@
         .controls button.success { background: linear-gradient(135deg, #4ade80, #22c55e); color: #000; }
         .controls button.warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; }
         .controls button.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
+        .controls button.play { background: linear-gradient(135deg, #00f3ff, #ff2d7f); color: #000; }
 
         .search-bar { display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); flex: 1; min-width: 180px; }
         .search-bar i { color: #666; }
@@ -84,8 +85,6 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         .tr-hidden { display: none; }
-
-        /* Botão de seleção de arquivos escondido */
         #fileInput { display: none; }
     </style>
 </head>
@@ -100,13 +99,13 @@
         <button id="loadBtn" class="success"><i class="fas fa-sync"></i> Carregar</button>
         <button id="addBtn" class="primary"><i class="fas fa-plus"></i> Adicionar</button>
         <button id="addMultipleBtn" class="purple"><i class="fas fa-folder-open"></i> Adicionar Múltiplas</button>
+        <button id="sendToPlayerBtn" class="play"><i class="fas fa-play"></i> Enviar para Player</button>
         <button id="saveBtn" class="primary"><i class="fas fa-save"></i> Salvar JSON</button>
         <button id="resetBtn" class="warning"><i class="fas fa-undo"></i> Resetar</button>
         <button id="clearAllBtn" class="danger"><i class="fas fa-trash-alt"></i> Apagar Tudo</button>
         <span style="color:#666; font-size:0.8rem; margin-left:auto;" id="countDisplay">0 músicas</span>
     </div>
 
-    <!-- Input oculto para seleção de arquivos -->
     <input type="file" id="fileInput" multiple accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac">
 
     <div class="search-bar">
@@ -129,9 +128,7 @@
                     <th style="width:110px;">Ações</th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
-                <!-- linhas serão inseridas aqui -->
-            </tbody>
+            <tbody id="tableBody"></tbody>
         </table>
         <div class="add-row" id="addRowBtn"><i class="fas fa-plus-circle"></i> Adicionar nova música</div>
     </div>
@@ -165,18 +162,17 @@
         'REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/reggae.json'
     };
 
-    // Estado atual
     let currentGenre = 'MPB';
     let playlistData = [];
     let originalData = [];
     let isDirty = false;
 
-    // DOM refs
     const genreSelect = document.getElementById('genreSelect');
     const loadBtn = document.getElementById('loadBtn');
     const addBtn = document.getElementById('addBtn');
     const addMultipleBtn = document.getElementById('addMultipleBtn');
     const fileInput = document.getElementById('fileInput');
+    const sendToPlayerBtn = document.getElementById('sendToPlayerBtn');
     const saveBtn = document.getElementById('saveBtn');
     const resetBtn = document.getElementById('resetBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
@@ -192,9 +188,7 @@
     const searchInput = document.getElementById('searchInput');
     const searchCount = document.getElementById('searchCount');
 
-    // ============================================================
-    // POPULAR SELECT DE GÊNEROS
-    // ============================================================
+    // Popular select
     Object.keys(GENRE_URLS).forEach(g => {
         const opt = document.createElement('option');
         opt.value = g;
@@ -203,9 +197,6 @@
     });
     genreSelect.value = 'MPB';
 
-    // ============================================================
-    // FUNÇÕES AUXILIARES
-    // ============================================================
     function setStatus(msg, type = 'success') {
         statusDiv.textContent = msg;
         statusDiv.className = 'status ' + type;
@@ -225,24 +216,15 @@
         return Math.floor(Math.random() * 900000) + 100000;
     }
 
-    // ============================================================
-    // FORMATADOR DE JSON: cada objeto em uma linha
-    // ============================================================
     function formatJsonPerLine(arr) {
         if (!arr || arr.length === 0) return '[]';
         const lines = arr.map(obj => JSON.stringify(obj));
         return '[\n' + lines.join(',\n') + '\n]';
     }
 
-    // ============================================================
-    // CARREGAR PLAYLIST DA URL
-    // ============================================================
     async function loadPlaylist(genre) {
         const url = GENRE_URLS[genre];
-        if (!url) {
-            setStatus('Gênero inválido', 'error');
-            return;
-        }
+        if (!url) { setStatus('Gênero inválido', 'error'); return; }
         showLoading(true);
         try {
             const resp = await fetch(url);
@@ -265,11 +247,9 @@
                 m.title = m.title || 'Sem título';
                 m.src = m.src || '';
             });
-
             if (genre === 'SERTANEJO') {
                 playlistData.sort((a, b) => a.title.localeCompare(b.title, 'pt', { sensitivity: 'base' }));
             }
-
             originalData = JSON.parse(JSON.stringify(playlistData));
             isDirty = false;
             renderTable();
@@ -288,18 +268,13 @@
         }
     }
 
-    // ============================================================
-    // RENDERIZAR TABELA com suporte a busca
-    // ============================================================
     function renderTable() {
         tableBody.innerHTML = '';
         const searchTerm = searchInput.value.trim().toLowerCase();
-        
         playlistData.forEach((item, index) => {
             const tr = document.createElement('tr');
             tr.dataset.index = index;
 
-            // ID
             const tdId = document.createElement('td');
             const idInput = document.createElement('input');
             idInput.type = 'text';
@@ -308,7 +283,6 @@
             idInput.dataset.field = 'id';
             tdId.appendChild(idInput);
 
-            // Título
             const tdTitle = document.createElement('td');
             const titleInput = document.createElement('input');
             titleInput.type = 'text';
@@ -317,7 +291,6 @@
             titleInput.dataset.field = 'title';
             tdTitle.appendChild(titleInput);
 
-            // Artista
             const tdArtist = document.createElement('td');
             const artistInput = document.createElement('input');
             artistInput.type = 'text';
@@ -326,7 +299,6 @@
             artistInput.dataset.field = 'artist';
             tdArtist.appendChild(artistInput);
 
-            // Gênero
             const tdGenre = document.createElement('td');
             const genreInput = document.createElement('input');
             genreInput.type = 'text';
@@ -335,7 +307,6 @@
             genreInput.dataset.field = 'genero';
             tdGenre.appendChild(genreInput);
 
-            // Src (MAIOR)
             const tdSrc = document.createElement('td');
             const srcInput = document.createElement('input');
             srcInput.type = 'text';
@@ -344,44 +315,35 @@
             srcInput.dataset.field = 'src';
             tdSrc.appendChild(srcInput);
 
-            // Ações
             const tdActions = document.createElement('td');
             tdActions.className = 'actions';
             const upBtn = document.createElement('button');
             upBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
-            upBtn.title = 'Mover para cima';
             upBtn.className = 'move';
             upBtn.addEventListener('click', () => moveItem(index, -1));
 
             const downBtn = document.createElement('button');
             downBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
-            downBtn.title = 'Mover para baixo';
             downBtn.className = 'move';
             downBtn.addEventListener('click', () => moveItem(index, 1));
 
             const delBtn = document.createElement('button');
             delBtn.innerHTML = '<i class="fas fa-trash"></i>';
-            delBtn.title = 'Remover';
             delBtn.className = 'del';
             delBtn.addEventListener('click', () => removeItem(index));
 
             tdActions.append(upBtn, downBtn, delBtn);
-
             tr.append(tdId, tdTitle, tdArtist, tdGenre, tdSrc, tdActions);
             tableBody.appendChild(tr);
         });
 
         applyFilter(searchInput.value.trim());
-
         document.querySelectorAll('.editable-input').forEach(inp => {
             inp.addEventListener('input', onInputChange);
         });
         updateCount();
     }
 
-    // ============================================================
-    // FILTRO DE BUSCA (LUPA)
-    // ============================================================
     function applyFilter(term) {
         const rows = tableBody.querySelectorAll('tr');
         const clean = term.toLowerCase().trim();
@@ -405,9 +367,6 @@
         searchCount.textContent = clean ? `(${visibleCount} / ${playlistData.length})` : '';
     }
 
-    // ============================================================
-    // EVENTO DE ALTERAÇÃO NOS INPUTS
-    // ============================================================
     function onInputChange(e) {
         const input = e.target;
         const tr = input.closest('tr');
@@ -422,9 +381,6 @@
         }
     }
 
-    // ============================================================
-    // MOVER / REMOVER
-    // ============================================================
     function moveItem(index, direction) {
         const newIndex = index + direction;
         if (newIndex < 0 || newIndex >= playlistData.length) return;
@@ -443,15 +399,12 @@
         }
     }
 
-    // ============================================================
-    // APAGAR TUDO
-    // ============================================================
     function clearAll() {
         if (playlistData.length === 0) {
             setStatus('⚠️ A playlist já está vazia.', 'warning');
             return;
         }
-        if (confirm(`⚠️ Tem certeza que deseja APAGAR TODAS as ${playlistData.length} músicas? Esta ação não pode ser desfeita!`)) {
+        if (confirm(`⚠️ Tem certeza que deseja APAGAR TODAS as ${playlistData.length} músicas?`)) {
             playlistData = [];
             isDirty = true;
             renderTable();
@@ -460,9 +413,6 @@
         }
     }
 
-    // ============================================================
-    // ADICIONAR NOVA MÚSICA (individual)
-    // ============================================================
     function addNewMusic() {
         const newMusic = {
             id: generateId(),
@@ -479,54 +429,55 @@
         if (rows.length) rows[rows.length - 1].scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ============================================================
-    // ADICIONAR MÚLTIPLAS MÚSICAS A PARTIR DE ARQUIVOS
-    // ============================================================
     function addMultipleFiles(files) {
         if (!files || files.length === 0) {
             setStatus('⚠️ Nenhum arquivo selecionado.', 'warning');
             return;
         }
-
         let added = 0;
         const newSongs = [];
-
         for (const file of files) {
-            // Pega o nome do arquivo sem extensão
             const fileName = file.name.replace(/\.[^/.]+$/, '');
-            // Pega a extensão
             const ext = file.name.split('.').pop().toLowerCase();
-            // Filtra apenas arquivos de áudio (opcional, mas já temos o accept)
             const audioExtensions = ['mp3', 'm4a', 'wav', 'ogg', 'flac', 'aac', 'wma'];
             if (!audioExtensions.includes(ext)) continue;
-
             const newMusic = {
                 id: generateId(),
-                artist: 'Desconhecido',  // Você pode editar depois
+                artist: 'Desconhecido',
                 title: fileName,
                 genero: currentGenre,
-                src: file.name  // Salva o nome do arquivo como src
+                src: file.name
             };
             newSongs.push(newMusic);
             added++;
         }
-
         if (added === 0) {
             setStatus('⚠️ Nenhum arquivo de áudio válido encontrado.', 'warning');
             return;
         }
-
         playlistData.push(...newSongs);
         isDirty = true;
         renderTable();
         setStatus(`✅ ${added} música(s) adicionadas com sucesso!`, 'success');
-        // Rola para o final
         const rows = tableBody.querySelectorAll('tr');
         if (rows.length) rows[rows.length - 1].scrollIntoView({ behavior: 'smooth' });
     }
 
     // ============================================================
-    // EXPORTAÇÃO: cada objeto em uma linha
+    // ENVIAR PARA O PLAYER (INTEGRAÇÃO)
+    // ============================================================
+    function sendToPlayer() {
+        if (playlistData.length === 0) {
+            setStatus('⚠️ Playlist vazia. Adicione músicas primeiro.', 'warning');
+            return;
+        }
+        localStorage.setItem('playlist_editor_play12', JSON.stringify(playlistData));
+        setStatus('✅ Playlist enviada para o player! Abrindo...', 'success');
+        window.open('https://radiolojasjc-hub.github.io/listtop/', '_blank');
+    }
+
+    // ============================================================
+    // EXPORTAÇÃO
     // ============================================================
     function getFormattedJson() {
         return formatJsonPerLine(playlistData);
@@ -564,10 +515,7 @@
     function minifyTextarea() {
         try {
             const raw = jsonOutput.value;
-            if (!raw.trim()) {
-                setStatus('⚠️ Textarea vazio.', 'warning');
-                return;
-            }
+            if (!raw.trim()) { setStatus('⚠️ Textarea vazio.', 'warning'); return; }
             const parsed = JSON.parse(raw);
             jsonOutput.value = formatJsonPerLine(parsed);
             setStatus('🔄 JSON reformatado com cada música em uma linha.', 'success');
@@ -576,9 +524,6 @@
         }
     }
 
-    // ============================================================
-    // RESET (voltar ao original)
-    // ============================================================
     function resetPlaylist() {
         if (!originalData.length) {
             setStatus('⚠️ Nenhum backup disponível. Recarregue a playlist.', 'error');
@@ -609,18 +554,17 @@
     addBtn.addEventListener('click', addNewMusic);
     addRowBtn.addEventListener('click', addNewMusic);
 
-    // Botão para adicionar múltiplas
     addMultipleBtn.addEventListener('click', () => {
         fileInput.click();
     });
-
     fileInput.addEventListener('change', (e) => {
         if (e.target.files && e.target.files.length > 0) {
             addMultipleFiles(e.target.files);
         }
-        // Limpa o input para permitir selecionar os mesmos arquivos novamente
         fileInput.value = '';
     });
+
+    sendToPlayerBtn.addEventListener('click', sendToPlayer);
 
     saveBtn.addEventListener('click', saveToJson);
     downloadBtn.addEventListener('click', downloadJson);
@@ -636,9 +580,6 @@
         updateCount();
     });
 
-    // ============================================================
-    // INICIALIZAÇÃO
-    // ============================================================
     window.addEventListener('load', () => {
         loadPlaylist('MPB');
     });
