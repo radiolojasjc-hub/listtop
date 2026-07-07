@@ -42,14 +42,16 @@
         .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
         .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
         
-        .info-scroll { position: fixed; top: 44px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
+        /* Letreiro - ajustado para subir um pouco */
+        .info-scroll { position: fixed; top: 42px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
         .info-scroll p { color: white; font-size: 0.85rem; font-weight: 900; letter-spacing: 2px; font-family: 'Segoe UI', Arial, sans-serif; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 15px rgba(0,243,255,0.9), 0 0 30px rgba(0,243,255,0.5); text-transform: uppercase; }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .now-playing { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; width: 90%; max-width: 400px; cursor: grab; user-select: none; -webkit-user-select: none; }
         .now-playing:active { cursor: grabbing; }
-        .now-playing .music-title { color: white; font-size: 1.6rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; }
-        .now-playing .music-artist { color: #aaa; font-size: 1.2rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; }
+        /* Título e artista menores e mais transparentes */
+        .now-playing .music-title { color: white; font-size: 1.4rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; opacity: 0.7; }
+        .now-playing .music-artist { color: #aaa; font-size: 1.0rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; opacity: 0.7; }
         .fav-heart-center { display: flex; justify-content: center; margin: 10px 0; }
         .now-playing .fav-heart { font-size: 3.5rem; color: #555; cursor: pointer; transition: all 0.3s; text-shadow: 0 0 30px rgba(0,0,0,0.9); display: inline-block; }
         .now-playing .fav-heart.active { color: #ff2d7f; text-shadow: 0 0 40px rgba(255,45,127,0.5); }
@@ -115,52 +117,193 @@
         #loadingOverlay i { font-size: 3rem; color: var(--neon-cyan); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        .fav-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid #ff2d7f; text-align: center; max-height: 80vh; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; }
-        .fav-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .fav-modal h3 { color: #ff2d7f; margin-bottom: 15px; font-size: 1.1rem; }
-        .fav-modal .close-fav { position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: #888; font-size: 1.5rem; cursor: pointer; }
-        .fav-list { max-height: 50vh; overflow-y: auto; text-align: left; }
-        .fav-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: white; }
-        .fav-item .info { flex: 1; cursor: pointer; min-width: 0; }
-        .fav-item .info .title { font-weight: bold; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .fav-item .info .artist { font-size: 0.7rem; color: #aaa; }
+        /* ===== MODAIS MAIS BONITOS ===== */
+        .fav-modal, .feedback-modal, .historico-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 25px;
+            z-index: 5000;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 40px rgba(0,243,255,0.2), 0 0 80px rgba(255,45,127,0.1);
+        }
+        .fav-modal.open, .feedback-modal.open, .historico-modal.open {
+            display: flex;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            border-image: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)) 1;
+        }
+        .fav-modal h3, .feedback-modal h3, .historico-modal h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .fav-modal .close-fav, .historico-modal .close-hist {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .fav-modal .close-fav:active, .historico-modal .close-hist:active { color: #fff; }
+        
+        .fav-list, .historico-list {
+            max-height: 50vh;
+            overflow-y: auto;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .fav-item, .historico-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: white;
+        }
+        .fav-item .info, .historico-item .info { flex: 1; cursor: pointer; min-width: 0; }
+        .fav-item .info .title, .historico-item .info .title { font-weight: bold; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .fav-item .info .artist, .historico-item .info .artist { font-size: 0.7rem; color: #aaa; }
         .fav-item .remove { background: transparent; border: none; color: #ff2d7f; font-size: 1.1rem; cursor: pointer; padding: 4px 8px; }
         .fav-empty { color: #888; padding: 30px; text-align: center; }
-        .fav-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
+        .fav-modal .close-btn, .historico-modal .close-btn {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            border: none;
+            padding: 12px;
+            border-radius: 30px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+        .fav-modal .close-btn:active, .historico-modal .close-btn:active { transform: scale(0.95); }
         
-        .genres-modal { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px 30px 0 0; padding: 12px 10px 16px; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; max-height: 60vh; overflow-y: auto; }
+        /* Gêneros modal (embaixo) */
+        .genres-modal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px 30px 0 0;
+            padding: 16px 10px 20px;
+            z-index: 2000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            max-height: 60vh;
+            overflow-y: auto;
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)) 1;
+            box-shadow: 0 -10px 40px rgba(0,243,255,0.15);
+        }
         .genres-modal.open { transform: translateY(0); }
-        .genres-modal h3 { text-align: center; margin-bottom: 8px; font-size: 0.85rem; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .genres-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
-        .genre-card { border-radius: 10px; cursor: pointer; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.12); aspect-ratio: 4 / 2.2; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; text-align: center; color: white; font-weight: bold; font-size: 0.7rem; text-shadow: 0 0 5px black; padding: 6px; }
-        .genre-card:active { transform: scale(0.94); border-color: var(--neon-cyan); }
-        .genre-card.fav-card { border-color: #ff2d7f; background: linear-gradient(135deg, rgba(255,45,127,0.2), #1a1a2e); }
-        .close-genres { width: 100%; padding: 8px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; border-radius: 30px; color: #000; font-size: 0.8rem; cursor: pointer; font-weight: bold; }
+        .genres-modal h3 {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .genres-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .genre-card {
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 2px solid rgba(255,255,255,0.12);
+            aspect-ratio: 4 / 2.4;
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            padding: 6px;
+            backdrop-filter: blur(4px);
+        }
+        .genre-card:active { transform: scale(0.94); }
+        .genre-card.fav-card {
+            border-color: #ff2d7f;
+            background: rgba(255,45,127,0.15);
+        }
+        .close-genres {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            border: none;
+            border-radius: 30px;
+            color: #000;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .close-genres:active { transform: scale(0.95); }
         
-        .feedback-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; max-height: 90vh; overflow-y: auto; }
-        .feedback-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .feedback-modal h3 { color: var(--neon-cyan); margin-bottom: 10px; font-size: 1.1rem; }
-        .feedback-modal p { color: #aaa; font-size: 0.8rem; margin-bottom: 10px; }
-        .stars { display: flex; justify-content: center; gap: 8px; margin: 8px 0; }
-        .star { font-size: 2rem; color: #555; cursor: pointer; transition: 0.1s; }
-        .star.active { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
-        .feedback-modal textarea { width: 100%; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid rgba(0,243,255,0.3); border-radius: 15px; padding: 10px; color: white; resize: none; font-size: 0.85rem; }
+        /* Feedback modal específico */
+        .feedback-modal .stars { display: flex; justify-content: center; gap: 8px; margin: 10px 0; }
+        .feedback-modal .star { font-size: 2.2rem; color: #555; cursor: pointer; transition: 0.15s; }
+        .feedback-modal .star.active { color: #ffd700; text-shadow: 0 0 15px #ffd700; }
+        .feedback-modal textarea {
+            width: 100%;
+            height: 80px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(0,243,255,0.2);
+            border-radius: 15px;
+            padding: 10px;
+            color: white;
+            resize: none;
+            font-size: 0.85rem;
+        }
         .feedback-modal textarea::placeholder { color: #666; }
-        .feedback-modal button { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 0.95rem; }
-        .feedback-modal .close-feedback { background: rgba(255,255,255,0.1) !important; color: white !important; margin-top: 5px; }
-        
-        .historico-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; z-index: 5000; width: 90%; max-width: 380px; border: 2px solid var(--neon-cyan); text-align: center; max-height: 80vh; display: none; flex-direction: column; opacity: 0; transition: all 0.3s; }
-        .historico-modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .historico-modal h3 { color: var(--neon-cyan); margin-bottom: 15px; font-size: 1.1rem; }
-        .historico-modal .close-hist { position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: #888; font-size: 1.5rem; cursor: pointer; }
-        .historico-list { max-height: 50vh; overflow-y: auto; text-align: left; }
-        .historico-item { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: white; gap: 8px; }
-        .historico-item .num { color: #666; font-size: 0.7rem; min-width: 24px; }
-        .historico-item .info { flex: 1; min-width: 0; }
-        .historico-item .info .title { font-size: 0.8rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .historico-item .info .artist { font-size: 0.65rem; color: #aaa; }
-        .historico-item .genero-tag { font-size: 0.5rem; padding: 2px 8px; border-radius: 12px; background: rgba(0,243,255,0.15); color: var(--neon-cyan); }
-        .historico-modal .close-btn { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)); border: none; padding: 12px; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.95rem; }
+        .feedback-modal button {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            border: none;
+            padding: 12px;
+            border-radius: 30px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+        .feedback-modal button:active { transform: scale(0.95); }
+        .feedback-modal .close-feedback {
+            background: rgba(255,255,255,0.1) !important;
+            color: white !important;
+            margin-top: 5px;
+        }
         
         @media (max-width: 480px) {
             .now-playing .music-title { font-size: 1.2rem; }
@@ -173,19 +316,20 @@
             .search-input { width: 50px; font-size: 0.45rem; }
             .search-input:focus { width: 85px; }
             .top-bar { padding: 4px 6px; }
-            .info-scroll { top: 42px; padding: 4px 10px; }
+            .info-scroll { top: 40px; padding: 4px 10px; }
             .info-scroll p { font-size: 0.7rem; letter-spacing: 1px; }
             .ctrl-btn { width: 28px; height: 28px; font-size: 0.65rem; }
             .play-big { width: 36px; height: 36px; font-size: 0.9rem; }
             .buttons-row { gap: 8px; }
             .teaching-bar { bottom: 95px; font-size: 0.5rem; padding: 5px 14px; }
             .bottom-controls { padding: 4px 8px 8px; }
-            .genres-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            .genre-card { font-size: 0.55rem; aspect-ratio: 4/2.2; }
+            .genres-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .genre-card { font-size: 0.6rem; aspect-ratio: 4/2.2; }
             .audio-status { font-size: 0.4rem; padding: 1px 4px; }
             .fab-container { bottom: 80px; right: 8px; }
             .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
             #tap-to-start { padding: 10px 18px; font-size: 0.9rem; bottom: 25%; }
+            .fav-modal, .feedback-modal, .historico-modal { padding: 20px; max-width: 340px; }
         }
     </style>
 </head>
@@ -240,7 +384,7 @@
     <!-- Modais -->
     <div class="fav-modal" id="favModal">
         <button class="close-fav" id="closeFavModal"><i class="fas fa-times"></i></button>
-        <h3><i class="fas fa-heart" style="color:#ff2d7f;"></i> Suas Favoritas</h3>
+        <h3><i class="fas fa-heart" style="color:#ff2d7f; -webkit-text-fill-color: #ff2d7f;"></i> Suas Favoritas</h3>
         <div class="fav-list" id="favList"><div class="fav-empty">Nenhuma música favorita</div></div>
         <button class="close-btn" id="closeFavBtn">FECHAR</button>
     </div>
@@ -1180,7 +1324,7 @@
         }
 
         // ============================================================
-        // EVENTOS DOM (OTIMIZADOS PARA MOBILE)
+        // EVENTOS DOM (TUDO FUNCIONANDO)
         // ============================================================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
