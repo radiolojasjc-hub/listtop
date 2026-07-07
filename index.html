@@ -238,7 +238,6 @@
             .audio-status { font-size: 0.4rem; padding: 1px 4px; }
             .fab-container { bottom: 80px; right: 8px; }
             .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
-            /* Botão ativar áudio menor no celular */
             #tap-to-start { 
                 padding: 10px 18px; 
                 font-size: 0.9rem; 
@@ -358,6 +357,7 @@
     <div class="menu-popup" id="menuPopup">
         <button class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i> Fechar</button>
         <button id="fullscreenMenuBtn"><i class="fas fa-expand"></i> Tela Cheia</button>
+        <button id="reloadPlaylistBtn"><i class="fas fa-sync"></i> Recarregar Playlist</button> <!-- NOVO -->
         <button id="btStatusMenuBtn"><i class="fab fa-bluetooth"></i> Procurar Bluetooth</button>
         <button id="feedbackMenuBtn"><i class="fas fa-star"></i> Feedback</button>
         <button id="sleepMenuBtn"><i class="fas fa-moon"></i> Sleep Timer</button>
@@ -416,6 +416,7 @@
         let sleepTimer = null;
         let hideControlsTimeout = null;
         const playlistCache = {};
+        let ultimoId = null; // guarda o ID da última música tocada
 
         // Referências DOM
         const audio = document.getElementById('musicPlayer');
@@ -575,6 +576,7 @@
             currentPlaylist = shuffleArray([...favMusicas]);
             currentIndex = 0;
             historicoReproducao = [];
+            ultimoId = null;
             const m = currentPlaylist[0];
             if (m) {
                 updateNowPlaying(m);
@@ -597,6 +599,7 @@
                 return null;
             }
             if (playlistCache[genero]) {
+                console.log(`📦 Cache: ${genero} tem ${playlistCache[genero].length} músicas`);
                 return playlistCache[genero];
             }
             try {
@@ -619,6 +622,7 @@
                     m.genero = genero;
                 });
                 playlistCache[genero] = lista;
+                console.log(`✅ ${genero} carregou ${lista.length} músicas`);
                 showLoading(false);
                 return lista;
             } catch (error) {
@@ -641,6 +645,7 @@
             musicas = lista;
             modoAtual = genero;
             generoAtualPesquisa = null;
+            ultimoId = null;
             currentPlaylist = shuffleArray([...musicas]);
             currentIndex = 0;
             historicoReproducao = [];
@@ -670,18 +675,38 @@
         }
 
         // ============================================================
-        // REPRODUÇÃO
+        // REPRODUÇÃO - CORRIGIDA PARA EVITAR REPETIÇÃO
         // ============================================================
         function obterProximaMusica() {
+            // Se não há playlist, cria uma
             if (!currentPlaylist || currentPlaylist.length === 0) {
                 if (musicas.length === 0) return null;
                 currentPlaylist = shuffleArray([...musicas]);
+                // Remove a última música para não repetir logo
+                if (ultimoId && currentPlaylist.length > 1) {
+                    const idx = currentPlaylist.findIndex(m => m.id === ultimoId);
+                    if (idx > -1) currentPlaylist.splice(idx, 1);
+                }
                 currentIndex = 0;
             }
+
+            // Se chegamos ao fim da playlist
             if (currentIndex >= currentPlaylist.length) {
-                currentPlaylist = shuffleArray(currentPlaylist);
+                // Guarda o ID da última música que foi tocada
+                const ultima = currentPlaylist[currentPlaylist.length - 1];
+                ultimoId = ultima ? ultima.id : null;
+
+                // Cria nova playlist embaralhada
+                if (musicas.length === 0) return null;
+                currentPlaylist = shuffleArray([...musicas]);
+                // Remove a última música para não repetir imediatamente
+                if (ultimoId && currentPlaylist.length > 1) {
+                    const idx = currentPlaylist.findIndex(m => m.id === ultimoId);
+                    if (idx > -1) currentPlaylist.splice(idx, 1);
+                }
                 currentIndex = 0;
             }
+
             const musica = currentPlaylist[currentIndex];
             if (!musica) return null;
             currentIndex++;
@@ -713,7 +738,6 @@
             const g = (genero || '').toUpperCase().trim();
             if (g === 'SERTANEJO') src = 'sertanejo.mp4';
             else if (g === 'CRISTÃ' || g === 'CRISTÃ HITS' || g === 'GOSPEL') src = 'cristo.mp4';
-            // Se o vídeo já estiver carregado com o mesmo src, não recarrega
             if (!bgVideo.src.includes(src)) {
                 bgVideo.src = src;
                 bgVideo.load();
@@ -739,6 +763,8 @@
                 showNotification("Nenhuma música disponível", 1000);
                 return;
             }
+            // Atualiza o último ID
+            ultimoId = track.id;
             updateNowPlaying(track);
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
@@ -781,6 +807,7 @@
             } else {
                 const track = obterProximaMusica();
                 if (track) {
+                    ultimoId = track.id;
                     updateNowPlaying(track);
                     adicionarAoHistorico(track);
                     trocarVideoPorGenero(track.genero);
@@ -805,6 +832,7 @@
             if (currentIndex >= currentPlaylist.length) currentIndex = currentPlaylist.length - 1;
             const track = currentPlaylist[currentIndex];
             if (!track) { nextTrack(); return; }
+            ultimoId = track.id;
             updateNowPlaying(track);
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
@@ -870,6 +898,7 @@
             const outras = lista.filter(m => m.id !== musica.id);
             currentPlaylist = shuffleArray([musica, ...outras]);
             currentIndex = 0;
+            ultimoId = musica.id;
             historicoReproducao = [];
             updateNowPlaying(musica);
             trocarVideoPorGenero(musica.genero);
@@ -899,6 +928,7 @@
             const outras = lista.filter(m => m.id !== m.id);
             currentPlaylist = shuffleArray([m, ...outras]);
             currentIndex = 0;
+            ultimoId = m.id;
             historicoReproducao = [];
             updateNowPlaying(m);
             trocarVideoPorGenero(m.genero);
@@ -982,6 +1012,21 @@
         }
 
         // ============================================================
+        // RECARREGAR PLAYLIST (novo)
+        // ============================================================
+        async function recarregarPlaylist() {
+            const genero = modoAtual;
+            if (!genero || !GENRE_URLS[genero]) {
+                showNotification('⚠️ Gênero atual inválido', 1000);
+                return;
+            }
+            delete playlistCache[genero]; // limpa cache
+            showNotification(`🔄 Recarregando ${genero}...`, 1000);
+            await selecionarGenero(genero);
+            showNotification(`✅ Playlist recarregada (${musicas.length} músicas)`, 2000);
+        }
+
+        // ============================================================
         // INICIALIZAÇÃO
         // ============================================================
         async function iniciar() {
@@ -992,6 +1037,7 @@
                     modoAtual = 'MPB';
                     currentPlaylist = shuffleArray([...musicas]);
                     currentIndex = 0;
+                    ultimoId = null;
                     const primeira = currentPlaylist[0];
                     if (primeira) {
                         updateNowPlaying(primeira);
@@ -1007,6 +1053,7 @@
                         modoAtual = primeiroGenero;
                         currentPlaylist = shuffleArray([...musicas]);
                         currentIndex = 0;
+                        ultimoId = null;
                         const primeira = currentPlaylist[0];
                         if (primeira) {
                             updateNowPlaying(primeira);
@@ -1108,6 +1155,12 @@
             showNotification('⛶ Tela cheia ativada', 1000);
         });
         
+        // Recarregar Playlist
+        document.getElementById('reloadPlaylistBtn').addEventListener('click', () => {
+            menuPopup.classList.remove('open');
+            recarregarPlaylist();
+        });
+
         // Bluetooth
         document.getElementById('btStatusMenuBtn').addEventListener('click', () => { 
             menuPopup.classList.remove('open');
@@ -1173,7 +1226,7 @@
         tapToStart.addEventListener('click', async () => {
             showNotification('🔊 Ativando áudio...', 1000);
             await ativarAudio();
-            tapToStart.style.display = 'none'; // some ao clicar
+            tapToStart.style.display = 'none';
             goFullscreen();
         });
 
