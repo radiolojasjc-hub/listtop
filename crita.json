@@ -1,8 +1,30 @@
 [
- {"id":614,"artist":"Cristo","title":"Ele Não Desiste","genero":"CRISTÃ HITS","src":"ele_nao_desiste-CRISTO.m4a"},
-    {"id":615,"artist":"Eu Escolho Deus","title":"Eu Escolho Deus","genero":"CRISTÃ HITS","src":"Eu_Escolho_Eu_Escolho_Deus_CRISTO.m4a"},
-    {"id":709,"artist":"Kako_e_MC_Hariel","title":"Velho_Oeste_","genero":"CRISTÃ HITS","src":"Velho_Oeste_-_Kako_e_MC_Hariel.m4a"}
-
-
-  
+  {
+    "id": 614,
+    "artist": "Cristo",
+    "title": "Ele Não Desiste",
+    "genero": "CRISTÃ",
+    "src": "ele_nao_desiste-CRISTO.m4a"
+  },
+  {
+    "id": 615,
+    "artist": "Eu Escolho Deus",
+    "title": "Eu Escolho Deus",
+    "genero": "CRISTÃ",
+    "src": "Eu_Escolho_Eu_Escolho_Deus_CRISTO.m4a"
+  },
+  {
+    "id": 709,
+    "artist": "Kako_e_MC_Hariel",
+    "title": "Velho_Oeste_",
+    "genero": "CRISTÃ",
+    "src": "Velho_Oeste_-_Kako_e_MC_Hariel.m4a"
+  },
+  {
+    "id": 550511,
+    "artist": "Novo Artista",
+    "title": "Nova Música",
+    "genero": "CRISTÃ",
+    "src": "http://exemplo.com/musica.mp3"
+  }
 ]
