@@ -6,6 +6,7 @@
     <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* (mesmo estilo anterior – mantido intacto) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: #000; overflow: hidden; height: 100vh; }
         :root { --neon-cyan: #00f3ff; --neon-pink: #ff2d7f; --neon-green: #4ade80; }
@@ -23,7 +24,7 @@
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
         .fav-top-btn .badge { background: #ff2d7f; color: #000; border-radius: 50%; padding: 0 4px; font-size: 0.45rem; font-weight: bold; min-width: 14px; text-align: center; }
         
-        /* Container da busca com botão limpar */
+        /* Search com botão limpar */
         .search-wrapper { position: relative; display: inline-block; }
         .search-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); border-radius: 20px; padding: 2px 8px; color: white; font-size: 0.5rem; width: 70px; transition: width 0.3s; -webkit-appearance: none; appearance: none; padding-right: 20px; }
         .search-input:focus { width: 110px; outline: none; border-color: var(--neon-cyan); }
@@ -119,7 +120,7 @@
         #loadingOverlay i { font-size: 3rem; color: var(--neon-cyan); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* Modais bonitos */
+        /* Modais */
         .fav-modal, .feedback-modal, .historico-modal {
             position: fixed;
             top: 50%;
@@ -353,7 +354,6 @@
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <!-- Search com botão limpar -->
                 <div class="search-wrapper">
                     <input type="text" class="search-input" id="searchInput" placeholder="Buscar" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
                     <button class="clear-search" id="clearSearchBtn"><i class="fas fa-times"></i></button>
@@ -386,7 +386,7 @@
         <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span></div>
     </div>
 
-    <!-- Modais -->
+    <!-- Modais (mantidos) -->
     <div class="fav-modal" id="favModal">
         <button class="close-fav" id="closeFavModal"><i class="fas fa-times"></i></button>
         <h3><i class="fas fa-heart" style="color:#ff2d7f; -webkit-text-fill-color: #ff2d7f;"></i> Suas Favoritas</h3>
@@ -539,7 +539,7 @@
         const menuPopup = document.getElementById('menuPopup');
 
         // ============================================================
-        // FUNÇÕES AUXILIARES
+        // FUNÇÕES AUXILIARES (mantidas)
         // ============================================================
         function showNotification(msg, duration = 1500) {
             notification.textContent = msg;
@@ -588,75 +588,98 @@
         }
 
         // ============================================================
-        // GERADOR DE CANDIDATOS A SRC (MUITAS VARIAÇÕES)
+        // GERADOR DE CANDIDATOS A SRC (INTELIGENTE COM ESPAÇOS)
         // ============================================================
         function normalizar(str) {
+            // Remove acentos e caracteres especiais, mantém espaços
             return str.normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-zA-Z0-9 ]/g, '')
-                .trim()
-                .replace(/\s+/g, '_')
-                .toUpperCase();
+                .replace(/[^a-zA-Z0-9 .\-_]/g, '')
+                .trim();
         }
 
         function gerarListaCandidatos(artist, title, srcOriginal) {
             const candidatos = new Set();
-            const a = normalizar(artist || 'DESCONHECIDO');
-            const t = normalizar(title || 'SEM_TITULO');
-            const a2 = a.replace(/_/g, '-');
-            const t2 = t.replace(/_/g, '-');
-            const exts = ['m4a', 'mp3'];
+            const exts = ['m4a', 'mp3', 'wav', 'ogg', 'flac', 'aac'];
 
-            function addCandidato(base) {
-                for (const ext of exts) {
-                    candidatos.add(base + '.' + ext);
-                }
-            }
-
+            // 1. Se o src original existe, adiciona ele e suas variações
             if (srcOriginal && srcOriginal.trim()) {
-                const ext = srcOriginal.split('.').pop().toLowerCase();
-                if (['m4a','mp3','wav','ogg','flac','aac','wma'].includes(ext)) {
-                    candidatos.add(srcOriginal.trim());
-                }
-            }
-
-            addCandidato(a + '_' + t);
-            addCandidato(a + '-' + t);
-            addCandidato(t + '_' + a);
-            addCandidato(t + '-' + a);
-            addCandidato(a + t);
-            addCandidato(t + a);
-            addCandidato(a2 + '_' + t2);
-            addCandidato(a2 + '-' + t2);
-            addCandidato(t2 + '_' + a2);
-            addCandidato(t2 + '-' + a2);
-            if (a !== 'DESCONHECIDO') {
-                addCandidato(a);
-                addCandidato(a2);
-            }
-            if (t !== 'SEM_TITULO') {
-                addCandidato(t);
-                addCandidato(t2);
-            }
-
-            if (srcOriginal && srcOriginal.trim()) {
-                const semExt = srcOriginal.replace(/\.[^/.]+$/, '');
-                if (semExt !== srcOriginal) {
+                const original = srcOriginal.trim();
+                // Adiciona o original exatamente como está
+                candidatos.add(original);
+                
+                // Se tiver extensão, tenta sem extensão e com outras extensões
+                const hasExt = original.split('.').pop().toLowerCase();
+                if (hasExt && exts.includes(hasExt)) {
+                    const base = original.replace(/\.[^/.]+$/, '');
                     for (const ext of exts) {
-                        candidatos.add(semExt + '.' + ext);
+                        if (ext !== hasExt) {
+                            candidatos.add(base + '.' + ext);
+                        }
                     }
                 } else {
+                    // Se não tem extensão, tenta com todas as extensões
                     for (const ext of exts) {
-                        candidatos.add(srcOriginal + '.' + ext);
+                        candidatos.add(original + '.' + ext);
                     }
                 }
             }
 
+            // 2. Gera base a partir do artista e título (mantendo espaços)
+            const nomeBase = normalizar((artist || '') + ' ' + (title || '')).trim();
+            if (nomeBase) {
+                // Variações com espaços, underscore, hífen e sem separador
+                const variacoes = [
+                    nomeBase,                              // com espaços
+                    nomeBase.replace(/ /g, '_'),           // underscore
+                    nomeBase.replace(/ /g, '-'),           // hífen
+                    nomeBase.replace(/ /g, '')             // sem separador
+                ];
+                // Também variações comunderscore e hífen combinados
+                const variacoes2 = [
+                    nomeBase.replace(/ /g, '_').replace(/_/g, '-'), // hífen
+                    nomeBase.replace(/ /g, '-').replace(/-/g, '_')  // underscore
+                ];
+                variacoes.push(...variacoes2);
+
+                // Para cada variação, adiciona com cada extensão
+                for (const v of variacoes) {
+                    if (v.trim()) {
+                        for (const ext of exts) {
+                            candidatos.add(v.trim() + '.' + ext);
+                        }
+                    }
+                }
+            }
+
+            // 3. Também tenta apenas o título (caso o artista seja desconhecido)
+            const titulo = normalizar(title || '').trim();
+            if (titulo && titulo !== nomeBase) {
+                for (const ext of exts) {
+                    candidatos.add(titulo + '.' + ext);
+                    candidatos.add(titulo.replace(/ /g, '_') + '.' + ext);
+                    candidatos.add(titulo.replace(/ /g, '-') + '.' + ext);
+                    candidatos.add(titulo.replace(/ /g, '') + '.' + ext);
+                }
+            }
+
+            // 4. Tenta apenas o artista (caso o título seja desconhecido)
+            const artista = normalizar(artist || '').trim();
+            if (artista && artista !== nomeBase && artista !== titulo) {
+                for (const ext of exts) {
+                    candidatos.add(artista + '.' + ext);
+                    candidatos.add(artista.replace(/ /g, '_') + '.' + ext);
+                    candidatos.add(artista.replace(/ /g, '-') + '.' + ext);
+                    candidatos.add(artista.replace(/ /g, '') + '.' + ext);
+                }
+            }
+
+            // Converte Set para Array e retorna (mantém a ordem de inserção)
             return Array.from(candidatos);
         }
 
         // ============================================================
-        // FAVORITOS
+        // FAVORITOS (mantido igual)
         // ============================================================
         function updateFavCount() {
             favCount.textContent = favorites.length;
@@ -876,7 +899,7 @@
         }
 
         // ============================================================
-        // REPRODUÇÃO COM FALLBACK INTELIGENTE
+        // REPRODUÇÃO COM FALLBACK INTELIGENTE (inclui espaços)
         // ============================================================
         function obterProximaMusica() {
             if (!currentPlaylist || currentPlaylist.length === 0) {
@@ -940,7 +963,7 @@
         }
 
         // ============================================================
-        // playMusic COM FALLBACK INTELIGENTE
+        // playMusic COM FALLBACK INTELIGENTE (espaços e aprendizado)
         // ============================================================
         async function playMusic() {
             if (!isBackgroundActive) {
@@ -965,6 +988,7 @@
             adicionarAoHistorico(track);
             trocarVideoPorGenero(track.genero);
 
+            // Gera lista de candidatos (inclui o src original com espaços)
             const candidatos = gerarListaCandidatos(track.artist, track.title, track.src);
 
             if (candidatos.length === 0) {
@@ -974,10 +998,14 @@
             }
 
             let indiceAtual = 0;
+            let encontrou = false;
+
             function tentarProximo() {
-                if (indiceAtual >= candidatos.length) {
-                    showNotification("❌ Falha ao carregar, pulando...", 1000);
-                    setTimeout(nextTrack, 1000);
+                if (indiceAtual >= candidatos.length || encontrou) {
+                    if (!encontrou) {
+                        showNotification("❌ Falha ao carregar, pulando...", 1000);
+                        setTimeout(nextTrack, 1000);
+                    }
                     return;
                 }
                 const src = candidatos[indiceAtual];
@@ -992,12 +1020,20 @@
                 const onSucesso = () => {
                     audio.play()
                         .then(() => {
+                            encontrou = true;
                             isPlaying = true;
                             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                             equalizer.classList.remove('paused');
                             startTimer();
-                            if (indiceAtual > 0) {
+                            // APRENDIZADO: salva o src correto para futuras vezes
+                            if (indiceAtual > 0 && src !== track.src) {
                                 track.src = src;
+                                // Opcional: salvar no localStorage para persistir
+                                try {
+                                    const cacheKey = 'src_cache_' + track.id;
+                                    localStorage.setItem(cacheKey, src);
+                                } catch(e) {}
+                                showNotification(`✅ Aprendizado: src corrigido para "${src}"`, 2000);
                             }
                         })
                         .catch(() => {
@@ -1013,11 +1049,28 @@
                 };
             }
 
+            // Antes de tentar, verifica se há um src em cache para esta música
+            try {
+                const cacheKey = 'src_cache_' + track.id;
+                const cachedSrc = localStorage.getItem(cacheKey);
+                if (cachedSrc && cachedSrc !== track.src) {
+                    // Insere o src em cache no início da lista de candidatos
+                    const idx = candidatos.indexOf(cachedSrc);
+                    if (idx > 0) {
+                        candidatos.splice(idx, 1);
+                        candidatos.unshift(cachedSrc);
+                    } else if (idx === -1) {
+                        candidatos.unshift(cachedSrc);
+                    }
+                }
+            } catch(e) {}
+
+            // Inicia a primeira tentativa
             tentarProximo();
         }
 
         // ============================================================
-        // DEMAIS FUNÇÕES
+        // DEMAIS FUNÇÕES (mantidas)
         // ============================================================
         function togglePlay() {
             if (!isBackgroundActive) { showNotification("Clique em ATIVAR RÁDIO!", 1000); return; }
@@ -1136,12 +1189,11 @@
         }
 
         // ============================================================
-        // BUSCA OTIMIZADA (APENAS VISUAL, COM DEBOUNCE)
+        // BUSCA OTIMIZADA (apenas visual)
         // ============================================================
         let buscaTimeout = null;
 
         function buscarMusica(termo) {
-            // Aplica o filtro visual na tabela (não mexe na playlist)
             applyFilter(termo);
             const visiveis = document.querySelectorAll('#tableBody tr:not(.tr-hidden)').length;
             if (termo.trim().length >= 2) {
@@ -1151,7 +1203,6 @@
             }
         }
 
-        // Função applyFilter já existente, mas com pequena melhoria para contar
         function applyFilter(term) {
             const rows = tableBody.querySelectorAll('tr');
             const clean = term.toLowerCase().trim();
@@ -1340,7 +1391,7 @@
         }
 
         // ============================================================
-        // EVENTOS DOM
+        // EVENTOS DOM (mantidos)
         // ============================================================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
@@ -1445,21 +1496,14 @@
         });
 
         // ============================================================
-        // EVENTO DE BUSCA COM DEBOUNCE
+        // BUSCA COM DEBOUNCE
         // ============================================================
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim();
-            
-            // Mostra/oculta botão limpar
             clearSearchBtn.style.display = termo ? 'block' : 'none';
-            
-            // Cancela timeout anterior
             if (buscaTimeout) clearTimeout(buscaTimeout);
-            
-            // Debounce: aguarda 300ms após parar de digitar
             buscaTimeout = setTimeout(() => {
                 if (termo === '') {
-                    // Mostra todas as músicas
                     document.querySelectorAll('#tableBody tr').forEach(row => row.classList.remove('tr-hidden'));
                     searchCount.textContent = '';
                     showNotification('📋 Lista completa', 800);
@@ -1469,7 +1513,6 @@
             }, 300);
         });
 
-        // Botão limpar busca
         clearSearchBtn.addEventListener('click', () => {
             searchInput.value = '';
             searchInput.dispatchEvent(new Event('input'));
@@ -1487,7 +1530,6 @@
             menuPopup.classList.remove('open'); 
         });
 
-        // Fechar menu ao clicar fora (mobile)
         document.addEventListener('click', (e) => {
             if (menuPopup.classList.contains('open') && !menuPopup.contains(e.target) && e.target !== menuButton) {
                 menuPopup.classList.remove('open');
@@ -1502,7 +1544,6 @@
             goFullscreen();
         });
 
-        // Fechar modais ao clicar fora
         document.getElementById('favModal').addEventListener('click', (e) => { if (e.target === document.getElementById('favModal')) document.getElementById('favModal').classList.remove('open'); });
         document.getElementById('feedbackModal').addEventListener('click', (e) => { if (e.target === document.getElementById('feedbackModal')) document.getElementById('feedbackModal').classList.remove('open'); });
         document.getElementById('historicoModal').addEventListener('click', (e) => { if (e.target === document.getElementById('historicoModal')) document.getElementById('historicoModal').classList.remove('open'); });
