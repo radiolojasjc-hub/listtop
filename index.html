@@ -23,9 +23,13 @@
         .fav-top-btn:active { transform: scale(0.92); background: #ff2d7f; color: #000; }
         .fav-top-btn .badge { background: #ff2d7f; color: #000; border-radius: 50%; padding: 0 4px; font-size: 0.45rem; font-weight: bold; min-width: 14px; text-align: center; }
         
-        .search-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); border-radius: 20px; padding: 2px 8px; color: white; font-size: 0.5rem; width: 70px; transition: width 0.3s; -webkit-appearance: none; appearance: none; }
+        /* Container da busca com botão limpar */
+        .search-wrapper { position: relative; display: inline-block; }
+        .search-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); border-radius: 20px; padding: 2px 8px; color: white; font-size: 0.5rem; width: 70px; transition: width 0.3s; -webkit-appearance: none; appearance: none; padding-right: 20px; }
         .search-input:focus { width: 110px; outline: none; border-color: var(--neon-cyan); }
         .search-input::placeholder { color: #666; }
+        .clear-search { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #666; cursor: pointer; font-size: 0.5rem; display: none; padding: 0 2px; }
+        .clear-search:active { color: #fff; }
         
         .audio-status { font-size: 0.45rem; color: #888; display: flex; align-items: center; gap: 3px; background: rgba(0,0,0,0.4); padding: 1px 6px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
         .audio-status.active { color: #4ade80; border-color: #4ade80; }
@@ -42,14 +46,12 @@
         .menu-popup .close-menu-btn { background: rgba(255,45,127,0.2); border: 1px solid #ff2d7f; color: #ff2d7f; }
         .menu-popup .close-menu-btn:active { background: #ff2d7f; color: #000; }
         
-        /* Letreiro - ajustado para subir um pouco */
         .info-scroll { position: fixed; top: 42px; left: 0; right: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 6px 12px; z-index: 30; border-bottom: 1px solid rgba(0,243,255,0.3); overflow: hidden; white-space: nowrap; }
         .info-scroll p { color: white; font-size: 0.85rem; font-weight: 900; letter-spacing: 2px; font-family: 'Segoe UI', Arial, sans-serif; animation: scrollText 20s linear infinite; display: inline-block; padding-right: 50px; text-shadow: 0 0 15px rgba(0,243,255,0.9), 0 0 30px rgba(0,243,255,0.5); text-transform: uppercase; }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .now-playing { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; width: 90%; max-width: 400px; cursor: grab; user-select: none; -webkit-user-select: none; }
         .now-playing:active { cursor: grabbing; }
-        /* Título e artista menores e mais transparentes */
         .now-playing .music-title { color: white; font-size: 1.4rem; font-weight: 700; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 4px; opacity: 0.7; }
         .now-playing .music-artist { color: #aaa; font-size: 1.0rem; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 8px; opacity: 0.7; }
         .fav-heart-center { display: flex; justify-content: center; margin: 10px 0; }
@@ -117,7 +119,7 @@
         #loadingOverlay i { font-size: 3rem; color: var(--neon-cyan); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* ===== MODAIS MAIS BONITOS ===== */
+        /* Modais bonitos */
         .fav-modal, .feedback-modal, .historico-modal {
             position: fixed;
             top: 50%;
@@ -198,7 +200,6 @@
         }
         .fav-modal .close-btn:active, .historico-modal .close-btn:active { transform: scale(0.95); }
         
-        /* Gêneros modal (embaixo) */
         .genres-modal {
             position: fixed;
             bottom: 0;
@@ -270,7 +271,6 @@
         }
         .close-genres:active { transform: scale(0.95); }
         
-        /* Feedback modal específico */
         .feedback-modal .stars { display: flex; justify-content: center; gap: 8px; margin: 10px 0; }
         .feedback-modal .star { font-size: 2.2rem; color: #555; cursor: pointer; transition: 0.15s; }
         .feedback-modal .star.active { color: #ffd700; text-shadow: 0 0 15px #ffd700; }
@@ -313,7 +313,7 @@
             .fav-top-btn { font-size: 0.45rem; padding: 2px 6px; }
             .fab-main { width: 42px; height: 42px; font-size: 1rem; }
             .fab-sub-btn { padding: 5px 10px; font-size: 0.55rem; min-width: 85px; }
-            .search-input { width: 50px; font-size: 0.45rem; }
+            .search-input { width: 50px; font-size: 0.45rem; padding-right: 18px; }
             .search-input:focus { width: 85px; }
             .top-bar { padding: 4px 6px; }
             .info-scroll { top: 40px; padding: 4px 10px; }
@@ -330,6 +330,7 @@
             .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
             #tap-to-start { padding: 10px 18px; font-size: 0.9rem; bottom: 25%; }
             .fav-modal, .feedback-modal, .historico-modal { padding: 20px; max-width: 340px; }
+            .clear-search { font-size: 0.45rem; right: 3px; }
         }
     </style>
 </head>
@@ -352,7 +353,11 @@
             <div class="genre-badge" id="genreBadge" onclick="openGenres()">MPB</div>
             <div class="top-buttons">
                 <span class="audio-status" id="audioStatus"><span class="dot"></span> Aguardando</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar" name="busca" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
+                <!-- Search com botão limpar -->
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Buscar" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text">
+                    <button class="clear-search" id="clearSearchBtn"><i class="fas fa-times"></i></button>
+                </div>
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
@@ -527,6 +532,7 @@
         const favTopBtn = document.getElementById('favTopBtn');
         const favCount = document.getElementById('favCount');
         const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
         const equalizer = document.getElementById('equalizer');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const backgroundAudio = document.getElementById('backgroundAudio');
@@ -1130,33 +1136,43 @@
         }
 
         // ============================================================
-        // BUSCA
+        // BUSCA OTIMIZADA (APENAS VISUAL, COM DEBOUNCE)
         // ============================================================
+        let buscaTimeout = null;
+
         function buscarMusica(termo) {
-            if (!termo || termo.length < 2) {
-                if (modoFavoritosAtivo) { entrarModoFavoritos(); return; }
-                if (generoAtualPesquisa) { selecionarGenero(generoAtualPesquisa); generoAtualPesquisa = null; return; }
-                if (modoAtual && GENRE_URLS[modoAtual]) { selecionarGenero(modoAtual); return; }
-                selecionarGenero('MPB');
-                return;
+            // Aplica o filtro visual na tabela (não mexe na playlist)
+            applyFilter(termo);
+            const visiveis = document.querySelectorAll('#tableBody tr:not(.tr-hidden)').length;
+            if (termo.trim().length >= 2) {
+                showNotification(`🔍 ${visiveis} resultado(s)`, 1000);
+            } else if (termo.trim() === '') {
+                showNotification('📋 Lista completa', 800);
             }
-            const resultados = musicas.filter(m => m.title.toLowerCase().includes(termo.toLowerCase()) || m.artist.toLowerCase().includes(termo.toLowerCase()));
-            if (resultados.length === 0) { showNotification('🔍 Nenhuma encontrada', 1500); return; }
-            const m = resultados[0];
-            generoAtualPesquisa = m.genero;
-            modoFavoritosAtivo = false;
-            modoAtual = m.genero;
-            const lista = musicas.filter(m => m.genero === m.genero);
-            const outras = lista.filter(m => m.id !== m.id);
-            currentPlaylist = shuffleArray([m, ...outras]);
-            currentIndex = 0;
-            ultimoId = m.id;
-            historicoReproducao = [];
-            updateNowPlaying(m);
-            trocarVideoPorGenero(m.genero);
-            genreBadge.innerHTML = m.genero;
-            if (isBackgroundActive) setTimeout(() => playMusic(), 200);
-            showNotification(`🔍 ${resultados.length} músicas`, 1500);
+        }
+
+        // Função applyFilter já existente, mas com pequena melhoria para contar
+        function applyFilter(term) {
+            const rows = tableBody.querySelectorAll('tr');
+            const clean = term.toLowerCase().trim();
+            let visibleCount = 0;
+            rows.forEach((row, idx) => {
+                if (idx >= playlistData.length) return;
+                const item = playlistData[idx];
+                if (!item) return;
+                const match = !clean || 
+                    item.title.toLowerCase().includes(clean) ||
+                    item.artist.toLowerCase().includes(clean) ||
+                    item.src.toLowerCase().includes(clean) ||
+                    String(item.id).includes(clean);
+                if (match) {
+                    row.classList.remove('tr-hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('tr-hidden');
+                }
+            });
+            searchCount.textContent = clean ? `(${visibleCount} / ${playlistData.length})` : '';
         }
 
         // ============================================================
@@ -1324,7 +1340,7 @@
         }
 
         // ============================================================
-        // EVENTOS DOM (TUDO FUNCIONANDO)
+        // EVENTOS DOM
         // ============================================================
         audio.addEventListener('play', () => { isPlaying = true; playBtn.innerHTML = '<i class="fas fa-pause"></i>'; equalizer.classList.remove('paused'); startTimer(); });
         audio.addEventListener('pause', () => { isPlaying = false; playBtn.innerHTML = '<i class="fas fa-play"></i>'; equalizer.classList.add('paused'); stopTimer(); });
@@ -1428,16 +1444,37 @@
             }
         });
 
+        // ============================================================
+        // EVENTO DE BUSCA COM DEBOUNCE
+        // ============================================================
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim();
-            if (termo === '') {
-                if (modoFavoritosAtivo) { entrarModoFavoritos(); return; }
-                if (generoAtualPesquisa) { selecionarGenero(generoAtualPesquisa); generoAtualPesquisa = null; return; }
-                if (modoAtual && GENRE_URLS[modoAtual]) { selecionarGenero(modoAtual); return; }
-                selecionarGenero('MPB');
-            } else {
+            
+            // Mostra/oculta botão limpar
+            clearSearchBtn.style.display = termo ? 'block' : 'none';
+            
+            // Cancela timeout anterior
+            if (buscaTimeout) clearTimeout(buscaTimeout);
+            
+            // Debounce: aguarda 300ms após parar de digitar
+            buscaTimeout = setTimeout(() => {
+                if (termo === '') {
+                    // Mostra todas as músicas
+                    document.querySelectorAll('#tableBody tr').forEach(row => row.classList.remove('tr-hidden'));
+                    searchCount.textContent = '';
+                    showNotification('📋 Lista completa', 800);
+                    return;
+                }
                 buscarMusica(termo);
-            }
+            }, 300);
+        });
+
+        // Botão limpar busca
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
+            clearSearchBtn.style.display = 'none';
+            searchInput.focus();
         });
 
         menuButton.addEventListener('click', (e) => { 
