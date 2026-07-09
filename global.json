@@ -1,86 +1,14 @@
 [
-  {
-    "id": 607,
-    "artist": "Beyoncé",
-    "title": "Beyoncé",
-    "genero": "GLOBAL HITS",
-    "src": "Beyonc_Beyonc_GLOBAL.m4a"
-  },
-  {
-    "id": 608,
-    "artist": "Don't Need Love",
-    "title": "Don't Need Love",
-    "genero": "GLOBAL HITS",
-    "src": "Don_t_Need_Don_t_Need_Love_GLOBAL.m4a"
-  },
-  {
-    "id": 609,
-    "artist": "Ed Sheeran",
-    "title": "Shape of You",
-    "genero": "GLOBAL HITS",
-    "src": "Ed_Sheeran_Shape_Of_You_global.m4a"
-  },
-  {
-    "id": 610,
-    "artist": "Insanou",
-    "title": "Renascer",
-    "genero": "GLOBAL HITS",
-    "src": "Insanou_Renascer_GLOBAL.m4a"
-  },
-  {
-    "id": 611,
-    "artist": "November Kid",
-    "title": "Voyage Voyage",
-    "genero": "GLOBAL HITS",
-    "src": "NOVEMBER_KID_Voyage_voyage_GLOBAL.m4a"
-  },
-  {
-    "id": 612,
-    "artist": "Veigh Ghard",
-    "title": "Plug da Nova",
-    "genero": "GLOBAL HITS",
-    "src": "Plug_da_Plug_da_Nova_feat_Veigh_Ghard_GLOBAL.m4a"
-  },
-  {
-    "id": 613,
-    "artist": "Rooftime",
-    "title": "Live Your Life",
-    "genero": "GLOBAL HITS",
-    "src": "Rooftime_Live_Your_Life_GLOBAL.m4a"
-  },
-  {
-    "id": 683,
-    "artist": "Melhores",
-    "title": "Dias",
-    "genero": "GLOBAL HITS",
-    "src": "Dias Melhores.m4a"
-  },
-  {
-    "id": 696,
-    "artist": "_Ponto_Final___Ponto_Fraco___Dividido_ Ao_Vivo _M A_ kbps",
-    "title": "Davi_Quaresma _Gaab_",
-    "genero": "GLOBAL HITS",
-    "src": "Davi_Quaresma,_Gaab_-_Ponto_Final___Ponto_Fraco___Dividido_(Ao_Vivo)_M4A_128kbps.m4a"
-  },
-  {
-    "id": 699,
-    "artist": "edv",
-    "title": "Eu_Não_Esperava",
-    "genero": "GLOBAL HITS",
-    "src": "Eu_Não_Esperava.m4a"
-  },
-  {
-    "id": 703,
-    "artist": "_MC_Vine_ _MC_Tuto",
-    "title": "NA_RELÍQUIA_DO",
-    "genero": "GLOBAL HITS",
-    "src": "NA_RELÍQUIA_DO_2T_-_MC_Vine_7,_MC_Tuto.m4a"
-  },
-  {
-    "id": 706,
-    "artist": "Rapunzel",
-    "title": "Perna_Bamba",
-    "genero": "GLOBAL HITS",
-    "src": "Perna_Bamba-Rapunzel.m4a"
-  }
+  {"id":619,"artist":"Beyoncé","title":"Beyoncé","genero":"GLOBAL HITS","src":"Beyonc_Beyonc_GLOBAL.m4a"},
+  {"id":620,"artist":"Don't Need Love","title":"Don't Need Love","genero":"GLOBAL HITS","src":"Don_t_Need_Don_t_Need_Love_GLOBAL.m4a"},
+  {"id":621,"artist":"Ed Sheeran","title":"Shape of You","genero":"GLOBAL HITS","src":"Ed_Sheeran_Shape_Of_You_global.m4a"},
+  {"id":622,"artist":"Insanou","title":"Renascer","genero":"GLOBAL HITS","src":"Insanou_Renascer_GLOBAL.m4a"},
+  {"id":623,"artist":"November Kid","title":"Voyage Voyage","genero":"GLOBAL HITS","src":"NOVEMBER_KID_Voyage_voyage_GLOBAL.m4a"},
+  {"id":624,"artist":"Veigh Ghard","title":"Plug da Nova","genero":"GLOBAL HITS","src":"Plug_da_Plug_da_Nova_feat_Veigh_Ghard_GLOBAL.m4a"},
+  {"id":625,"artist":"Rooftime","title":"Live Your Life","genero":"GLOBAL HITS","src":"Rooftime_Live_Your_Life_GLOBAL.m4a"},
+  {"id":626,"artist":"Melhores","title":"Dias","genero":"GLOBAL HITS","src":"Dias Melhores.m4a"},
+  {"id":627,"artist":"_Ponto_Final___Ponto_Fraco___Dividido_ Ao_Vivo _M A_ kbps","title":"Davi_Quaresma _Gaab_","genero":"GLOBAL HITS","src":"Davi_Quaresma,_Gaab_-_Ponto_Final___Ponto_Fraco___Dividido_(Ao_Vivo)_M4A_128kbps.m4a"},
+  {"id":628,"artist":"edv","title":"Eu_Não_Esperava","genero":"GLOBAL HITS","src":"Eu_Não_Esperava.m4a"},
+  {"id":629,"artist":"_MC_Vine_ _MC_Tuto","title":"NA_RELÍQUIA_DO","genero":"GLOBAL HITS","src":"NA_RELÍQUIA_DO_2T_-_MC_Vine_7,_MC_Tuto.m4a"},
+  {"id":630,"artist":"Rapunzel","title":"Perna_Bamba","genero":"GLOBAL HITS","src":"Perna_Bamba-Rapunzel.m4a"}
 ]
