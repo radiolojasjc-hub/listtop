@@ -36,6 +36,12 @@
         .audio-status.active .dot { background: #4ade80; animation: pulse-dot 1s infinite; }
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
+        .voice-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.7rem; transition: all 0.3s; flex-shrink: 0; }
+        .voice-btn:active { transform: scale(0.9); }
+        .voice-btn.active { background: #ff2d7f; border-color: #ff2d7f; color: #fff; animation: pulse-mic 0.8s infinite; }
+        @keyframes pulse-mic { 0%, 100% { box-shadow: 0 0 10px rgba(255,45,127,0.4); } 50% { box-shadow: 0 0 25px rgba(255,45,127,0.9); } }
+        .voice-btn.listening { background: #ff2d7f; border-color: #ff2d7f; color: #fff; }
+        
         .menu-button { position: relative; top: auto; right: auto; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; border: 1px solid rgba(0,243,255,0.3); flex-shrink: 0; transition: border-color 0.5s; }
         .menu-button:active { background: var(--neon-cyan); color: #000; }
         .menu-popup { position: absolute; top: 42px; right: 8px; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 6px; z-index: 32; display: none; flex-direction: column; gap: 4px; border: 1px solid var(--neon-cyan); min-width: 130px; }
@@ -341,6 +347,7 @@
             .audio-status { font-size: 0.4rem; padding: 1px 4px; }
             .fab-container { bottom: 80px; right: 8px; }
             .menu-button { width: 24px; height: 24px; font-size: 0.6rem; }
+            .voice-btn { width: 24px; height: 24px; font-size: 0.6rem; }
             #tap-to-start { padding: 10px 18px; font-size: 0.9rem; bottom: 25%; }
             .fav-modal, .feedback-modal, .historico-modal, .stats-modal { padding: 20px; max-width: 340px; }
             .clear-search { font-size: 0.45rem; right: 3px; }
@@ -373,6 +380,8 @@
                 <button class="fav-top-btn" id="favTopBtn">
                     <i class="fas fa-heart"></i> <span class="badge" id="favCount">0</span>
                 </button>
+                <!-- Botão de microfone para comando de voz -->
+                <button class="voice-btn" id="voiceBtn" title="Comandos de voz"><i class="fas fa-microphone"></i></button>
                 <div class="menu-button" id="menuButton"><i class="fas fa-ellipsis-v"></i></div>
             </div>
         </div>
@@ -395,7 +404,7 @@
             </div>
         </div>
 
-        <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span></div>
+        <div class="teaching-bar">👆 Toque na tela para <span class="cyan">controles</span> | 🎤 Clique no microfone para voz</div>
     </div>
 
     <!-- Modais -->
@@ -434,7 +443,7 @@
         <button class="close-btn" id="closeHistBtn">FECHAR</button>
     </div>
 
-    <!-- Novo modal de estatísticas -->
+    <!-- Modal de estatísticas -->
     <div class="stats-modal" id="statsModal">
         <button class="close-stats" id="closeStatsModal"><i class="fas fa-times"></i></button>
         <h3><i class="fas fa-chart-bar"></i> Estatísticas</h3>
@@ -594,10 +603,14 @@
             // Estatísticas
             let stats = {
                 totalTocadas: 0,
-                tempoTotal: 0, // segundos
+                tempoTotal: 0,
                 generosContagem: {},
-                musicasRepetidas: {} // id -> contagem
+                musicasRepetidas: {}
             };
+
+            // Reconhecimento de voz
+            let recognition = null;
+            let isListening = false;
 
             // Referências DOM
             const audio = document.getElementById('musicPlayer');
@@ -629,6 +642,7 @@
             const menuPopup = document.getElementById('menuPopup');
             const statsModal = document.getElementById('statsModal');
             const statsContent = document.getElementById('statsContent');
+            const voiceBtn = document.getElementById('voiceBtn');
 
             // ============================================================
             // FUNÇÕES AUXILIARES
@@ -694,21 +708,17 @@
             // ============================================================
             function aplicarTemaGenero(genero) {
                 const cor = CORES_POR_GENERO[genero] || '#00f3ff';
-                // Barra superior
                 document.querySelector('.top-bar').style.borderBottom = `1px solid ${cor}`;
-                // Progresso
                 document.querySelector('.progress-fill').style.background = `linear-gradient(90deg, ${cor}, #ff2d7f)`;
-                // Badge
                 document.querySelector('.genre-badge').style.borderLeftColor = cor;
                 document.querySelector('.genre-badge').style.color = cor;
-                // Menu button
                 document.querySelector('.menu-button').style.borderColor = cor;
-                // Vídeo (opacidade)
                 document.querySelector('.video-bg').style.opacity = '0.4';
-                // Equalizer (as barras já têm gradiente via JS)
                 equalizer.querySelectorAll('span').forEach(el => {
                     el.style.background = `linear-gradient(180deg, ${cor}, #ff2d7f)`;
                 });
+                // Aplica cor ao botão de voz também
+                document.querySelector('.voice-btn').style.borderColor = cor;
             }
 
             // ============================================================
@@ -1031,13 +1041,11 @@
                 trocarVideoPorGenero(track.genero);
                 aplicarTemaGenero(track.genero || 'POP');
 
-                // Atualiza estatísticas
                 stats.totalTocadas++;
                 const gen = track.genero || 'Desconhecido';
                 stats.generosContagem[gen] = (stats.generosContagem[gen] || 0) + 1;
                 stats.musicasRepetidas[track.id] = (stats.musicasRepetidas[track.id] || 0) + 1;
 
-                // 1. Verifica cache do src
                 let srcParaTentar = null;
                 try {
                     const cacheKey = 'src_cache_' + track.id;
@@ -1112,7 +1120,6 @@
                                 equalizer.classList.remove('paused');
                                 startTimer();
                                 carregandoMusica = false;
-                                // Aprendizado
                                 if (indiceAtual > 0 && src !== track.src) {
                                     track.src = src;
                                     try {
@@ -1120,7 +1127,6 @@
                                     } catch(e) {}
                                     showNotification(`✅ Aprendizado: src corrigido para "${src}"`, 2000);
                                 }
-                                // Atualiza tempo total após carregar duração
                                 stats.tempoTotal += audio.duration || 0;
                             })
                             .catch(() => {
@@ -1434,6 +1440,211 @@
             }
 
             // ============================================================
+            // COMANDOS DE VOZ
+            // ============================================================
+            function initVoiceRecognition() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    showNotification('❌ Reconhecimento de voz não suportado', 2000);
+                    voiceBtn.style.display = 'none';
+                    return;
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'pt-BR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = () => {
+                    isListening = true;
+                    voiceBtn.classList.add('listening');
+                    showNotification('🎤 Ouvindo... Fale seu comando', 2000);
+                };
+
+                recognition.onresult = (event) => {
+                    const last = event.results.length - 1;
+                    const command = event.results[last][0].transcript.trim().toLowerCase();
+                    console.log(`🎤 Comando reconhecido: "${command}"`);
+                    processVoiceCommand(command);
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn('Erro no reconhecimento:', event.error);
+                    if (event.error === 'not-allowed') {
+                        showNotification('❌ Permissão de microfone negada', 2000);
+                    } else if (event.error === 'no-speech') {
+                        showNotification('🔇 Nenhum comando detectado, tente novamente', 1500);
+                    } else {
+                        showNotification(`⚠️ Erro: ${event.error}`, 1500);
+                    }
+                    voiceBtn.classList.remove('listening');
+                    isListening = false;
+                };
+
+                recognition.onend = () => {
+                    voiceBtn.classList.remove('listening');
+                    isListening = false;
+                    // Se não houve resultado, não faz nada
+                };
+            }
+
+            function processVoiceCommand(command) {
+                // Mapeamento de sinônimos para comandos
+                const cmdMap = {
+                    'tocar': 'play',
+                    'play': 'play',
+                    'toca': 'play',
+                    'pausar': 'pause',
+                    'pause': 'pause',
+                    'pausa': 'pause',
+                    'próxima': 'next',
+                    'próximo': 'next',
+                    'next': 'next',
+                    'proxima': 'next',
+                    'anterior': 'prev',
+                    'previous': 'prev',
+                    'voltar': 'prev',
+                    'favoritar': 'fav',
+                    'favorito': 'fav',
+                    'favoritos': 'fav',
+                    'aleatório': 'shuffle',
+                    'aleatoria': 'shuffle',
+                    'shuffle': 'shuffle',
+                    'embaralhar': 'shuffle',
+                    'mudar para': 'genre',
+                    'trocar para': 'genre',
+                    'ir para': 'genre',
+                    'vai para': 'genre'
+                };
+
+                let action = null;
+                let param = null;
+
+                // Verifica se é comando de mudar gênero
+                for (const [key, value] of Object.entries(cmdMap)) {
+                    if (value === 'genre' && command.includes(key)) {
+                        action = 'genre';
+                        // Extrai o nome do gênero após a palavra-chave
+                        const parts = command.split(key);
+                        if (parts.length > 1) {
+                            param = parts[1].trim();
+                            // Remove artigos e preposições comuns
+                            param = param.replace(/^(o|a|os|as|para|pro|pra|de|da|do|das|dos)\s+/i, '').trim();
+                            // Mapeia possíveis variações de gênero
+                            const genreMap = {
+                                'mpb': 'MPB',
+                                'pop': 'POP',
+                                'sertanejo': 'SERTANEJO',
+                                'forró': 'FORRÓ',
+                                'forro': 'FORRÓ',
+                                'samba': 'SAMBA',
+                                'global': 'GLOBAL HITS',
+                                'global hits': 'GLOBAL HITS',
+                                'cristã': 'CRISTÃ',
+                                'crista': 'CRISTÃ',
+                                'gospel': 'CRISTÃ',
+                                'brega': 'BREGA',
+                                'moda top': 'MODA TOP',
+                                'modatop': 'MODA TOP',
+                                'reggae': 'REGGAE'
+                            };
+                            param = genreMap[param] || param.toUpperCase();
+                        }
+                        break;
+                    }
+                }
+
+                // Se não for comando de gênero, tenta os outros
+                if (!action) {
+                    for (const [key, value] of Object.entries(cmdMap)) {
+                        if (command.includes(key) && value !== 'genre') {
+                            action = value;
+                            break;
+                        }
+                    }
+                }
+
+                // Executa o comando
+                switch (action) {
+                    case 'play':
+                        if (!isBackgroundActive) {
+                            showNotification('⚠️ Ative o rádio primeiro!', 1500);
+                        } else {
+                            togglePlay();
+                            showNotification('▶️ Comando: Tocar', 1000);
+                        }
+                        break;
+                    case 'pause':
+                        if (isPlaying) {
+                            audio.pause();
+                            showNotification('⏸️ Comando: Pausar', 1000);
+                        } else {
+                            showNotification('⏸️ Já está pausado', 1000);
+                        }
+                        break;
+                    case 'next':
+                        nextTrack();
+                        showNotification('⏭️ Comando: Próxima', 1000);
+                        break;
+                    case 'prev':
+                        prevTrack();
+                        showNotification('⏮️ Comando: Anterior', 1000);
+                        break;
+                    case 'fav':
+                        const music = currentPlaylist[currentIndex % currentPlaylist.length] || currentPlaylist[0];
+                        if (music) {
+                            toggleFavorito(music.id);
+                            buildGenresGrid();
+                            showNotification('❤️ Comando: Favoritar', 1000);
+                        } else {
+                            showNotification('❌ Nenhuma música tocando', 1000);
+                        }
+                        break;
+                    case 'shuffle':
+                        toggleShuffle();
+                        showNotification('🔀 Comando: Aleatório', 1000);
+                        break;
+                    case 'genre':
+                        if (param && GENRE_URLS[param]) {
+                            showNotification(`🎵 Mudando para ${param}...`, 1000);
+                            selecionarGenero(param);
+                        } else {
+                            showNotification(`❌ Gênero "${param || ''}" não encontrado`, 1500);
+                        }
+                        break;
+                    default:
+                        showNotification(`❌ Comando não reconhecido: "${command}"`, 1500);
+                }
+            }
+
+            function toggleVoiceRecognition() {
+                if (!recognition) {
+                    initVoiceRecognition();
+                    if (!recognition) return;
+                }
+
+                if (isListening) {
+                    recognition.stop();
+                    voiceBtn.classList.remove('listening');
+                    isListening = false;
+                    showNotification('🔇 Microfone desativado', 1000);
+                } else {
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        // Se já estiver rodando, reinicia
+                        try {
+                            recognition.stop();
+                            setTimeout(() => recognition.start(), 100);
+                        } catch (err) {
+                            showNotification('❌ Erro ao ativar microfone', 1500);
+                        }
+                    }
+                }
+            }
+
+            // ============================================================
             // INICIALIZAÇÃO
             // ============================================================
             async function iniciar() {
@@ -1496,6 +1707,9 @@
                     renderFavList();
                     buildGenresGrid();
 
+                    // Inicializa reconhecimento de voz
+                    initVoiceRecognition();
+
                     setTimeout(() => {
                         splash.classList.add('hidden');
                         setTimeout(() => {
@@ -1545,7 +1759,6 @@
             document.getElementById('fabFeedback').addEventListener('click', () => { openFeedback(); fabMain.click(); });
             document.getElementById('fabYoutube').addEventListener('click', () => { window.open('https://sites.google.com/view/rogersjc/in%C3%ADcio', '_blank'); fabMain.click(); });
             
-            // COMPARTILHAR MELHORADO
             document.getElementById('fabShare').addEventListener('click', () => {
                 const track = currentPlaylist[currentIndex % currentPlaylist.length] || currentPlaylist[0];
                 if (!track) { showNotification('Nenhuma música tocando', 1000); return; }
@@ -1586,20 +1799,17 @@
                 }, mins * 60000);
             });
             
-            // Tela Cheia
             document.getElementById('fullscreenMenuBtn').addEventListener('click', () => { 
                 menuPopup.classList.remove('open'); 
                 goFullscreen();
                 showNotification('⛶ Tela cheia ativada', 1000);
             });
             
-            // Recarregar Playlist
             document.getElementById('reloadPlaylistBtn').addEventListener('click', () => {
                 menuPopup.classList.remove('open');
                 recarregarPlaylist();
             });
 
-            // Bluetooth
             document.getElementById('btStatusMenuBtn').addEventListener('click', () => { 
                 menuPopup.classList.remove('open');
                 if (!navigator.bluetooth) { showNotification("❌ Bluetooth não suportado neste navegador", 1500); return; }
@@ -1622,7 +1832,6 @@
                 openFeedback(); 
             });
 
-            // Estatísticas
             document.getElementById('statsMenuBtn').addEventListener('click', () => {
                 menuPopup.classList.remove('open');
                 abrirEstatisticas();
@@ -1695,8 +1904,16 @@
                         const music = currentPlaylist[currentIndex % currentPlaylist.length] || currentPlaylist[0];
                         if (music) { toggleFavorito(music.id); buildGenresGrid(); }
                         break;
+                    case 'm': case 'M':
+                        toggleVoiceRecognition();
+                        break;
                 }
             });
+
+            // ============================================================
+            // EVENTO DO BOTÃO DE VOZ
+            // ============================================================
+            voiceBtn.addEventListener('click', toggleVoiceRecognition);
 
             tapToStart.addEventListener('click', async () => {
                 showNotification('🔊 Ativando áudio...', 1000);
