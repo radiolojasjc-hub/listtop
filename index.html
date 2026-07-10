@@ -12,8 +12,6 @@
         
         .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.3; transition: opacity 0.8s ease; }
         .app { position: relative; z-index: 10; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; background: transparent; transition: background 0.8s ease; }
-        /* Fundo gradiente que será aplicado via JS */
-        .app-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; transition: opacity 0.8s ease; opacity: 0.3; }
         
         .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-bottom: 2px solid rgba(0,243,255,0.3); flex-wrap: nowrap; gap: 4px; transition: border-color 0.5s; flex-shrink: 0; }
         .genre-badge { background: rgba(0,243,255,0.15); padding: 3px 8px; border-radius: 30px; font-size: 0.55rem; font-weight: bold; color: var(--neon-cyan); border-left: 2px solid var(--neon-cyan); display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30%; cursor: pointer; transition: border-color 0.5s, color 0.5s; flex-shrink: 1; min-width: 40px; }
@@ -326,7 +324,6 @@
             margin-top: 5px;
         }
         
-        /* Gradiente de fundo dinâmico */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -723,34 +720,24 @@
             }
 
             // ============================================================
-            // TEMA DINÂMICO POR GÊNERO (AGR com fundo gradiente)
+            // TEMA DINÂMICO POR GÊNERO
             // ============================================================
             function aplicarTemaGenero(genero) {
                 const cor = CORES_POR_GENERO[genero] || '#00f3ff';
                 
-                // Barra superior
                 document.querySelector('.top-bar').style.borderBottom = `2px solid ${cor}`;
-                // Progresso
                 document.querySelector('.progress-fill').style.background = `linear-gradient(90deg, ${cor}, #ff2d7f)`;
-                // Badge
                 document.querySelector('.genre-badge').style.borderLeftColor = cor;
                 document.querySelector('.genre-badge').style.color = cor;
-                // Menu button
                 document.querySelector('.menu-button').style.borderColor = cor;
-                // Voice button
                 document.querySelector('.voice-btn').style.borderColor = cor;
-                // Vídeo (opacidade)
                 document.querySelector('.video-bg').style.opacity = '0.2';
-                // Equalizer
                 equalizer.querySelectorAll('span').forEach(el => {
                     el.style.background = `linear-gradient(180deg, ${cor}, #ff2d7f)`;
                 });
 
-                // Fundo gradiente da tela
                 bgGradient.style.background = `radial-gradient(ellipse at center, ${cor}33 0%, ${cor}11 40%, transparent 70%)`;
                 bgGradient.classList.add('active');
-                
-                // Muda a cor do body ligeiramente
                 document.body.style.backgroundColor = `${cor}22`;
             }
 
@@ -1473,7 +1460,7 @@
             }
 
             // ============================================================
-            // COMANDOS DE VOZ
+            // COMANDOS DE VOZ (ATUALIZADO COM ARTISTAS)
             // ============================================================
             function initVoiceRecognition() {
                 if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -1487,7 +1474,7 @@
                 recognition.lang = 'pt-BR';
                 recognition.continuous = false;
                 recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
+                recognition.maxAlternatives = 2;
 
                 recognition.onstart = () => {
                     isListening = true;
@@ -1522,13 +1509,73 @@
             }
 
             function processVoiceCommand(command) {
+                // Mapeamento de gêneros (incluindo "moda" e "global")
+                const genreMap = {
+                    'mpb': 'MPB',
+                    'pop': 'POP',
+                    'sertanejo': 'SERTANEJO',
+                    'forró': 'FORRÓ',
+                    'forro': 'FORRÓ',
+                    'samba': 'SAMBA',
+                    'global': 'GLOBAL HITS',
+                    'global hits': 'GLOBAL HITS',
+                    'cristã': 'CRISTÃ',
+                    'crista': 'CRISTÃ',
+                    'gospel': 'CRISTÃ',
+                    'brega': 'BREGA',
+                    'moda': 'MODA TOP',
+                    'moda top': 'MODA TOP',
+                    'modatop': 'MODA TOP',
+                    'reggae': 'REGGAE'
+                };
+
+                // Verifica se é um comando de gênero
+                for (const [key, value] of Object.entries(genreMap)) {
+                    if (command.includes(key)) {
+                        // Verifica se o comando é "tocar [gênero]" ou "mudar para [gênero]"
+                        if (command.includes('tocar') || command.includes('play') || 
+                            command.includes('mudar') || command.includes('trocar') || 
+                            command.includes('ir') || command.includes('vai')) {
+                            showNotification(`🎵 Mudando para ${value}...`, 1000);
+                            selecionarGenero(value);
+                            return;
+                        }
+                    }
+                }
+
+                // Verifica se é comando para tocar um artista
+                const artistTriggers = ['tocar', 'play', 'música de', 'artista', 'cantor'];
+                let isArtistCommand = false;
+                let artistName = '';
+
+                for (const trigger of artistTriggers) {
+                    if (command.includes(trigger)) {
+                        isArtistCommand = true;
+                        // Extrai o nome do artista após o gatilho
+                        const parts = command.split(trigger);
+                        if (parts.length > 1) {
+                            artistName = parts[1].trim();
+                            // Remove artigos e preposições comuns
+                            artistName = artistName.replace(/^(o|a|os|as|de|do|da|dos|das)\s+/i, '').trim();
+                        }
+                        break;
+                    }
+                }
+
+                if (isArtistCommand && artistName.length > 0) {
+                    // Verifica se o nome do artista não é um gênero
+                    if (!Object.keys(genreMap).some(g => artistName.includes(g))) {
+                        showNotification(`🎤 Buscando: ${artistName}`, 1000);
+                        buscarMusica(artistName);
+                        return;
+                    }
+                }
+
+                // Comandos simples (play, pause, next, prev, fav, shuffle)
                 const cmdMap = {
-                    'tocar': 'play',
-                    'play': 'play',
-                    'toca': 'play',
                     'pausar': 'pause',
-                    'pause': 'pause',
                     'pausa': 'pause',
+                    'pause': 'pause',
                     'próxima': 'next',
                     'próximo': 'next',
                     'next': 'next',
@@ -1542,105 +1589,58 @@
                     'aleatório': 'shuffle',
                     'aleatoria': 'shuffle',
                     'shuffle': 'shuffle',
-                    'embaralhar': 'shuffle',
-                    'mudar para': 'genre',
-                    'trocar para': 'genre',
-                    'ir para': 'genre',
-                    'vai para': 'genre'
+                    'embaralhar': 'shuffle'
                 };
 
-                let action = null;
-                let param = null;
+                // Se for "tocar" ou "play" sem artista, é toggle play
+                if (command === 'tocar' || command === 'play' || command === 'toca') {
+                    if (!isBackgroundActive) {
+                        showNotification('⚠️ Ative o rádio primeiro!', 1500);
+                    } else {
+                        togglePlay();
+                        showNotification('▶️ Comando: Tocar', 1000);
+                    }
+                    return;
+                }
 
                 for (const [key, value] of Object.entries(cmdMap)) {
-                    if (value === 'genre' && command.includes(key)) {
-                        action = 'genre';
-                        const parts = command.split(key);
-                        if (parts.length > 1) {
-                            param = parts[1].trim();
-                            param = param.replace(/^(o|a|os|as|para|pro|pra|de|da|do|das|dos)\s+/i, '').trim();
-                            const genreMap = {
-                                'mpb': 'MPB',
-                                'pop': 'POP',
-                                'sertanejo': 'SERTANEJO',
-                                'forró': 'FORRÓ',
-                                'forro': 'FORRÓ',
-                                'samba': 'SAMBA',
-                                'global': 'GLOBAL HITS',
-                                'global hits': 'GLOBAL HITS',
-                                'cristã': 'CRISTÃ',
-                                'crista': 'CRISTÃ',
-                                'gospel': 'CRISTÃ',
-                                'brega': 'BREGA',
-                                'moda top': 'MODA TOP',
-                                'modatop': 'MODA TOP',
-                                'reggae': 'REGGAE'
-                            };
-                            param = genreMap[param] || param.toUpperCase();
-                        }
-                        break;
-                    }
-                }
-
-                if (!action) {
-                    for (const [key, value] of Object.entries(cmdMap)) {
-                        if (command.includes(key) && value !== 'genre') {
-                            action = value;
-                            break;
+                    if (command.includes(key)) {
+                        switch (value) {
+                            case 'pause':
+                                if (isPlaying) {
+                                    audio.pause();
+                                    showNotification('⏸️ Comando: Pausar', 1000);
+                                } else {
+                                    showNotification('⏸️ Já está pausado', 1000);
+                                }
+                                return;
+                            case 'next':
+                                nextTrack();
+                                showNotification('⏭️ Comando: Próxima', 1000);
+                                return;
+                            case 'prev':
+                                prevTrack();
+                                showNotification('⏮️ Comando: Anterior', 1000);
+                                return;
+                            case 'fav':
+                                const music = currentPlaylist[currentIndex % currentPlaylist.length] || currentPlaylist[0];
+                                if (music) {
+                                    toggleFavorito(music.id);
+                                    buildGenresGrid();
+                                    showNotification('❤️ Comando: Favoritar', 1000);
+                                } else {
+                                    showNotification('❌ Nenhuma música tocando', 1000);
+                                }
+                                return;
+                            case 'shuffle':
+                                toggleShuffle();
+                                showNotification('🔀 Comando: Aleatório', 1000);
+                                return;
                         }
                     }
                 }
 
-                switch (action) {
-                    case 'play':
-                        if (!isBackgroundActive) {
-                            showNotification('⚠️ Ative o rádio primeiro!', 1500);
-                        } else {
-                            togglePlay();
-                            showNotification('▶️ Comando: Tocar', 1000);
-                        }
-                        break;
-                    case 'pause':
-                        if (isPlaying) {
-                            audio.pause();
-                            showNotification('⏸️ Comando: Pausar', 1000);
-                        } else {
-                            showNotification('⏸️ Já está pausado', 1000);
-                        }
-                        break;
-                    case 'next':
-                        nextTrack();
-                        showNotification('⏭️ Comando: Próxima', 1000);
-                        break;
-                    case 'prev':
-                        prevTrack();
-                        showNotification('⏮️ Comando: Anterior', 1000);
-                        break;
-                    case 'fav':
-                        const music = currentPlaylist[currentIndex % currentPlaylist.length] || currentPlaylist[0];
-                        if (music) {
-                            toggleFavorito(music.id);
-                            buildGenresGrid();
-                            showNotification('❤️ Comando: Favoritar', 1000);
-                        } else {
-                            showNotification('❌ Nenhuma música tocando', 1000);
-                        }
-                        break;
-                    case 'shuffle':
-                        toggleShuffle();
-                        showNotification('🔀 Comando: Aleatório', 1000);
-                        break;
-                    case 'genre':
-                        if (param && GENRE_URLS[param]) {
-                            showNotification(`🎵 Mudando para ${param}...`, 1000);
-                            selecionarGenero(param);
-                        } else {
-                            showNotification(`❌ Gênero "${param || ''}" não encontrado`, 1500);
-                        }
-                        break;
-                    default:
-                        showNotification(`❌ Comando não reconhecido: "${command}"`, 1500);
-                }
+                showNotification(`❌ Comando não reconhecido: "${command}"`, 1500);
             }
 
             function toggleVoiceRecognition() {
