@@ -519,64 +519,142 @@
                 'REGGAE': '#00ffaa'
             };
 
-            // Gêneros que mantêm o vídeo visível (iniciais)
             const GENEROS_COM_VIDEO = ['MPB', 'POP'];
 
             // ============================================================
-            // GERADOR DE CANDIDATOS
+            // GERADOR DE CANDIDATOS - VERSÃO SUPER ROBUSTA
             // ============================================================
             function gerarListaCandidatos(artist, title, srcOriginal) {
-                const exts = ['mp3', 'm4a'];
+                const exts = ['m4a', 'mp3'];
                 const candidatos = new Set();
 
+                // 1. ADICIONA O SRC ORIGINAL
                 if (srcOriginal && srcOriginal.trim()) {
                     const original = srcOriginal.trim();
                     const ext = original.split('.').pop().toLowerCase();
-                    if (exts.includes(ext)) {
+                    if (ext === 'm4a' || ext === 'mp3') {
                         candidatos.add(original);
                     } else {
                         exts.forEach(e => candidatos.add(original + '.' + e));
+                        const cleaned = original.replace(/[^a-zA-Z0-9\-_]/g, '');
+                        exts.forEach(e => candidatos.add(cleaned + '.' + e));
                     }
                 }
 
-                const baseClean = (str) => {
+                // 2. REMOVE ACENTOS
+                const removeAcentos = (str) => {
                     return str.normalize('NFD')
                         .replace(/[\u0300-\u036f]/g, '')
                         .replace(/[^a-zA-Z0-9 .\-_]/g, '')
                         .trim();
                 };
 
-                const baseAcentuada = (artist + ' ' + title).trim();
-                const baseSemAcentos = baseClean(baseAcentuada);
+                // 3. GERAR VARIAÇÕES
+                function gerarVariacoes(nome) {
+                    const variacoes = new Set();
+                    const limpo = nome.trim();
+                    if (!limpo) return variacoes;
 
-                const variacoes = new Set();
-                if (baseSemAcentos) {
-                    variacoes.add(baseSemAcentos);
-                    variacoes.add(baseSemAcentos.replace(/ /g, '_'));
-                    variacoes.add(baseSemAcentos.replace(/ /g, '-'));
-                    variacoes.add(baseSemAcentos.replace(/ /g, ''));
-                }
-                if (baseAcentuada && baseAcentuada !== baseSemAcentos) {
-                    variacoes.add(baseAcentuada);
-                    variacoes.add(baseAcentuada.replace(/ /g, '_'));
-                    variacoes.add(baseAcentuada.replace(/ /g, '-'));
-                    variacoes.add(baseAcentuada.replace(/ /g, ''));
+                    variacoes.add(limpo);
+                    variacoes.add(limpo.replace(/ /g, '_'));
+                    variacoes.add(limpo.replace(/ /g, '-'));
+                    variacoes.add(limpo.replace(/ /g, ''));
+                    variacoes.add(limpo.replace(/[^a-zA-Z0-9]/g, ''));
+                    variacoes.add(limpo.charAt(0).toUpperCase() + limpo.slice(1));
+                    variacoes.add(limpo.toLowerCase());
+                    variacoes.add(limpo.toUpperCase());
+                    variacoes.add(limpo.replace(/ /g, '_').replace(/-/g, '_'));
+                    variacoes.add(limpo.replace(/ /g, '-').replace(/_/g, '-'));
+                    
+                    return variacoes;
                 }
 
-                variacoes.forEach(base => {
-                    if (!base) return;
-                    exts.forEach(ext => candidatos.add(base + '.' + ext));
-                    const encoded = encodeURIComponent(base);
-                    if (encoded !== base) {
-                        exts.forEach(ext => candidatos.add(encoded + '.' + ext));
-                    }
+                // 4. PREPARA BASES
+                const baseComAcentos = (artist || '') + ' ' + (title || '');
+                const baseSemAcentos = removeAcentos(baseComAcentos);
+                const artistComAcentos = artist || '';
+                const artistSemAcentos = removeAcentos(artist || '');
+                const titleComAcentos = title || '';
+                const titleSemAcentos = removeAcentos(title || '');
+
+                const bases = new Set();
+                if (baseSemAcentos) bases.add(baseSemAcentos);
+                if (baseComAcentos && baseComAcentos !== baseSemAcentos) bases.add(baseComAcentos);
+                if (titleSemAcentos) bases.add(titleSemAcentos);
+                if (titleComAcentos && titleComAcentos !== titleSemAcentos) bases.add(titleComAcentos);
+                if (artistSemAcentos && artistSemAcentos.length > 2) bases.add(artistSemAcentos);
+                if (artistComAcentos && artistComAcentos !== artistSemAcentos) bases.add(artistComAcentos);
+                if (titleSemAcentos && artistSemAcentos) {
+                    bases.add(titleSemAcentos + ' ' + artistSemAcentos);
+                    bases.add(artistSemAcentos + ' ' + titleSemAcentos);
+                }
+                if (titleComAcentos && artistComAcentos) {
+                    bases.add(titleComAcentos + ' ' + artistComAcentos);
+                    bases.add(artistComAcentos + ' ' + titleComAcentos);
+                }
+
+                // 5. GERA CANDIDATOS
+                bases.forEach(base => {
+                    const variacoes = gerarVariacoes(base);
+                    variacoes.forEach(v => {
+                        if (v && v.length > 2) {
+                            exts.forEach(ext => {
+                                candidatos.add(v + '.' + ext);
+                                const encoded = encodeURIComponent(v);
+                                if (encoded !== v) {
+                                    candidatos.add(encoded + '.' + ext);
+                                }
+                                const encodedSpaces = v.replace(/ /g, '%20');
+                                if (encodedSpaces !== v) {
+                                    candidatos.add(encodedSpaces + '.' + ext);
+                                }
+                            });
+                        }
+                    });
                 });
 
-                if (candidatos.size === 0) {
-                    candidatos.add('default.mp3');
+                // 6. ESTRATÉGIA PARA NOMES DUPLICADOS
+                if (srcOriginal) {
+                    const parts = srcOriginal.split('_');
+                    if (parts.length > 3) {
+                        const unicos = [];
+                        const vistos = new Set();
+                        for (const p of parts) {
+                            const limpo = p.replace(/\.[^.]+$/, '');
+                            if (!vistos.has(limpo)) {
+                                vistos.add(limpo);
+                                unicos.push(limpo);
+                            }
+                        }
+                        const nomeUnico = unicos.join('_');
+                        if (nomeUnico !== srcOriginal.replace(/\.[^.]+$/, '')) {
+                            exts.forEach(e => candidatos.add(nomeUnico + '.' + e));
+                        }
+                        const semSufixo = srcOriginal.replace(/[-_](S|SERTA|muzzik|ROGER|VAR|SERTA)\.(m4a|mp3)$/, '.$2');
+                        if (semSufixo !== srcOriginal) {
+                            candidatos.add(semSufixo);
+                            const ext = semSufixo.split('.').pop().toLowerCase();
+                            if (ext !== 'm4a' && ext !== 'mp3') {
+                                exts.forEach(e => candidatos.add(semSufixo.replace(/\.[^.]+$/, '') + '.' + e));
+                            }
+                        }
+                    }
                 }
 
-                return Array.from(candidatos);
+                // 7. RESULTADO
+                let resultado = Array.from(candidatos).filter(v => v && v.trim().length > 0);
+                resultado.sort((a, b) => {
+                    const extA = a.split('.').pop().toLowerCase();
+                    const extB = b.split('.').pop().toLowerCase();
+                    if (extA === 'm4a' && extB !== 'm4a') return -1;
+                    if (extA !== 'm4a' && extB === 'm4a') return 1;
+                    return a.length - b.length;
+                });
+                resultado = resultado.filter((v, i, a) => a.indexOf(v) === i);
+                if (resultado.length > 50) resultado = resultado.slice(0, 50);
+
+                console.log(`🎯 Gerados ${resultado.length} candidatos para: ${title}`);
+                return resultado;
             }
 
             // ============================================================
@@ -601,7 +679,6 @@
             let ultimoId = null;
             let carregandoMusica = false;
 
-            // Estatísticas
             let stats = {
                 totalTocadas: 0,
                 tempoTotal: 0,
@@ -609,11 +686,9 @@
                 musicasRepetidas: {}
             };
 
-            // Reconhecimento de voz
             let recognition = null;
             let isListening = false;
 
-            // Referências DOM
             const audio = document.getElementById('musicPlayer');
             const playBtn = document.getElementById('playBtn');
             const progressFill = document.getElementById('progressFill');
@@ -704,13 +779,8 @@
                 } catch(e) {}
             }
 
-            // ============================================================
-            // TEMA DINÂMICO - CONTROLA VÍDEO E FUNDO
-            // ============================================================
             function aplicarTemaGenero(genero) {
                 const cor = CORES_POR_GENERO[genero] || '#00ff88';
-                
-                // Atualiza elementos da interface
                 document.querySelector('.top-bar').style.borderBottom = `2px solid ${cor}`;
                 document.querySelector('.progress-fill').style.background = `linear-gradient(90deg, ${cor}, ${cor}cc)`;
                 document.querySelector('.genre-badge').style.borderLeftColor = cor;
@@ -721,15 +791,13 @@
                     el.style.background = `linear-gradient(180deg, ${cor}, ${cor}88)`;
                 });
 
-                // Decide se o vídeo aparece ou não
                 const exibirVideo = GENEROS_COM_VIDEO.includes(genero);
                 if (exibirVideo) {
                     bgVideo.style.opacity = '1';
-                    document.body.style.backgroundColor = '#0a0a0a'; // fundo escuro
+                    document.body.style.backgroundColor = '#0a0a0a';
                 } else {
                     bgVideo.style.opacity = '0';
-                    document.body.style.backgroundColor = cor; // cor do gênero
-                    // Adiciona um leve gradiente para ficar mais moderno
+                    document.body.style.backgroundColor = cor;
                     document.body.style.backgroundImage = `radial-gradient(ellipse at center, ${cor}44 0%, ${cor}22 60%, transparent 100%)`;
                 }
             }
@@ -829,7 +897,7 @@
             }
 
             // ============================================================
-            // CARREGAMENTO DE PLAYLIST POR GÊNERO
+            // CARREGAMENTO DE PLAYLIST
             // ============================================================
             async function carregarPlaylistPorGenero(genero) {
                 const url = GENRE_URLS[genero];
@@ -871,9 +939,6 @@
                 }
             }
 
-            // ============================================================
-            // CARREGAR DO LOCALSTORAGE (PLAYLIST EDITADA)
-            // ============================================================
             function carregarDoLocalStorage() {
                 try {
                     const saved = localStorage.getItem('playlist_editor_play12');
@@ -955,7 +1020,7 @@
             }
 
             // ============================================================
-            // REPRODUÇÃO COM FALLBACK INTELIGENTE
+            // REPRODUÇÃO
             // ============================================================
             function obterProximaMusica() {
                 if (!currentPlaylist || currentPlaylist.length === 0) {
@@ -1007,7 +1072,7 @@
             }
 
             // ============================================================
-            // playMusic OTIMIZADA
+            // playMusic - VERSÃO MELHORADA
             // ============================================================
             async function playMusic() {
                 if (carregandoMusica) return;
@@ -1043,43 +1108,38 @@
                 stats.generosContagem[gen] = (stats.generosContagem[gen] || 0) + 1;
                 stats.musicasRepetidas[track.id] = (stats.musicasRepetidas[track.id] || 0) + 1;
 
-                let srcParaTentar = null;
+                let candidatos = [];
+                let cacheEncontrado = false;
+
                 try {
                     const cacheKey = 'src_cache_' + track.id;
                     const cached = localStorage.getItem(cacheKey);
                     if (cached && cached.trim()) {
-                        srcParaTentar = cached.trim();
-                        console.log(`📦 Cache encontrado para ${track.title}: ${srcParaTentar}`);
+                        const testResponse = await fetch(cached, { method: 'HEAD', mode: 'no-cors' });
+                        candidatos = [cached.trim()];
+                        cacheEncontrado = true;
+                        console.log(`📦 Cache encontrado para ${track.title}: ${cached}`);
                     }
                 } catch(e) {}
 
-                let candidatos = [];
-                if (srcParaTentar) {
-                    candidatos = [srcParaTentar];
-                    const extras = gerarListaCandidatos(track.artist, track.title, track.src);
-                    for (const e of extras) {
-                        if (!candidatos.includes(e)) {
-                            candidatos.push(e);
-                        }
-                    }
-                } else {
+                if (!cacheEncontrado || candidatos.length === 0) {
                     candidatos = gerarListaCandidatos(track.artist, track.title, track.src);
-                }
-
-                if (candidatos.length === 0) {
-                    showNotification("❌ Nenhum candidato para esta música", 1000);
-                    carregandoMusica = false;
-                    setTimeout(nextTrack, 1000);
-                    return;
+                    if (candidatos.length === 0) {
+                        showNotification("❌ Nenhum candidato para esta música", 1000);
+                        carregandoMusica = false;
+                        setTimeout(nextTrack, 1000);
+                        return;
+                    }
                 }
 
                 let indiceAtual = 0;
                 let tentativaAtiva = false;
                 let timeoutId = null;
+                let sucesso = false;
 
                 function tentarProximo() {
                     if (indiceAtual >= candidatos.length) {
-                        if (!tentativaAtiva) {
+                        if (!tentativaAtiva && !sucesso) {
                             showNotification("❌ Falha ao carregar, pulando...", 1000);
                             carregandoMusica = false;
                             setTimeout(nextTrack, 1000);
@@ -1088,8 +1148,8 @@
                     }
 
                     const src = candidatos[indiceAtual];
-                    if (indiceAtual > 0) {
-                        showNotification(`🔄 Tentando: ${src}`, 1500);
+                    if (indiceAtual > 0 && indiceAtual % 5 === 0) {
+                        showNotification(`🔄 Tentando... (${indiceAtual}/${candidatos.length})`, 1500);
                     }
 
                     if (timeoutId) clearTimeout(timeoutId);
@@ -1099,12 +1159,12 @@
                     audio.load();
 
                     timeoutId = setTimeout(() => {
-                        if (!tentativaAtiva) {
+                        if (!tentativaAtiva && !sucesso) {
                             console.warn(`⏰ Timeout para ${src}`);
                             indiceAtual++;
                             tentarProximo();
                         }
-                    }, 5000);
+                    }, 6000);
 
                     audio.oncanplay = () => {
                         if (timeoutId) clearTimeout(timeoutId);
@@ -1112,18 +1172,22 @@
                         audio.play()
                             .then(() => {
                                 tentativaAtiva = false;
+                                sucesso = true;
                                 isPlaying = true;
                                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                                 equalizer.classList.remove('paused');
                                 startTimer();
                                 carregandoMusica = false;
-                                if (indiceAtual > 0 && src !== track.src) {
+                                
+                                if (src !== track.src) {
                                     track.src = src;
                                     try {
                                         localStorage.setItem('src_cache_' + track.id, src);
+                                        console.log(`✅ Aprendizado salvo: ${src}`);
                                     } catch(e) {}
-                                    showNotification(`✅ Aprendizado: src corrigido para "${src}"`, 2000);
+                                    showNotification(`✅ Conectado!`, 1000);
                                 }
+                                
                                 stats.tempoTotal += audio.duration || 0;
                             })
                             .catch(() => {
@@ -1185,7 +1249,7 @@
             }
 
             // ============================================================
-            // DEMAIS FUNÇÕES
+            // CONTROLES
             // ============================================================
             function togglePlay() {
                 if (!isBackgroundActive) { showNotification("Clique em ATIVAR RÁDIO!", 1000); return; }
@@ -1501,7 +1565,6 @@
                     'reggae': 'REGGAE'
                 };
 
-                // Gênero
                 for (const [key, value] of Object.entries(genreMap)) {
                     if (command.includes(key)) {
                         if (command.includes('tocar') || command.includes('play') || 
@@ -1514,7 +1577,6 @@
                     }
                 }
 
-                // Artista
                 const artistTriggers = ['tocar', 'play', 'música de', 'artista', 'cantor'];
                 let isArtistCommand = false;
                 let artistName = '';
@@ -1539,7 +1601,6 @@
                     }
                 }
 
-                // Comandos simples
                 const cmdMap = {
                     'pausar': 'pause',
                     'pausa': 'pause',
