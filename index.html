@@ -449,7 +449,30 @@
             'use strict';
 
             // ============================================================
-            // CONFIGURAÇÕES - URL CORRIGIDA PARA CRISTÃ
+            // PLAYLIST CRISTÃ CORRIGIDA (EMBUTIDA NO CÓDIGO)
+            // ============================================================
+            const PLAYLIST_CRISTA_CORRIGIDA = [
+                {"id":631,"artist":"Leandro Borges","title":"Deus Forte","genero":"CRISTÃ","src":"Deus_forte.mp3"},
+                {"id":632,"artist":"Davi Sacer","title":"Restitui","genero":"CRISTÃ","src":"Restitui.mp3"},
+                {"id":633,"artist":"Samuel Messias","title":"Todavia Me Alegrarei","genero":"CRISTÃ","src":"Todavia_me_Alegrarei.mp3"},
+                {"id":668,"artist":"CASA Worship","title":"A Casa É Sua","genero":"CRISTÃ","src":"A_Casa_E_Sua.mp3"},
+                {"id":669,"artist":"Ministério da Graça","title":"Acalma o Meu Coração","genero":"CRISTÃ","src":"Acalma_o_Meu_Coracao.mp3"},
+                {"id":670,"artist":"Aline Barros","title":"Ressuscita-me","genero":"CRISTÃ","src":"Ressuscita_me.mp3"},
+                {"id":671,"artist":"Aline Barros","title":"Sonda-me Usa-me","genero":"CRISTÃ","src":"Sonda_me_Usa_me.mp3"},
+                {"id":672,"artist":"Anderson Freire","title":"Raridade","genero":"CRISTÃ","src":"Raridade.mp3"},
+                {"id":673,"artist":"Davi Sacer","title":"Deus de Promessas","genero":"CRISTÃ","src":"Deus_de_Promessas.mp3"},
+                {"id":674,"artist":"Livres","title":"Só Quero Ver Você","genero":"CRISTÃ","src":"So_Quero_Ver_Voce.mp3"},
+                {"id":675,"artist":"Leandro Borges","title":"O Silêncio de Deus","genero":"CRISTÃ","src":"O_Silencio_de_Deus.mp3"},
+                {"id":676,"artist":"Gabriela Rocha","title":"Lugar Secreto","genero":"CRISTÃ","src":"Lugar_Secreto.mp3"},
+                {"id":677,"artist":"Maria Marçal","title":"Deixa","genero":"CRISTÃ","src":"Deixa.mp3"},
+                {"id":678,"artist":"Maria Marçal","title":"Deserto","genero":"CRISTÃ","src":"Deserto.mp3"},
+                {"id":679,"artist":"Isaias Saad","title":"Ousado Amor","genero":"CRISTÃ","src":"Ousado_Amor.mp3"},
+                {"id":680,"artist":"Padre Fábio de Melo","title":"Nas Asas do Senhor","genero":"CRISTÃ","src":"Nas_Asas_do_Senhor.mp3"},
+                {"id":681,"artist":"Regis Danese","title":"Faz Um Milagre em Mim","genero":"CRISTÃ","src":"Faz_Um_Milagre_em_Mim.mp3"}
+            ];
+
+            // ============================================================
+            // CONFIGURAÇÕES
             // ============================================================
             const GENRE_URLS = {
                 'MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/mpb.json',
@@ -601,15 +624,13 @@
                 const urls = new Set();
                 const src = musica.src || '';
                 
-                // 1. Tenta o src original com URL completa
                 if (src && src.trim()) {
                     const urlCompleta = gerarUrlCompleta(src);
                     if (urlCompleta) urls.add(urlCompleta);
                 }
                 
-                // 2. Tenta variações de nome
-                const baseNome = src.replace(/\.[^.]+$/, ''); // remove extensão
-                const exts = ['m4a', 'mp3'];
+                const baseNome = src.replace(/\.[^.]+$/, '');
+                const exts = ['mp3', 'm4a'];
                 const variacoes = [
                     baseNome,
                     baseNome.replace(/ /g, '_'),
@@ -620,7 +641,6 @@
                     (musica.artist + '_' + musica.title).replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_')
                 ];
                 
-                // 3. Tenta com base no título
                 const titleClean = musica.title.replace(/[^a-zA-Z0-9 ]/g, '').trim();
                 if (titleClean && titleClean.length > 2) {
                     variacoes.push(titleClean);
@@ -628,7 +648,6 @@
                     variacoes.push(titleClean.replace(/ /g, '-'));
                 }
                 
-                // 4. Tenta com artista + título
                 const artist = musica.artist || '';
                 const combo = (artist + ' ' + musica.title).replace(/[^a-zA-Z0-9 ]/g, '').trim();
                 if (combo && combo.length > 3) {
@@ -637,7 +656,6 @@
                     variacoes.push(combo.replace(/ /g, '-'));
                 }
                 
-                // 5. Adiciona todas as variações com as extensões
                 variacoes.forEach(nome => {
                     if (nome && nome.trim().length > 0) {
                         exts.forEach(ext => {
@@ -649,15 +667,6 @@
                         });
                     }
                 });
-                
-                // 6. Se for CRISTÃ, tenta também com a extensão .mp3 (já que os arquivos são .mp3)
-                if (musica.genero === 'CRISTÃ') {
-                    const nomeBaseCrista = src.replace(/\.[^.]+$/, '');
-                    if (nomeBaseCrista) {
-                        urls.add(gerarUrlCompleta(nomeBaseCrista + '.mp3'));
-                        urls.add(gerarUrlCompleta(nomeBaseCrista + '.m4a'));
-                    }
-                }
                 
                 return Array.from(urls);
             }
@@ -759,6 +768,14 @@
             // CARREGAMENTO DE PLAYLIST
             // ============================================================
             async function carregarPlaylistPorGenero(genero) {
+                // SE FOR CRISTÃ, USA A PLAYLIST CORRIGIDA
+                if (genero === 'CRISTÃ') {
+                    console.log('✅ Usando playlist CRISTÃ corrigida');
+                    const lista = PLAYLIST_CRISTA_CORRIGIDA;
+                    playlistCache['CRISTÃ'] = lista;
+                    return lista;
+                }
+
                 const url = GENRE_URLS[genero];
                 if (!url) {
                     showNotification(`⚠️ Gênero "${genero}" não possui URL`, 1500);
@@ -928,7 +945,7 @@
             }
 
             // ============================================================
-            // playMusic - VERSÃO CORRIGIDA
+            // playMusic
             // ============================================================
             async function playMusic() {
                 if (carregandoMusica) return;
@@ -958,7 +975,6 @@
                 updateNowPlaying(track);
                 adicionarAoHistorico(track);
 
-                // === GERA URLs COM URL COMPLETA ===
                 const urls = gerarUrlsAlternativas(track);
                 
                 if (urls.length === 0) {
