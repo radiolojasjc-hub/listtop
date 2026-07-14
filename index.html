@@ -449,7 +449,7 @@
             'use strict';
 
             // ============================================================
-            // PLAYLIST CRISTÃ CORRIGIDA (EMBUTIDA NO CÓDIGO)
+            // PLAYLIST CRISTÃ CORRIGIDA
             // ============================================================
             const PLAYLIST_CRISTA = [
                 {"id":631,"artist":"Leandro Borges","title":"Deus Forte","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-forte.mp3"},
@@ -763,7 +763,6 @@
             // CARREGAMENTO DE PLAYLIST
             // ============================================================
             async function carregarPlaylistPorGenero(genero) {
-                // SE FOR CRISTÃ, USA A PLAYLIST CORRIGIDA
                 if (genero === 'CRISTÃ') {
                     console.log('✅ Usando playlist CRISTÃ corrigida');
                     if (playlistCache['CRISTÃ']) {
@@ -974,15 +973,12 @@
                 updateNowPlaying(track);
                 adicionarAoHistorico(track);
 
-                // Tenta primeiro a URL original
                 let urlParaTentar = track.src;
                 
-                // Se não for URL completa, monta a URL
                 if (!urlParaTentar.startsWith('http://') && !urlParaTentar.startsWith('https://')) {
                     urlParaTentar = gerarUrlCompleta(urlParaTentar);
                 }
 
-                // Se ainda não tiver URL, gera alternativas
                 if (!urlParaTentar) {
                     const urls = gerarUrlsAlternativas(track);
                     if (urls.length === 0) {
