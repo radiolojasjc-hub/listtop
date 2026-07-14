@@ -458,7 +458,7 @@
                 'FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/forro.json',
                 'SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/samba.json',
                 'GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/global.json',
-                'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crita.json',
+                'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crista.json',
                 'BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/brega.json',
                 'MODA TOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/moda.json',
                 'REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/reggae.json'
@@ -476,6 +476,11 @@
                 'MODA TOP': '#ff4400',
                 'REGGAE': '#00ffaa'
             };
+
+            // ============================================================
+            // URL BASE DO REPOSITÓRIO
+            // ============================================================
+            const BASE_URL = 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/';
 
             // ============================================================
             // VARIÁVEIS
@@ -576,53 +581,77 @@
             }
 
             // ============================================================
-            // FUNÇÃO SIMPLES PARA GERAR URLs
+            // FUNÇÃO PARA GERAR URL COMPLETA
             // ============================================================
-            function gerarUrlsParaMusica(musica) {
+            function gerarUrlCompleta(nomeArquivo) {
+                // Se já for uma URL completa, retorna ela
+                if (nomeArquivo.startsWith('http://') || nomeArquivo.startsWith('https://')) {
+                    return nomeArquivo;
+                }
+                
+                // Remove caminhos relativos
+                let nome = nomeArquivo.replace(/^\.\//, '').replace(/^\/+/, '');
+                
+                // Remove caracteres problemáticos
+                nome = nome.replace(/[^a-zA-Z0-9\-_.]/g, '');
+                
+                return BASE_URL + nome;
+            }
+
+            // ============================================================
+            // FUNÇÃO PARA GERAR URLs ALTERNATIVAS
+            // ============================================================
+            function gerarUrlsAlternativas(musica) {
                 const urls = new Set();
                 const src = musica.src || '';
-                const base = src.replace(/\.[^.]+$/, ''); // remove extensão
-                const exts = ['m4a', 'mp3'];
-
-                // 1. Usa o src original
+                
+                // 1. Tenta o src original com URL completa
                 if (src && src.trim()) {
-                    urls.add(src.trim());
+                    urls.add(gerarUrlCompleta(src));
                 }
-
-                // 2. Tenta com .m4a e .mp3
-                exts.forEach(ext => {
-                    const nome = base + '.' + ext;
-                    urls.add(nome);
-                    // Tenta com _ no lugar de espaços
-                    const nomeUnderscore = base.replace(/ /g, '_') + '.' + ext;
-                    urls.add(nomeUnderscore);
-                    // Tenta com - no lugar de espaços
-                    const nomeHifen = base.replace(/ /g, '-') + '.' + ext;
-                    urls.add(nomeHifen);
-                });
-
-                // 3. Tenta apenas o título
-                const title = musica.title || '';
-                const titleClean = title.replace(/[^a-zA-Z0-9 ]/g, '').trim();
+                
+                // 2. Tenta variações de nome
+                const baseNome = src.replace(/\.[^.]+$/, ''); // remove extensão
+                const exts = ['m4a', 'mp3'];
+                const variacoes = [
+                    baseNome,
+                    baseNome.replace(/ /g, '_'),
+                    baseNome.replace(/ /g, '-'),
+                    baseNome.replace(/[^a-zA-Z0-9]/g, ''),
+                    musica.title.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ /g, '_'),
+                    musica.title.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ /g, '-'),
+                    (musica.artist + '_' + musica.title).replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_')
+                ];
+                
+                // 3. Tenta com base no título
+                const titleClean = musica.title.replace(/[^a-zA-Z0-9 ]/g, '').trim();
                 if (titleClean && titleClean.length > 2) {
-                    exts.forEach(ext => {
-                        urls.add(titleClean + '.' + ext);
-                        urls.add(titleClean.replace(/ /g, '_') + '.' + ext);
-                        urls.add(titleClean.replace(/ /g, '-') + '.' + ext);
-                    });
+                    variacoes.push(titleClean);
+                    variacoes.push(titleClean.replace(/ /g, '_'));
+                    variacoes.push(titleClean.replace(/ /g, '-'));
                 }
-
-                // 4. Tenta artista + título
+                
+                // 4. Tenta com artista + título
                 const artist = musica.artist || '';
-                const combo = (artist + ' ' + title).replace(/[^a-zA-Z0-9 ]/g, '').trim();
+                const combo = (artist + ' ' + musica.title).replace(/[^a-zA-Z0-9 ]/g, '').trim();
                 if (combo && combo.length > 3) {
-                    exts.forEach(ext => {
-                        urls.add(combo + '.' + ext);
-                        urls.add(combo.replace(/ /g, '_') + '.' + ext);
-                        urls.add(combo.replace(/ /g, '-') + '.' + ext);
-                    });
+                    variacoes.push(combo);
+                    variacoes.push(combo.replace(/ /g, '_'));
+                    variacoes.push(combo.replace(/ /g, '-'));
                 }
-
+                
+                // 5. Adiciona todas as variações com as extensões
+                variacoes.forEach(nome => {
+                    if (nome && nome.trim().length > 0) {
+                        exts.forEach(ext => {
+                            const nomeLimpo = nome.trim().replace(/[^a-zA-Z0-9\-_]/g, '');
+                            if (nomeLimpo.length > 0) {
+                                urls.add(gerarUrlCompleta(nomeLimpo + '.' + ext));
+                            }
+                        });
+                    }
+                });
+                
                 return Array.from(urls);
             }
 
@@ -838,7 +867,7 @@
             }
 
             // ============================================================
-            // REPRODUÇÃO - VERSÃO SIMPLES
+            // REPRODUÇÃO
             // ============================================================
             function obterProximaMusica() {
                 if (!currentPlaylist || currentPlaylist.length === 0) {
@@ -890,7 +919,7 @@
             }
 
             // ============================================================
-            // playMusic - VERSÃO SIMPLIFICADA
+            // playMusic - VERSÃO CORRIGIDA
             // ============================================================
             async function playMusic() {
                 if (carregandoMusica) return;
@@ -920,8 +949,8 @@
                 updateNowPlaying(track);
                 adicionarAoHistorico(track);
 
-                // === GERA LISTA DE URLs PARA TENTAR ===
-                const urls = gerarUrlsParaMusica(track);
+                // === GERA URLs COM URL COMPLETA ===
+                const urls = gerarUrlsAlternativas(track);
                 
                 if (urls.length === 0) {
                     showNotification("❌ Nenhuma URL para esta música", 1000);
@@ -931,6 +960,7 @@
                 }
 
                 console.log(`🎯 Tentando ${urls.length} URLs para: ${track.title}`);
+                console.log('📄 Primeiras URLs:', urls.slice(0, 3));
 
                 let indiceAtual = 0;
                 let timeoutId = null;
@@ -947,12 +977,15 @@
                     }
 
                     const url = urls[indiceAtual];
+                    
+                    // Mostra progresso a cada 3 tentativas
                     if (indiceAtual > 0 && indiceAtual % 3 === 0) {
                         showNotification(`🔄 Tentando... (${indiceAtual}/${urls.length})`, 1500);
                     }
 
                     if (timeoutId) clearTimeout(timeoutId);
 
+                    // Para a música atual
                     audio.pause();
                     audio.src = url;
                     audio.load();
@@ -963,7 +996,7 @@
                             indiceAtual++;
                             tentarProximo();
                         }
-                    }, 5000);
+                    }, 6000);
 
                     audio.oncanplay = () => {
                         if (timeoutId) clearTimeout(timeoutId);
@@ -982,10 +1015,11 @@
                                     try {
                                         localStorage.setItem('src_cache_' + track.id, url);
                                     } catch(e) {}
-                                    showNotification(`✅ Conectado!`, 1000);
+                                    showNotification(`✅ Tocando: ${track.title}`, 1500);
                                 }
                             })
-                            .catch(() => {
+                            .catch((err) => {
+                                console.warn(`❌ Falha em ${url}:`, err);
                                 indiceAtual++;
                                 tentarProximo();
                             });
@@ -993,6 +1027,7 @@
 
                     audio.onerror = () => {
                         if (timeoutId) clearTimeout(timeoutId);
+                        console.warn(`❌ Erro em ${url}`);
                         indiceAtual++;
                         tentarProximo();
                     };
@@ -1066,7 +1101,8 @@
                         ultimoId = track.id;
                         updateNowPlaying(track);
                         adicionarAoHistorico(track);
-                        audio.src = track.src;
+                        const urls = gerarUrlsAlternativas(track);
+                        audio.src = urls[0] || track.src;
                         audio.load();
                     }
                 }
@@ -1093,11 +1129,13 @@
                 adicionarAoHistorico(track);
                 if (isPlaying) {
                     audio.pause();
-                    audio.src = track.src;
+                    const urls = gerarUrlsAlternativas(track);
+                    audio.src = urls[0] || track.src;
                     audio.load();
                     audio.play().catch(() => {});
                 } else {
-                    audio.src = track.src;
+                    const urls = gerarUrlsAlternativas(track);
+                    audio.src = urls[0] || track.src;
                     audio.load();
                 }
                 currentIndex++;
