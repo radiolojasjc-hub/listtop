@@ -449,7 +449,7 @@
             'use strict';
 
             // ============================================================
-            // CONFIGURAÇÕES
+            // CONFIGURAÇÕES - URL CORRIGIDA PARA CRISTÃ
             // ============================================================
             const GENRE_URLS = {
                 'MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/mpb.json',
@@ -458,7 +458,7 @@
                 'FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/forro.json',
                 'SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/samba.json',
                 'GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/global.json',
-                'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crista.json',
+                'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crita.json',
                 'BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/brega.json',
                 'MODA TOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/moda.json',
                 'REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/reggae.json'
@@ -584,17 +584,13 @@
             // FUNÇÃO PARA GERAR URL COMPLETA
             // ============================================================
             function gerarUrlCompleta(nomeArquivo) {
-                // Se já for uma URL completa, retorna ela
+                if (!nomeArquivo || !nomeArquivo.trim()) return '';
                 if (nomeArquivo.startsWith('http://') || nomeArquivo.startsWith('https://')) {
                     return nomeArquivo;
                 }
-                
-                // Remove caminhos relativos
                 let nome = nomeArquivo.replace(/^\.\//, '').replace(/^\/+/, '');
-                
-                // Remove caracteres problemáticos
                 nome = nome.replace(/[^a-zA-Z0-9\-_.]/g, '');
-                
+                if (!nome) return '';
                 return BASE_URL + nome;
             }
 
@@ -607,7 +603,8 @@
                 
                 // 1. Tenta o src original com URL completa
                 if (src && src.trim()) {
-                    urls.add(gerarUrlCompleta(src));
+                    const urlCompleta = gerarUrlCompleta(src);
+                    if (urlCompleta) urls.add(urlCompleta);
                 }
                 
                 // 2. Tenta variações de nome
@@ -646,11 +643,21 @@
                         exts.forEach(ext => {
                             const nomeLimpo = nome.trim().replace(/[^a-zA-Z0-9\-_]/g, '');
                             if (nomeLimpo.length > 0) {
-                                urls.add(gerarUrlCompleta(nomeLimpo + '.' + ext));
+                                const url = gerarUrlCompleta(nomeLimpo + '.' + ext);
+                                if (url) urls.add(url);
                             }
                         });
                     }
                 });
+                
+                // 6. Se for CRISTÃ, tenta também com a extensão .mp3 (já que os arquivos são .mp3)
+                if (musica.genero === 'CRISTÃ') {
+                    const nomeBaseCrista = src.replace(/\.[^.]+$/, '');
+                    if (nomeBaseCrista) {
+                        urls.add(gerarUrlCompleta(nomeBaseCrista + '.mp3'));
+                        urls.add(gerarUrlCompleta(nomeBaseCrista + '.m4a'));
+                    }
+                }
                 
                 return Array.from(urls);
             }
@@ -762,6 +769,7 @@
                 }
                 try {
                     showLoading(true);
+                    console.log(`🔄 Carregando ${genero} de: ${url}`);
                     const response = await fetch(url);
                     if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
                     let data = await response.json();
@@ -786,6 +794,7 @@
                 } catch (error) {
                     showLoading(false);
                     showNotification(`❌ Erro ao carregar ${genero}: ${error.message}`, 2000);
+                    console.error(`❌ Erro ao carregar ${genero}:`, error);
                     return null;
                 }
             }
@@ -978,14 +987,12 @@
 
                     const url = urls[indiceAtual];
                     
-                    // Mostra progresso a cada 3 tentativas
                     if (indiceAtual > 0 && indiceAtual % 3 === 0) {
                         showNotification(`🔄 Tentando... (${indiceAtual}/${urls.length})`, 1500);
                     }
 
                     if (timeoutId) clearTimeout(timeoutId);
 
-                    // Para a música atual
                     audio.pause();
                     audio.src = url;
                     audio.load();
@@ -1009,7 +1016,6 @@
                                 startTimer();
                                 carregandoMusica = false;
                                 
-                                // Salva a URL que funcionou
                                 if (url !== track.src) {
                                     track.src = url;
                                     try {
