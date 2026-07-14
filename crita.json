@@ -1,21 +1,19 @@
 [
-  {"id":631,"artist":"Leandro Borges","title":"Deus forte.mp3","genero":"CRISTÃ","src":"Deus-forte.mp3"},
-  {"id":632,"artist":"Davi Sacer","title":"Ton Carfi Restitui","genero":"CRISTÃ","src":"Restitui.mp3"},
-  {"id":633,"artist":"Samuel Messias","title":"Todavia me Alegrarei","genero":"CRISTÃ","src":"Todavia-me-Alegrarei.mp3"},
-
-  {"id":668,"artist":"CASA Worship","title":"A Casa É Sua - CASA WORSHIP e","genero":"CRISTÃ","src":"A-Casa-Sua-Casa.mp3"},
-{"id":669,"artist":"Ministério da Graça","title":"Acalma o Meu Coração","genero":"CRISTÃ","src":"Acalma-o-Meu-Coração.mp3"},
-{"id":670,"artist":"MK","title":"Aline Barros - Ressuscita-me e MK HD","genero":"CRISTÃ","src":"Aline Barros Ressuscita me mp3.m4a"},
-{"id":671,"artist":"MK","title":"Aline Barros - Sonda-me Usa-me e MK","genero":"CRISTÃ","src":"Aline Barros Sonda me Usa me mp3.m4a"},
-{"id":672,"artist":"Anderson Freire","title":"Raridade","genero":"CRISTÃ","src":"Anderson Freire Raridademp3.m4a"},
-{"id":673,"artist":"Davi Sacer","title":"Deus-de-Promessas","genero":"CRISTÃ","src":"Davi Sacer Deus de Promessasmp3.m4a"},
-{"id":674,"artist":"Livres","title":"Juliano Son Lindo és Só Quero Ver Você Livres Em São Paulo","genero":"CRISTÃ","src":"Só-Quero-Ver-Você.mp3"},
-{"id":675,"artist":"Leandro Borges","title":"Leandro Borges e Clayton Queiroz - O Silêncio de Deus -","genero":"CRISTÃ","src":"O-Silêncio-de-Deus.mp3"},
-{"id":676,"artist":"Gabriela Rocha","title":"LUGAR SECRETO E EP CÉU GABRIELA ROCHA","genero":"CRISTÃ","src":"lugar-secreto.mp3"},
-{"id":677,"artist":"Rádio - FM Gospel","title":"Maria Marçal - Deixa - Louvorzão -","genero":"CRISTÃ","src":"Maria Maral Deixa Louvorzo mp3.m4a"},
-{"id":678,"artist":"Maria Marçal","title":"Maria Marçal Deserto","genero":"CRISTÃ","src":"Maria Maral Desertomp3.m4a"},
-{"id":679,"artist":"Isaias Saad","title":"Ousado Amor e - Isaias Saad","genero":"CRISTÃ","src":"Ousado Amor Clipe Oficial Isaias Saadmp3.m4a"},
-{"id":680,"artist":"Padre-Fabio","title":"Padre Fábio de Melo - Nas Asas do Senhor","genero":"CRISTÃ","src":"Celina-Borges.mp3"},
-{"id":681,"artist":"Memory Line","title":"Regis Danese - Faz Um Milagre em Mim e","genero":"CRISTÃ","src":"Regis Danese Faz Um Milagre em Mimmp3.m4a"}
-  ]
-
+  {"id":631,"artist":"Leandro Borges","title":"Deus Forte","genero":"CRISTÃ","src":"Deus_forte.mp3"},
+  {"id":632,"artist":"Davi Sacer","title":"Restitui","genero":"CRISTÃ","src":"Restitui.mp3"},
+  {"id":633,"artist":"Samuel Messias","title":"Todavia Me Alegrarei","genero":"CRISTÃ","src":"Todavia_me_Alegrarei.mp3"},
+  {"id":668,"artist":"CASA Worship","title":"A Casa É Sua","genero":"CRISTÃ","src":"A_Casa_E_Sua.mp3"},
+  {"id":669,"artist":"Ministério da Graça","title":"Acalma o Meu Coração","genero":"CRISTÃ","src":"Acalma_o_Meu_Coracao.mp3"},
+  {"id":670,"artist":"Aline Barros","title":"Ressuscita-me","genero":"CRISTÃ","src":"Ressuscita_me.mp3"},
+  {"id":671,"artist":"Aline Barros","title":"Sonda-me Usa-me","genero":"CRISTÃ","src":"Sonda_me_Usa_me.mp3"},
+  {"id":672,"artist":"Anderson Freire","title":"Raridade","genero":"CRISTÃ","src":"Raridade.mp3"},
+  {"id":673,"artist":"Davi Sacer","title":"Deus de Promessas","genero":"CRISTÃ","src":"Deus_de_Promessas.mp3"},
+  {"id":674,"artist":"Livres","title":"Só Quero Ver Você","genero":"CRISTÃ","src":"So_Quero_Ver_Voce.mp3"},
+  {"id":675,"artist":"Leandro Borges","title":"O Silêncio de Deus","genero":"CRISTÃ","src":"O_Silencio_de_Deus.mp3"},
+  {"id":676,"artist":"Gabriela Rocha","title":"Lugar Secreto","genero":"CRISTÃ","src":"Lugar_Secreto.mp3"},
+  {"id":677,"artist":"Maria Marçal","title":"Deixa","genero":"CRISTÃ","src":"Deixa.mp3"},
+  {"id":678,"artist":"Maria Marçal","title":"Deserto","genero":"CRISTÃ","src":"Deserto.mp3"},
+  {"id":679,"artist":"Isaias Saad","title":"Ousado Amor","genero":"CRISTÃ","src":"Ousado_Amor.mp3"},
+  {"id":680,"artist":"Padre Fábio de Melo","title":"Nas Asas do Senhor","genero":"CRISTÃ","src":"Nas_Asas_do_Senhor.mp3"},
+  {"id":681,"artist":"Regis Danese","title":"Faz Um Milagre em Mim","genero":"CRISTÃ","src":"Faz_Um_Milagre_em_Mim.mp3"}
+]
