@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PLAY 12 • music</title>
+    <title>PLAY 12 • Player</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -449,32 +449,26 @@
             'use strict';
 
             // ============================================================
-            // PLAYLIST CRISTÃ - USANDO APENAS URLs QUE FUNCIONAM
+            // PLAYLIST CRISTÃ CORRIGIDA (EMBUTIDA NO CÓDIGO)
             // ============================================================
-            // IMPORTANTE: Substitua estas URLs por URLs reais de áudio
-            // que estejam no GitHub ou em outro servidor
             const PLAYLIST_CRISTA = [
-                {
-                    "id": 631,
-                    "artist": "Leandro Borges",
-                    "title": "Deus Forte",
-                    "genero": "CRISTÃ",
-                    "src": "https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-forte.mp3"
-                },
-                {
-                    "id": 632,
-                    "artist": "Davi Sacer",
-                    "title": "Restitui",
-                    "genero": "CRISTÃ",
-                    "src": "https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Restitui.mp3"
-                },
-                {
-                    "id": 633,
-                    "artist": "Samuel Messias",
-                    "title": "Todavia me Alegrarei",
-                    "genero": "CRISTÃ",
-                    "src": "https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Todavia-me-Alegrarei.mp3"
-                }
+                {"id":631,"artist":"Leandro Borges","title":"Deus Forte","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-forte.mp3"},
+                {"id":632,"artist":"Davi Sacer","title":"Restitui","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Restitui.mp3"},
+                {"id":633,"artist":"Samuel Messias","title":"Todavia me Alegrarei","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Todavia-me-Alegrarei.mp3"},
+                {"id":668,"artist":"CASA Worship","title":"A Casa É Sua","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/A-Casa-Sua-Casa.mp3"},
+                {"id":669,"artist":"Ministério da Graça","title":"Acalma o Meu Coração","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Acalma-o-Meu-Coração.mp3"},
+                {"id":670,"artist":"Aline Barros","title":"Ressuscita-me","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Aline-Barros-Ressuscita-me.mp3"},
+                {"id":671,"artist":"Aline Barros","title":"Sonda-me Usa-me","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Aline-Barros-Sonda-me-Usa-me.mp3"},
+                {"id":672,"artist":"Anderson Freire","title":"Raridade","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Raridade.mp3"},
+                {"id":673,"artist":"Davi Sacer","title":"Deus de Promessas","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-de-Promessas.mp3"},
+                {"id":674,"artist":"Livres","title":"Só Quero Ver Você","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/So-Quero-Ver-Voce.mp3"},
+                {"id":675,"artist":"Leandro Borges","title":"O Silêncio de Deus","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/O-Silencio-de-Deus.mp3"},
+                {"id":676,"artist":"Gabriela Rocha","title":"Lugar Secreto","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Lugar-Secreto.mp3"},
+                {"id":677,"artist":"Maria Marçal","title":"Deixa","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deixa.mp3"},
+                {"id":678,"artist":"Maria Marçal","title":"Deserto","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deserto.mp3"},
+                {"id":679,"artist":"Isaias Saad","title":"Ousado Amor","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Ousado-Amor.mp3"},
+                {"id":680,"artist":"Padre Fábio de Melo","title":"Nas Asas do Senhor","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Nas-Asas-do-Senhor.mp3"},
+                {"id":681,"artist":"Regis Danese","title":"Faz Um Milagre em Mim","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Faz-Um-Milagre-em-Mim.mp3"}
             ];
 
             // ============================================================
@@ -766,24 +760,21 @@
             }
 
             // ============================================================
-            // CARREGAMENTO DE PLAYLIST - VERSÃO AUTO-CORRETIVA
+            // CARREGAMENTO DE PLAYLIST
             // ============================================================
             async function carregarPlaylistPorGenero(genero) {
                 // SE FOR CRISTÃ, USA A PLAYLIST CORRIGIDA
                 if (genero === 'CRISTÃ') {
                     console.log('✅ Usando playlist CRISTÃ corrigida');
-                    // Verifica se já tem cache
                     if (playlistCache['CRISTÃ']) {
                         return playlistCache['CRISTÃ'];
                     }
-                    // Usa a playlist local
                     const lista = PLAYLIST_CRISTA;
                     playlistCache['CRISTÃ'] = lista;
                     showNotification(`🎵 ${lista.length} músicas CRISTÃ carregadas`, 1500);
                     return lista;
                 }
 
-                // Para outros gêneros, tenta carregar do GitHub
                 const url = GENRE_URLS[genero];
                 if (!url) {
                     showNotification(`⚠️ Gênero "${genero}" não possui URL`, 1500);
@@ -953,7 +944,7 @@
             }
 
             // ============================================================
-            // playMusic - VERSÃO AUTO-CORRETIVA
+            // playMusic
             // ============================================================
             async function playMusic() {
                 if (carregandoMusica) return;
@@ -1008,7 +999,6 @@
                 let timeoutId = null;
                 let sucesso = false;
 
-                // Função para tentar tocar
                 function tentarTocar(url) {
                     if (timeoutId) clearTimeout(timeoutId);
 
@@ -1019,7 +1009,6 @@
                     timeoutId = setTimeout(() => {
                         if (!sucesso) {
                             console.warn(`⏰ Timeout para ${url}`);
-                            // Tenta a próxima alternativa
                             const urls = gerarUrlsAlternativas(track);
                             const nextUrl = urls.find(u => u !== url);
                             if (nextUrl) {
@@ -1044,7 +1033,6 @@
                                 carregandoMusica = false;
                                 showNotification(`✅ Tocando: ${track.title}`, 1500);
                                 
-                                // Salva a URL que funcionou
                                 if (url !== track.src) {
                                     track.src = url;
                                     try {
@@ -1054,7 +1042,6 @@
                             })
                             .catch((err) => {
                                 console.warn(`❌ Falha em ${url}:`, err);
-                                // Tenta a próxima alternativa
                                 const urls = gerarUrlsAlternativas(track);
                                 const nextUrl = urls.find(u => u !== url);
                                 if (nextUrl) {
@@ -1070,7 +1057,6 @@
                     audio.onerror = () => {
                         if (timeoutId) clearTimeout(timeoutId);
                         console.warn(`❌ Erro em ${url}`);
-                        // Tenta a próxima alternativa
                         const urls = gerarUrlsAlternativas(track);
                         const nextUrl = urls.find(u => u !== url);
                         if (nextUrl) {
@@ -1151,7 +1137,6 @@
                         ultimoId = track.id;
                         updateNowPlaying(track);
                         adicionarAoHistorico(track);
-                        // Tenta tocar com a URL correta
                         const url = track.src.startsWith('http') ? track.src : gerarUrlCompleta(track.src);
                         audio.src = url || track.src;
                         audio.load();
