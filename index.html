@@ -449,10 +449,10 @@
             'use strict';
 
             // ============================================================
-            // PLAYLIST RELIGIOSA (FALLBACK - CASO O JSON NÃO CARREGUE)
+            // PLAYLIST RELIGIOSA (FALLBACK OFFLINE)
             // ============================================================
             const PLAYLIST_RELIGIOSA_FALLBACK = [
-                {"id":682,"artist":"Churrasco Cerveja e Viola","title":"Valéria Barros Edy Britto e Samuel - Nada Mudou","genero":"RELIGIOSA","src":"Valeria-varros.mp3"},
+                {"id":682,"artist":"Churrasco Cerveja e Viola","title":"Nada Mudou","genero":"RELIGIOSA","src":"Valeria-varros.mp3"},
                 {"id":683,"artist":"Cleber Cauan","title":"I Love You Baby","genero":"RELIGIOSA","src":"Cleber-Cauan-Resenha-na-Fazenda.mp3"},
                 {"id":684,"artist":"Gian e Giovani","title":"Favo de Mel","genero":"RELIGIOSA","src":"Giane-Giovani.mp3"},
                 {"id":685,"artist":"Humberto e Ronaldo","title":"Só não embaça meus forró","genero":"RELIGIOSA","src":"Humberto-e-Ronaldo.mp3"},
@@ -998,7 +998,7 @@
                     if (urls.length === 0) {
                         showNotification("❌ Nenhuma URL para esta música", 1000);
                         carregandoMusica = false;
-                        setTimeout(nextTrack, 1000);
+                        setTimeout(nextTrack, 500);
                         return;
                     }
                     urlParaTentar = urls[0];
@@ -1008,18 +1008,29 @@
 
                 let timeoutId = null;
                 let sucesso = false;
+                let tentativas = 0;
+                const MAX_TENTATIVAS = 3;
 
                 function tentarTocar(url) {
+                    tentativas++;
                     if (timeoutId) clearTimeout(timeoutId);
+
+                    // Se já tentou muitas vezes, pula
+                    if (tentativas > MAX_TENTATIVAS) {
+                        showNotification("⏭️ Pulando...", 800);
+                        carregandoMusica = false;
+                        setTimeout(nextTrack, 300);
+                        return;
+                    }
 
                     audio.pause();
                     audio.src = url;
                     audio.load();
 
-                    // TIMEOUT REDUZIDO: 2.5 segundos (era 8 segundos)
+                    // TIMEOUT REDUZIDO: 2.5 segundos
                     timeoutId = setTimeout(() => {
                         if (!sucesso) {
-                            console.warn(`⏰ Timeout para ${url}`);
+                            console.warn(`⏰ Timeout ${tentativas}/${MAX_TENTATIVAS} para ${url}`);
                             const urls = gerarUrlsAlternativas(track);
                             const nextUrl = urls.find(u => u !== url);
                             if (nextUrl) {
@@ -1027,7 +1038,7 @@
                             } else {
                                 showNotification("⏭️ Pulando...", 800);
                                 carregandoMusica = false;
-                                setTimeout(nextTrack, 500);
+                                setTimeout(nextTrack, 300);
                             }
                         }
                     }, 2500);
@@ -1060,7 +1071,7 @@
                                 } else {
                                     showNotification("⏭️ Pulando...", 800);
                                     carregandoMusica = false;
-                                    setTimeout(nextTrack, 500);
+                                    setTimeout(nextTrack, 300);
                                 }
                             });
                     };
@@ -1075,7 +1086,7 @@
                         } else {
                             showNotification("⏭️ Pulando...", 800);
                             carregandoMusica = false;
-                            setTimeout(nextTrack, 500);
+                            setTimeout(nextTrack, 300);
                         }
                     };
                 }
