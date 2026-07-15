@@ -449,30 +449,19 @@
             'use strict';
 
             // ============================================================
-            // PLAYLIST CRISTÃ CORRIGIDA
+            // PLAYLIST RELIGIOSA (FALLBACK - CASO O JSON NÃO CARREGUE)
             // ============================================================
-            const PLAYLIST_CRISTA = [
-                {"id":631,"artist":"Leandro Borges","title":"Deus Forte","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-forte.mp3"},
-                {"id":632,"artist":"Davi Sacer","title":"Restitui","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Restitui.mp3"},
-                {"id":633,"artist":"Samuel Messias","title":"Todavia me Alegrarei","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Todavia-me-Alegrarei.mp3"},
-                {"id":668,"artist":"CASA Worship","title":"A Casa É Sua","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/A-Casa-Sua-Casa.mp3"},
-                {"id":669,"artist":"Ministério da Graça","title":"Acalma o Meu Coração","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Acalma-o-Meu-Coração.mp3"},
-                {"id":670,"artist":"Aline Barros","title":"Ressuscita-me","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Aline-Barros-Ressuscita-me.mp3"},
-                {"id":671,"artist":"Aline Barros","title":"Sonda-me Usa-me","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Aline-Barros-Sonda-me-Usa-me.mp3"},
-                {"id":672,"artist":"Anderson Freire","title":"Raridade","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Raridade.mp3"},
-                {"id":673,"artist":"Davi Sacer","title":"Deus de Promessas","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deus-de-Promessas.mp3"},
-                {"id":674,"artist":"Livres","title":"Só Quero Ver Você","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/So-Quero-Ver-Voce.mp3"},
-                {"id":675,"artist":"Leandro Borges","title":"O Silêncio de Deus","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/O-Silencio-de-Deus.mp3"},
-                {"id":676,"artist":"Gabriela Rocha","title":"Lugar Secreto","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Lugar-Secreto.mp3"},
-                {"id":677,"artist":"Maria Marçal","title":"Deixa","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deixa.mp3"},
-                {"id":678,"artist":"Maria Marçal","title":"Deserto","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Deserto.mp3"},
-                {"id":679,"artist":"Isaias Saad","title":"Ousado Amor","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Ousado-Amor.mp3"},
-                {"id":680,"artist":"Padre Fábio de Melo","title":"Nas Asas do Senhor","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Nas-Asas-do-Senhor.mp3"},
-                {"id":681,"artist":"Regis Danese","title":"Faz Um Milagre em Mim","genero":"CRISTÃ","src":"https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/Faz-Um-Milagre-em-Mim.mp3"}
+            const PLAYLIST_RELIGIOSA_FALLBACK = [
+                {"id":682,"artist":"Churrasco Cerveja e Viola","title":"Valéria Barros Edy Britto e Samuel - Nada Mudou","genero":"RELIGIOSA","src":"Valeria-varros.mp3"},
+                {"id":683,"artist":"Cleber Cauan","title":"I Love You Baby","genero":"RELIGIOSA","src":"Cleber-Cauan-Resenha-na-Fazenda.mp3"},
+                {"id":684,"artist":"Gian e Giovani","title":"Favo de Mel","genero":"RELIGIOSA","src":"Giane-Giovani.mp3"},
+                {"id":685,"artist":"Humberto e Ronaldo","title":"Só não embaça meus forró","genero":"RELIGIOSA","src":"Humberto-e-Ronaldo.mp3"},
+                {"id":686,"artist":"João Neto e Frederico","title":"Toca Aquela Desce Mais Uma","genero":"RELIGIOSA","src":"João-Neto-e-Frederico.mp3"},
+                {"id":687,"artist":"Panda Cantor","title":"Onde ela tá","genero":"RELIGIOSA","src":"Panda.mp3"}
             ];
 
             // ============================================================
-            // CONFIGURAÇÕES
+            // CONFIGURAÇÕES - CORRIGIDO: CRISTÃ → RELIGIOSA
             // ============================================================
             const GENRE_URLS = {
                 'MPB': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/mpb.json',
@@ -481,7 +470,7 @@
                 'FORRÓ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/forro.json',
                 'SAMBA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/samba.json',
                 'GLOBAL HITS': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/global.json',
-                'CRISTÃ': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/crita.json',
+                'RELIGIOSA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/religiosa.json',
                 'BREGA': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/brega.json',
                 'MODA TOP': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/moda.json',
                 'REGGAE': 'https://raw.githubusercontent.com/radiolojasjc-hub/listtop/refs/heads/main/reggae.json'
@@ -494,7 +483,7 @@
                 'FORRÓ': '#ff00aa',
                 'SAMBA': '#ffdd00',
                 'GLOBAL HITS': '#00ccff',
-                'CRISTÃ': '#aa55ff',
+                'RELIGIOSA': '#aa55ff',
                 'BREGA': '#ff66aa',
                 'MODA TOP': '#ff4400',
                 'REGGAE': '#00ffaa'
@@ -760,20 +749,45 @@
             }
 
             // ============================================================
-            // CARREGAMENTO DE PLAYLIST
+            // CARREGAMENTO DE PLAYLIST - VERSÃO OTIMIZADA
             // ============================================================
             async function carregarPlaylistPorGenero(genero) {
-                if (genero === 'CRISTÃ') {
-                    console.log('✅ Usando playlist CRISTÃ corrigida');
-                    if (playlistCache['CRISTÃ']) {
-                        return playlistCache['CRISTÃ'];
+                // SE FOR RELIGIOSA, USA FALLBACK SE O JSON FALHAR
+                if (genero === 'RELIGIOSA') {
+                    console.log('🔄 Carregando RELIGIOSA...');
+                    if (playlistCache['RELIGIOSA']) {
+                        return playlistCache['RELIGIOSA'];
                     }
-                    const lista = PLAYLIST_CRISTA;
-                    playlistCache['CRISTÃ'] = lista;
-                    showNotification(`🎵 ${lista.length} músicas CRISTÃ carregadas`, 1500);
+                    
+                    // Tenta carregar do JSON
+                    try {
+                        const url = GENRE_URLS['RELIGIOSA'];
+                        const response = await fetch(url);
+                        if (response.ok) {
+                            let data = await response.json();
+                            if (Array.isArray(data) && data.length > 0) {
+                                const lista = data.filter(m => m.src && m.src.trim() && m.title && m.title.trim());
+                                lista.forEach(m => {
+                                    m.id = m.id || `religiosa_${Math.random().toString(36).substr(2, 6)}`;
+                                    m.genero = 'RELIGIOSA';
+                                });
+                                playlistCache['RELIGIOSA'] = lista;
+                                console.log(`✅ RELIGIOSA carregou ${lista.length} músicas do JSON`);
+                                return lista;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('⚠️ Falha ao carregar JSON RELIGIOSA, usando fallback', e);
+                    }
+                    
+                    // FALLBACK: usa a playlist local
+                    const lista = PLAYLIST_RELIGIOSA_FALLBACK;
+                    playlistCache['RELIGIOSA'] = lista;
+                    showNotification(`🎵 RELIGIOSA (${lista.length} músicas - modo offline)`, 1500);
                     return lista;
                 }
 
+                // Para outros gêneros
                 const url = GENRE_URLS[genero];
                 if (!url) {
                     showNotification(`⚠️ Gênero "${genero}" não possui URL`, 1500);
@@ -943,7 +957,7 @@
             }
 
             // ============================================================
-            // playMusic
+            // playMusic - VERSÃO OTIMIZADA (TIMEOT REDUZIDO PARA 2.5s)
             // ============================================================
             async function playMusic() {
                 if (carregandoMusica) return;
@@ -1002,6 +1016,7 @@
                     audio.src = url;
                     audio.load();
 
+                    // TIMEOUT REDUZIDO: 2.5 segundos (era 8 segundos)
                     timeoutId = setTimeout(() => {
                         if (!sucesso) {
                             console.warn(`⏰ Timeout para ${url}`);
@@ -1010,12 +1025,12 @@
                             if (nextUrl) {
                                 tentarTocar(nextUrl);
                             } else {
-                                showNotification("❌ Falha ao carregar, pulando...", 1000);
+                                showNotification("⏭️ Pulando...", 800);
                                 carregandoMusica = false;
-                                setTimeout(nextTrack, 1000);
+                                setTimeout(nextTrack, 500);
                             }
                         }
-                    }, 8000);
+                    }, 2500);
 
                     audio.oncanplay = () => {
                         if (timeoutId) clearTimeout(timeoutId);
@@ -1027,7 +1042,7 @@
                                 equalizer.classList.remove('paused');
                                 startTimer();
                                 carregandoMusica = false;
-                                showNotification(`✅ Tocando: ${track.title}`, 1500);
+                                showNotification(`✅ Tocando: ${track.title}`, 1200);
                                 
                                 if (url !== track.src) {
                                     track.src = url;
@@ -1043,9 +1058,9 @@
                                 if (nextUrl) {
                                     tentarTocar(nextUrl);
                                 } else {
-                                    showNotification("❌ Falha ao carregar, pulando...", 1000);
+                                    showNotification("⏭️ Pulando...", 800);
                                     carregandoMusica = false;
-                                    setTimeout(nextTrack, 1000);
+                                    setTimeout(nextTrack, 500);
                                 }
                             });
                     };
@@ -1058,9 +1073,9 @@
                         if (nextUrl) {
                             tentarTocar(nextUrl);
                         } else {
-                            showNotification("❌ Falha ao carregar, pulando...", 1000);
+                            showNotification("⏭️ Pulando...", 800);
                             carregandoMusica = false;
-                            setTimeout(nextTrack, 1000);
+                            setTimeout(nextTrack, 500);
                         }
                     };
                 }
